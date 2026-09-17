@@ -8,9 +8,11 @@ allowBuilds:
   esbuild: true
 
 # postcss <=8.5.17: GHSA-r28c-9q8g-f849 (path traversal via sourceMappingURL).
-# nanoid <3.3.17: GHSA-2v37-7h3g-55p8 (zero-size custom generator loop).
+# nanoid <3.3.18: GHSA-2v37-7h3g-55p8 (zero-size custom generator loop). The
+# advisory's first patched version was revised upward from 3.3.17 to 3.3.18, so
+# the previous pin no longer satisfies the gate.
 # Both are reached only through vite/vitest devDependencies — no runtime surface
 # in this repository — but they fail the audit gate, so pin patched versions.
 overrides:
   postcss: ">=8.5.18"
-  nanoid: "3.3.17"
+  nanoid: "3.3.19"
