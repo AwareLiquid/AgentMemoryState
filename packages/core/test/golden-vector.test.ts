@@ -1,9 +1,14 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  EXPERIENCE_DELTA_TYPE,
   EXPERIENCE_DELTA_TYPEHASH,
+  MEMORY_SPACE_TYPE,
   MEMORY_SPACE_TYPEHASH,
+  MEMORY_STATE_TYPE,
   MEMORY_STATE_TYPEHASH,
+  SPACE_REGISTRATION_TYPE,
+  SPACE_AUTHORIZATION_TYPE,
   computeDomainSeparator,
   computeLocatorCommitment,
   computeNextStateRoot,
@@ -23,6 +28,16 @@ const vector = JSON.parse(
 const delta: ExperienceDelta = { ...vector.delta, sequence: BigInt(vector.delta.sequence) };
 
 describe("v1 golden vector", () => {
+  it("publishes every type string used by the vector", () => {
+    expect(vector.types).toEqual({
+      experienceDelta: EXPERIENCE_DELTA_TYPE,
+      memoryState: MEMORY_STATE_TYPE,
+      memorySpace: MEMORY_SPACE_TYPE,
+      spaceRegistration: SPACE_REGISTRATION_TYPE,
+      spaceAuthorization: SPACE_AUTHORIZATION_TYPE,
+    });
+  });
+
   it("matches commitments, transition id, and state root", () => {
     const encoder = new TextEncoder();
     expect(
@@ -76,8 +91,8 @@ describe("v1 golden vector", () => {
     expect(
       computeSpaceAuthorizationId(
         delta.spaceId,
-        authorization.controller,
-        authorization.authorizer,
+        authorization.newController,
+        authorization.newAuthorizer,
         authorization.updateNonce,
       ),
     ).toBe(authorization.authorizationId);
