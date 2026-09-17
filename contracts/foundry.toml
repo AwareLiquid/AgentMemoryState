@@ -3,6 +3,8 @@ src = "src"
 test = "test"
 out = "out"
 libs = ["lib"]
+remappings = ["erc8350-assets/=../erc/assets/erc-8350/"]
+allow_paths = ["../erc/assets/erc-8350"]
 solc = "0.8.24"
 optimizer = true
 optimizer_runs = 200

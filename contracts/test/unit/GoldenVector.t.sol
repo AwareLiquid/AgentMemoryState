@@ -5,12 +5,15 @@ import {Test} from "forge-std/Test.sol";
 import {AgentMemoryStateRegistry} from "../../src/reference/AgentMemoryStateRegistry.sol";
 import {PrivateCommitment} from "../../src/reference/PrivateCommitment.sol";
 import {IAgentMemoryState} from "../../src/interfaces/IAgentMemoryState.sol";
+import {
+    AgentMemoryStateRegistry as OfficialAssetRegistry
+} from "erc8350-assets/AgentMemoryStateRegistry.sol";
 
 contract GoldenVectorTest is Test {
     AgentMemoryStateRegistry internal registry;
     string internal vector;
 
-    function setUp() public {
+    function setUp() public virtual {
         registry = new AgentMemoryStateRegistry();
         vector = vm.readFile(string.concat(vm.projectRoot(), "/../test-vectors/v1.json"));
     }
@@ -22,6 +25,7 @@ contract GoldenVectorTest is Test {
         bytes32 transitionId = registry.hashExperienceDelta(delta);
 
         _assertPrivateCommitments(delta);
+        _assertTypeStrings();
         _assertTransitionHashes(delta, transitionId);
         _assertSpaceAuthorization(delta);
         _assertEip712(transitionId);
@@ -37,6 +41,23 @@ contract GoldenVectorTest is Test {
             profileId: _bytes32(".delta.profileId"),
             locatorCommitment: _bytes32(".delta.locatorCommitment")
         });
+    }
+
+    function _assertTypeStrings() private view {
+        assertEq(
+            keccak256(bytes(_string(".types.experienceDelta"))),
+            registry.EXPERIENCE_DELTA_TYPEHASH()
+        );
+        assertEq(keccak256(bytes(_string(".types.memoryState"))), registry.MEMORY_STATE_TYPEHASH());
+        assertEq(keccak256(bytes(_string(".types.memorySpace"))), registry.MEMORY_SPACE_TYPEHASH());
+        assertEq(
+            keccak256(bytes(_string(".types.spaceRegistration"))),
+            registry.SPACE_REGISTRATION_TYPEHASH()
+        );
+        assertEq(
+            keccak256(bytes(_string(".types.spaceAuthorization"))),
+            registry.SPACE_AUTHORIZATION_TYPEHASH()
+        );
     }
 
     function _assertPrivateCommitments(IAgentMemoryState.ExperienceDelta memory delta)
@@ -98,8 +119,8 @@ contract GoldenVectorTest is Test {
         assertEq(
             registry.hashSpaceAuthorization(
                 delta.spaceId,
-                controller,
-                authorizer,
+                vm.parseJsonAddress(vector, ".spaceAuthorization.newController"),
+                vm.parseJsonAddress(vector, ".spaceAuthorization.newAuthorizer"),
                 uint64(vm.parseUint(_string(".spaceAuthorization.updateNonce")))
             ),
             _bytes32(".spaceAuthorization.authorizationId")
@@ -125,5 +146,13 @@ contract GoldenVectorTest is Test {
 
     function _string(string memory path) private view returns (string memory) {
         return vm.parseJsonString(vector, path);
+    }
+}
+
+contract OfficialAssetGoldenVectorTest is GoldenVectorTest {
+    function setUp() public override {
+        // Exercise the submitted asset through the shared reference ABI.
+        registry = AgentMemoryStateRegistry(address(new OfficialAssetRegistry()));
+        vector = vm.readFile(string.concat(vm.projectRoot(), "/../test-vectors/v1.json"));
     }
 }

@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { keccak_256 } from "@noble/hashes/sha3";
 import { describe, expect, it } from "vitest";
 import {
   EXPERIENCE_DELTA_TYPEHASH,
@@ -23,6 +24,20 @@ const vector = JSON.parse(
 
 describe("dependency-isolated v1 implementation", () => {
   const delta = { ...vector.delta, sequence: BigInt(vector.delta.sequence) };
+
+  it("checks every published type string independently", () => {
+    const typehash = (value: string) =>
+      "0x" + Buffer.from(keccak_256(new TextEncoder().encode(value))).toString("hex");
+    expect(typehash(vector.types.experienceDelta)).toBe(EXPERIENCE_DELTA_TYPEHASH);
+    expect(typehash(vector.types.memoryState)).toBe(MEMORY_STATE_TYPEHASH);
+    expect(typehash(vector.types.memorySpace)).toBe(MEMORY_SPACE_TYPEHASH);
+    expect(vector.types.spaceRegistration).toBe(
+      "SpaceRegistration(bytes32 spaceId,address controller,address authorizer)",
+    );
+    expect(vector.types.spaceAuthorization).toBe(
+      "SpaceAuthorization(bytes32 spaceId,address newController,address newAuthorizer,uint64 nonce)",
+    );
+  });
 
   it("matches private commitments without importing the core SDK", () => {
     expect(
@@ -66,8 +81,8 @@ describe("dependency-isolated v1 implementation", () => {
     expect(
       spaceAuthorizationId(
         delta.spaceId,
-        authorization.controller,
-        authorization.authorizer,
+        authorization.newController,
+        authorization.newAuthorizer,
         BigInt(authorization.updateNonce),
       ),
     ).toBe(authorization.authorizationId);

@@ -38,4 +38,20 @@ for (const [source, copy] of PAIRS) {
   console.log(`in sync: ${copy}`);
 }
 
+for (const file of ['AgentMemoryStateRegistry.sol', 'ECDSA.sol', 'IAgentMemoryState.sol']) {
+  const asset = `erc/assets/erc-8350/${file}`;
+  try {
+    const source = readFileSync(asset, 'utf8');
+    if (source.split(/\r?\n/u, 1)[0] !== '// SPDX-License-Identifier: CC0-1.0') {
+      console.error(`official reference asset must declare CC0-1.0: ${asset}`);
+      failed = true;
+    } else {
+      console.log(`CC0 asset: ${asset}`);
+    }
+  } catch (error) {
+    console.error(`missing official reference asset: ${asset} (${error.code})`);
+    failed = true;
+  }
+}
+
 process.exit(failed ? 1 : 0);

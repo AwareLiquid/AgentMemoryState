@@ -119,4 +119,5 @@ pnpm demo:private-witness
 
 ## License
 
-代码使用 Apache-2.0。ERC 草案文本按 EIP 流程使用 CC0。
+产品代码使用 Apache-2.0。ERC 草案文本与 `erc/assets/erc-8350/` 下的官方提交资产使用
+[CC0](erc/LICENSE.md)；该例外不改变 `contracts/src/` 和 TypeScript 包的现有许可证。

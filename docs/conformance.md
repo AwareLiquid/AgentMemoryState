@@ -18,7 +18,7 @@ A run passes only when:
 3. `packages/core` reads `test-vectors/v1.json` and matches every expected byte;
 4. `implementations/minimal-ts` independently reads the same file and matches it;
 5. `contracts/test/unit/GoldenVector.t.sol` reads the same file through Foundry and
-   matches it; and
+   matches it against both the product registry and the submitted Solidity asset; and
 6. the gate writes a JSON record, a Markdown summary, and the command logs.
 
 The three vector suites cover:
@@ -28,6 +28,11 @@ The three vector suites cover:
 - Space ID, registration ID, and authorization-update ID;
 - Transition ID and next state root; and
 - EIP-712 domain separator and signing digest.
+
+All suites also check the five explicit type strings. Authorization-update hashes
+use `newController` and `newAuthorizer` from the JSON rather than assuming that
+the replacement accounts equal the registration accounts. These additional v1
+inputs do not change the published expected hashes.
 
 “Byte-for-byte” means each computed `bytes32` value is compared directly with the
 corresponding lowercase `0x` value decoded from the canonical JSON file. The

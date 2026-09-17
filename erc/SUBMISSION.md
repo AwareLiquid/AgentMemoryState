@@ -36,11 +36,25 @@ pnpm check:erc-assets
 ```
 
 `erc/assets/erc-8350/` mirrors upstream `assets/erc-8350/` (golden vector + the
-dependency-free Solidity reference: registry, interface, ERC-1271 interface, ECDSA).
+dependency-free Solidity reference: registry, interface, ECDSA). The duplicate
+ERC-1271 interface was removed during the first editor review.
+
+## Office Hour 113 revision
+
+Jochem confirmed that Sam's six comments were addressed and requested CC0
+licensing for the submitted Solidity assets. This revision also clarifies the
+reference-implementation scope, links the RFCs, completes the v1 vector inputs,
+and labels optional interface helpers. See [the revision record](../docs/reviews/office-hour-113.md).
+
+The ERC text and submitted files under `erc/assets/erc-8350/` use
+[CC0](./LICENSE.md). The product implementation under `contracts/src/` and the
+TypeScript packages retain their existing licenses. This is not a repository-wide
+license change.
 
 ## Remaining to Draft-merge and beyond
 
-- [ ] ERC editor review on PR #1910 (number assignment applied 2026-07-29; awaiting one more editor review for Draft merge)
+- [ ] Editor acceptance on PR #1910 after the Office Hour 113 revision (a local
+      revision or passing test run is not approval or merge)
 - [x] Magicians topic retitled with the assigned number (done by the editor, 2026-07-29)
 - [x] Sepolia deployment — registry `0xDdf21937ba80b5fF973610877A0955b320C91241`, see `docs/deployment.md` (2026-07-26)
 - [x] Independent reproduction evidence — two external, commit-pinned executable suites pass; see `docs/interop/external-reproduction.md` (2026-07-31)
