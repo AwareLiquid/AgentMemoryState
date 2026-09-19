@@ -1,11 +1,10 @@
 # ERC-8350: Agent Memory State v1
 
-面向 AI Agent 私有记忆状态转移的 ERC 社区草案与参考实现。
+面向 AI Agent 私有记忆状态转移的 ERC 标准草案（Draft）与参考实现。
 
 > Memory is the new state, but raw cognition should never be public calldata.
 
-当前状态是 **pre-ERC community draft**。正式编号由 EIP Editors 在提交流程中分配，
-仓库统一使用 `ERC-8350`，不预占数字。
+当前状态：**Draft** —— 已合并进 [ethereum/ERCs](https://github.com/ethereum/ERCs/blob/master/ERCS/erc-8350.md)（PR [#1910](https://github.com/ethereum/ERCs/pull/1910)，2026-09-19）。
 
 ## 解决什么
 
@@ -107,15 +106,14 @@ node scripts/external-reproduction-gate.mjs
 pnpm demo:private-witness
 ```
 
-## 社区提交前还需完成
+## 提交状态与剩余工作
 
-1. 在 Ethereum Magicians 发布问题定义和最小接口讨论帖。
-2. 将帖子 URL 写入 ERC 草案的 `discussions-to`。
-3. 确认作者列表、GitHub handle 和 champion。
-4. 邀请 EIP-712、EIP-1271、AI Agent 与隐私方向研究者评审。
-5. 找到第二个外部团队实现并跑通 Golden Vector。
-6. 完成外部安全审计和公开测试网验证。
-7. 向 `ethereum/ERCs` 提交 PR，由编辑分配正式数字。
+已提交并合并（Draft）：讨论帖、编号分配、作者列表、评审邀请、向 `ethereum/ERCs` 提交的 PR 均已完成，PR #1910 于 2026-09-19 合并。
+
+剩余工作：
+
+1. 找到第二个外部团队实现并跑通 Golden Vector。
+2. 完成外部安全审计和公开测试网验证。
 
 ## License
 

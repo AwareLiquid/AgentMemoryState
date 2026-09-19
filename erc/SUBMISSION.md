@@ -9,7 +9,7 @@ for keeping the upstream PR and this repository in sync.
 | Item | Value | When |
 |---|---|---|
 | Discussion thread | https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098 (retitled by the editor with the assigned number on 2026-07-29; same topic id as the original `agent-memory-state` thread) | 2026-07-26 |
-| Upstream PR | https://github.com/ethereum/ERCs/pull/1910 | 2026-07-26 |
+| Upstream PR | https://github.com/ethereum/ERCs/pull/1910 | 2026-07-26, **merged 2026-09-19** |
 | Number / file | **ERC-8350** → `ERCS/erc-8350.md` + `assets/erc-8350/` (submitted as self-picked `8337` on 2026-07-26; editor @abcoathup assigned `8350` in review — "Numbers are assigned by editors & associates") | 2026-07-29 |
 | `eip:` preamble | `eip: 8350` (first preamble line) | 2026-07-29 |
 | EIP Walidator | **success** (after `ERC-1271` prefix fix — eipw `markdown-refs` requires the `ERC` prefix for proposals whose category is ERC; 712 is Interface and 7702 is Core, so those keep `EIP-`) | 2026-07-26 |
@@ -51,10 +51,9 @@ The ERC text and submitted files under `erc/assets/erc-8350/` use
 TypeScript packages retain their existing licenses. This is not a repository-wide
 license change.
 
-## Remaining to Draft-merge and beyond
+## Remaining beyond Draft merge
 
-- [ ] Editor acceptance on PR #1910 after the Office Hour 113 revision (a local
-      revision or passing test run is not approval or merge)
+- [x] Editor acceptance on PR #1910 — merged 2026-09-19 (Draft status)
 - [x] Magicians topic retitled with the assigned number (done by the editor, 2026-07-29)
 - [x] Sepolia deployment — registry `0xDdf21937ba80b5fF973610877A0955b320C91241`, see `docs/deployment.md` (2026-07-26)
 - [x] Independent reproduction evidence — two external, commit-pinned executable suites pass; see `docs/interop/external-reproduction.md` (2026-07-31)
