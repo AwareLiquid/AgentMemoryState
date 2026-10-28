@@ -1,0 +1,17 @@
+SOURCE https://github.com/ERC8312/bounded-agent-actions.git@cd6100da171e682b1abd6757c12a7df1356f80fa
+COMMAND /tmp/erc8350-external-reproduction-KLEDbF/erc8312-sepolia-state-replay/venv/bin/python -I /tmp/erc8350-external-reproduction-KLEDbF/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py --rpc-url <rpc:sepolia.gateway.tenderly.co> --cross-check-rpc <rpc:ethereum-sepolia-rpc.publicnode.com>
+STDOUT
+registry            0xDdf21937ba80b5fF973610877A0955b320C91241
+TransitionCommitted 8 logs across 3 Memory Spaces
+
+STDERR
+Traceback (most recent call last):
+  File "/tmp/erc8350-external-reproduction-KLEDbF/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 595, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/tmp/erc8350-external-reproduction-KLEDbF/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 507, in main
+    block_hash, state_root = verify_header(block)
+                             ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/erc8350-external-reproduction-KLEDbF/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 333, in verify_header
+    raise ValueError(
+ValueError: header reconstruction mismatch: computed 0xcf8ef7bd3a9277eee8e604068a0cc567da0c9cb7cc370b2141f6f4cbd4bce308, endpoint reports 0xe43133f3fa8fc39a0c7f2918dc9a87328a3d2fc6e4d2abf26e08db7afce530d8 — lying endpoint or a header shape newer than this script

@@ -1,0 +1,17 @@
+SOURCE https://github.com/ERC8312/bounded-agent-actions.git@cd6100da171e682b1abd6757c12a7df1356f80fa
+COMMAND /var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-MdVecj/erc8312-sepolia-state-replay/venv/bin/python -I /var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-MdVecj/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py --rpc-url <rpc:ethereum-sepolia-rpc.publicnode.com> --cross-check-rpc <rpc:sepolia.gateway.tenderly.co>
+STDOUT
+STDERR
+Traceback (most recent call last):
+  File "/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-MdVecj/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 595, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-MdVecj/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 497, in main
+    log_count, spaces = collect_spaces(rpc, registry)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-MdVecj/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 372, in collect_spaces
+    logs = rpc("eth_getLogs", [{"address": registry,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-MdVecj/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py", line 364, in __call__
+    raise RuntimeError(f"{method}: {response['error']}")
+RuntimeError: eth_getLogs: {'code': -32701, 'message': 'exceed maximum block range: 50000'}

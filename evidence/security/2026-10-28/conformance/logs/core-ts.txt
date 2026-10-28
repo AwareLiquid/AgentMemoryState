@@ -1,0 +1,13 @@
+
+ RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/packages/core
+
+ ✓ test/golden-vector.test.ts > v1 golden vector > publishes every type string used by the vector 1ms
+ ✓ test/golden-vector.test.ts > v1 golden vector > matches commitments, transition id, and state root 1ms
+ ✓ test/golden-vector.test.ts > v1 golden vector > matches EIP-712 and Space authorization values 0ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  20:08:07
+   Duration  85ms (transform 22ms, setup 0ms, import 33ms, tests 2ms, environment 0ms)
+
+$ vitest run test/golden-vector.test.ts --reporter=verbose

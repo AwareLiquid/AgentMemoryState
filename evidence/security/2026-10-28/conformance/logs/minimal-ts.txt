@@ -1,0 +1,15 @@
+
+ RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/implementations/minimal-ts
+
+ ✓ test/golden-vector.test.ts > dependency-isolated v1 implementation > checks every published type string independently 1ms
+ ✓ test/golden-vector.test.ts > dependency-isolated v1 implementation > matches private commitments without importing the core SDK 1ms
+ ✓ test/golden-vector.test.ts > dependency-isolated v1 implementation > matches all transition and Space hashes 1ms
+ ✓ test/golden-vector.test.ts > dependency-isolated v1 implementation > matches the EIP-712 domain and signing digest 0ms
+ ✓ test/golden-vector.test.ts > dependency-isolated v1 implementation > independently advances the normative state machine 0ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  20:08:07
+   Duration  76ms (transform 14ms, setup 0ms, import 21ms, tests 4ms, environment 0ms)
+
+$ vitest run test/golden-vector.test.ts --reporter=verbose
