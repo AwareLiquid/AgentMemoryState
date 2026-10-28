@@ -1,12 +1,13 @@
 # G4 Security-Ready Release Candidate
 
-Current status: **PROVISIONAL REVIEW RECEIVED, NOT COMPLETE**
+Current status: **PUBLIC REVIEW RECEIVED, ACCEPTANCE PENDING**
 
-The source target, internal review, risk register, and evidence gate are ready.
-An external-review email was received on 2026-07-31, but its scope/API references
-and evidence package require correction before acceptance. See the
-[`review intake`](external/REVIEW_INTAKE_2026-07-31.md) and
-[`reviewer follow-up`](external/REVIEWER_FOLLOWUP.md). Until a qualifying report
+Besmubsa published an external report on 2026-10-24. Its original report and
+JSON are archived without modification in the [new intake](external/REVIEW_INTAKE_2026-10-28.md).
+The report targets the frozen commit, not current main. Missing structured
+dispositions, attestation metadata, and reproducibility corrections remain open.
+The July [intake](external/REVIEW_INTAKE_2026-07-31.md) remains historical evidence.
+Until a qualifying report
 is accepted, `pnpm security:rc` and `pnpm release:check` fail by design, and no
 artifact from this branch may be described as security-ready or production-ready.
 
@@ -30,7 +31,7 @@ revision that does not alter the frozen Solidity scope.
 | Internal review and regression fix | [`INTERNAL_REVIEW.md`](INTERNAL_REVIEW.md) | Pass |
 | Remaining risks explicitly registered | [`residual-risks.json`](residual-risks.json) | Pass |
 | Scope/evidence gates have adversarial tests | `scripts/security-rc-gate*.mjs`, `scripts/security-audit-handoff*.mjs` | Pass |
-| Independent external Solidity report | Preliminary email received; [`intake`](external/REVIEW_INTAKE_2026-07-31.md) | **Pending corrections/evidence** |
+| Independent external Solidity report | Public report received; [October intake](external/REVIEW_INTAKE_2026-10-28.md) | **Pending acceptance/supplement** |
 | No unresolved Critical/High external findings | Requires accepted external report | **Pending** |
 | G4 full gate | `pnpm security:rc` | **Blocked by unaccepted review** |
 
