@@ -38,7 +38,7 @@
       "files": [
         {
           "path": "recompute/erc8350_sepolia.py",
-          "sha256": "3f4c8b604a9eca953a46710f6b2d57eeb74f90bbe9e37807d545c2f383c028c3"
+          "sha256": "838a4c3482ede4a1d5b8174e61797584517f4a9b07fef2c72fbfea5e830520b5"
         }
       ],
       "pythonPackages": [
