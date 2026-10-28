@@ -1,0 +1,48 @@
+{
+  "schema": "erc-8350/spec-baseline/v1",
+  "id": "spec-baseline-1",
+  "recordedAt": "2026-10-28",
+  "status": "recorded",
+  "maintainer": "XiaoHai67890",
+  "clarifications": "proposed-not-upstream-approved",
+  "upstream": {
+    "repository": "ethereum/ERCs",
+    "commit": "b9651bc84714e87e6361f4f6c0c8ff39cc265d0a",
+    "path": "ERCS/erc-8350.md",
+    "gitBlob": "e67dfacb99555369d4fcace52de43bdf0281b43d",
+    "sha256": "9aa44fe3854a7ae553cc77a5a59c072f36a405869a7d3c5e082addbda3d995ca",
+    "status": "Draft",
+    "url": "https://github.com/ethereum/ERCs/blob/b9651bc84714e87e6361f4f6c0c8ff39cc265d0a/ERCS/erc-8350.md",
+    "mirror": "erc/erc-8350.md"
+  },
+  "implementation": {
+    "repository": "AwareLiquid/AgentMemoryState",
+    "commit": "891b47c70c8b45df1daaa78065b16ff73e67f8a4",
+    "wireFormat": "ExperienceDelta v1",
+    "eip712DomainVersion": "1",
+    "testVectorVersions": ["v1", "v2"]
+  },
+  "historicalOverview": {
+    "path": "SPEC.md",
+    "commit": "891b47c70c8b45df1daaa78065b16ff73e67f8a4",
+    "sha256": "029d4cb1b41001682612109db5163566e4f1922c9016d7c3870773235708683f"
+  },
+  "documents": [
+    "docs/spec-baseline/README.md",
+    "docs/spec-baseline/DIFFERENCES.md",
+    "docs/spec-baseline/AUTHORIZATION.md",
+    "docs/spec-baseline/OPEN_QUESTIONS.md"
+  ],
+  "protectedArtifacts": [
+    { "path": "erc/erc-8350.md", "sha256": "9aa44fe3854a7ae553cc77a5a59c072f36a405869a7d3c5e082addbda3d995ca" },
+    { "path": "contracts/src/reference/AgentMemoryStateRegistry.sol", "sha256": "d0f1493f0c5a7eac5a33ebb1320d21fcd1d7799ada3f18647da76af569762ae6" },
+    { "path": "contracts/src/ECDSA.sol", "sha256": "fdf13dd3c50b06ec54f0260dfd10f3a8c1349380ae878d73966981994cbb632d" },
+    { "path": "contracts/src/interfaces/IAgentMemoryState.sol", "sha256": "7307e0bd0df94d6ab6487924ec41680deaaeb7e7eecad23e9669f9babc12f963" },
+    { "path": "erc/assets/erc-8350/AgentMemoryStateRegistry.sol", "sha256": "6d99fc690abd776c53f607be9da1e25c2a48a80037088a3f3fb029f54943685b" },
+    { "path": "erc/assets/erc-8350/ECDSA.sol", "sha256": "74d0a828f70af9384457e2cf5165638dcc44a7b9749b8dc80cb7c9bd2ba2ccf0" },
+    { "path": "erc/assets/erc-8350/IAgentMemoryState.sol", "sha256": "274bfee5de979ea164abcf30af6b9dace1fccdb42bee4cf59bdeb0a9621be93a" },
+    { "path": "contracts/foundry.toml", "sha256": "bfbd4b78e4fcca6ed6d7bc3dab7e903b949bfde4981e0c231f79de80e12756cb" },
+    { "path": "test-vectors/v1.json", "sha256": "5e04cb9c1181222f483d3ad547e0a9aa301dfab74c7028f3cfa2e5dcd574fc20" },
+    { "path": "test-vectors/v2.json", "sha256": "4c59351ffe5317434c8ad8fda88cb95c2d2158f3dd6c147c301b7496de8dce4e" }
+  ]
+}

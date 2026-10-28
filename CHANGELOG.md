@@ -6,6 +6,12 @@ All notable implementation and protocol changes are recorded here.
 
 ### Added
 
+- Specification baseline `spec-baseline-1`: pinned official Draft, implementation,
+  build settings and v1/v2 vectors; source-difference register, three-operation
+  authorization table, proposed clarifications and scoped open questions.
+- Offline baseline drift gate and adversarial tests in `pnpm check`, with optional
+  pinned-upstream verification; focused authorization characterization tests.
+  These do not establish independent implementation or external audit acceptance.
 - Reproducible private-witness evidence for a two-transition `TOOL_TRACE`
   scenario: deterministic public commitments, a sequence-2-only auditor bundle,
   privacy-boundary assertions, and a Foundry integration test covering relayed
@@ -43,6 +49,15 @@ All notable implementation and protocol changes are recorded here.
 
 ### Changed
 
+- `SPEC.md` is an informative implementation overview; the official Draft is the
+  authority and `erc/erc-8350.md` remains its byte-identical mirror. Obsolete
+  pre-ERC wording and vector-as-authority claims are removed from entry documents.
+- Explicitly register the official empty-signature/length ambiguity against the
+  existing ERC-1271 behavior. Clarification is proposed, not merged upstream;
+  runtime source, wire format, vectors and frozen audit artifacts are unchanged.
+- Record AQ-03: both Registry copies abort on non-canonical ERC-1271 bytes4
+  padding before an otherwise-valid ECDSA fallback. Characterization tests
+  reproduce the limitation and unchanged state; this is not a runtime fix.
 - The EIP-7702 residual ECDSA path is now called out prominently in the security
   policy. The preliminary external-review email does not satisfy the G4 gate
   until its scope/API discrepancies and reviewer-owned evidence are corrected.
@@ -69,7 +84,8 @@ All notable implementation and protocol changes are recorded here.
   `signer.code.length`, routing every 7702-delegated EOA into ERC-1271 validation. Since
   a delegated account carries `0xef0100 || delegate` code and many delegates implement no
   signature policy, those users were locked out entirely after Pectra. Validation now
-  tries ERC-1271 first (so a delegate that does implement a policy still enforces it) and
+  tries ERC-1271 first (so a delegate policy can authorize, but cannot veto a valid
+  underlying-key ECDSA authorization) and
   falls back to canonical ECDSA. The spec now defines this ordering explicitly instead of
   leaving the EOA/contract distinction unspecified.
 
