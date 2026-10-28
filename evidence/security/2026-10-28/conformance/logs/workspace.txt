@@ -1,0 +1,540 @@
+cleaned packages/core/dist
+cleaned packages/reference-engine/dist
+cleaned packages/awareness-adapter/dist
+cleaned packages/examples/dist
+cleaned implementations/minimal-independent/dist
+cleaned contracts/out
+cleaned contracts/cache
+clean: 7 target(s) removed
+Scope: 5 of 6 workspace projects
+packages/core typecheck$ tsc -p tsconfig.json --noEmit
+implementations/minimal-ts typecheck$ tsc -p tsconfig.json --noEmit
+implementations/minimal-ts typecheck: Done
+packages/core typecheck: Done
+packages/reference-engine typecheck$ tsc -p tsconfig.json --noEmit
+packages/reference-engine typecheck: Done
+packages/awareness-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/awareness-adapter typecheck: Done
+packages/examples typecheck$ tsc -p tsconfig.json --noEmit
+packages/examples typecheck: Done
+Scope: 5 of 6 workspace projects
+packages/core test$ vitest run
+implementations/minimal-ts test$ vitest run
+packages/core test:  RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/packages/core
+implementations/minimal-ts test:  RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/implementations/minimal-ts
+implementations/minimal-ts test:  Test Files  1 passed (1)
+implementations/minimal-ts test:       Tests  5 passed (5)
+implementations/minimal-ts test:    Start at  20:07:49
+implementations/minimal-ts test:    Duration  101ms (transform 16ms, setup 0ms, import 25ms, tests 5ms, environment 0ms)
+packages/core test:  Test Files  4 passed (4)
+packages/core test:       Tests  15 passed (15)
+packages/core test:    Start at  20:07:49
+packages/core test:    Duration  115ms (transform 99ms, setup 0ms, import 163ms, tests 9ms, environment 0ms)
+implementations/minimal-ts test: Done
+packages/core test: Done
+packages/reference-engine test$ vitest run
+packages/reference-engine test:  RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/packages/reference-engine
+packages/reference-engine test:  Test Files  3 passed (3)
+packages/reference-engine test:       Tests  18 passed (18)
+packages/reference-engine test:    Start at  20:07:50
+packages/reference-engine test:    Duration  104ms (transform 81ms, setup 0ms, import 127ms, tests 9ms, environment 0ms)
+packages/reference-engine test: Done
+packages/awareness-adapter test$ vitest run
+packages/awareness-adapter test:  RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/packages/awareness-adapter
+packages/awareness-adapter test:  Test Files  3 passed (3)
+packages/awareness-adapter test:       Tests  12 passed (12)
+packages/awareness-adapter test:    Start at  20:07:50
+packages/awareness-adapter test:    Duration  121ms (transform 124ms, setup 0ms, import 176ms, tests 9ms, environment 0ms)
+packages/awareness-adapter test: Done
+packages/examples test$ vitest run
+packages/examples test:  RUN  v4.1.12 /private/var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc-8350-conformance-4qK90A/checkout/packages/examples
+packages/examples test:  Test Files  1 passed (1)
+packages/examples test:       Tests  7 passed (7)
+packages/examples test:    Start at  20:07:51
+packages/examples test:    Duration  132ms (transform 41ms, setup 0ms, import 59ms, tests 19ms, environment 0ms)
+packages/examples test: Done
+in sync: erc/assets/erc-8350/test-vectors-v1.json
+CC0 asset: erc/assets/erc-8350/AgentMemoryStateRegistry.sol
+CC0 asset: erc/assets/erc-8350/ECDSA.sol
+CC0 asset: erc/assets/erc-8350/IAgentMemoryState.sol
+type strings and typehashes
+  ok   experienceDelta type
+  ok   memoryState type
+  ok   memorySpace type
+  ok   experienceDelta typehash
+  ok   memoryState typehash
+  ok   memorySpace typehash
+space derivation
+  ok   spaceId = deriveSpaceId(controller, salt)
+  ok   registrationId
+  ok   domainSeparator
+chain: commitments rebuilt from witnesses, then the state machine
+  ok   [1] genesis-minimal deltaCommitment from witness
+  ok   [1] genesis-minimal provenanceCommitment
+  ok   [1] genesis-minimal locatorCommitment
+  ok   [1] genesis-minimal prevStateRoot links to previous head
+  ok   [1] genesis-minimal transitionId
+  ok   [1] genesis-minimal nextStateRoot
+  ok   [1] genesis-minimal signingDigest
+  ok   [2] with-provenance deltaCommitment from witness
+  ok   [2] with-provenance provenanceCommitment
+  ok   [2] with-provenance locatorCommitment
+  ok   [2] with-provenance prevStateRoot links to previous head
+  ok   [2] with-provenance transitionId
+  ok   [2] with-provenance nextStateRoot
+  ok   [2] with-provenance signingDigest
+  ok   [3] with-locator deltaCommitment from witness
+  ok   [3] with-locator provenanceCommitment
+  ok   [3] with-locator locatorCommitment
+  ok   [3] with-locator prevStateRoot links to previous head
+  ok   [3] with-locator transitionId
+  ok   [3] with-locator nextStateRoot
+  ok   [3] with-locator signingDigest
+  ok   [4] with-both deltaCommitment from witness
+  ok   [4] with-both provenanceCommitment
+  ok   [4] with-both locatorCommitment
+  ok   [4] with-both prevStateRoot links to previous head
+  ok   [4] with-both transitionId
+  ok   [4] with-both nextStateRoot
+  ok   [4] with-both signingDigest
+  ok   [5] profile-change deltaCommitment from witness
+  ok   [5] profile-change provenanceCommitment
+  ok   [5] profile-change locatorCommitment
+  ok   [5] profile-change prevStateRoot links to previous head
+  ok   [5] profile-change transitionId
+  ok   [5] profile-change nextStateRoot
+  ok   [5] profile-change signingDigest
+rejections: error selectors
+  ok   UnknownSpace -> UnknownSpace()
+  ok   ZeroDeltaCommitment -> ZeroDeltaCommitment()
+  ok   ZeroProfileId -> ZeroProfileId()
+  ok   BadSequence (skips ahead) -> BadSequence(uint64,uint64)
+  ok   BadSequence (replays a committed sequence) -> BadSequence(uint64,uint64)
+  ok   BadPreviousState -> BadPreviousState(bytes32,bytes32)
+  ok   InvalidAuthorization (wrong signer) -> InvalidAuthorization()
+  ok   InvalidAuthorization (malformed length) -> InvalidAuthorization()
+  ok   ZeroSpaceId -> ZeroSpaceId()
+  ok   ZeroAddress -> ZeroAddress()
+  ok   InvalidSpaceId -> InvalidSpaceId(bytes32,bytes32)
+  ok   SpaceAlreadyRegistered -> SpaceAlreadyRegistered()
+  note: rejection *behaviour* is exercised against the registry in contracts/test/unit/VectorsV2.t.sol; this script only checks that the published selectors match the published signatures, which is all a pure recomputation can do.
+
+PASS — 5 transitions, 12 rejection selectors
+PASS test-vectors/v2.json reproduces byte-for-byte (23092 bytes)
+PASS test-vectors/sepolia-fixture-v1.json reproduces byte-for-byte
+PASS contracts/script/FixtureData.sol reproduces (33 constants; layout owned by forge fmt)
+Private-witness TOOL_TRACE demo: PASS
+Space: 0x9dcc578df03c4fe1a65e5eea4142d4677f1115a64ee491fc85de67c52a2913aa
+Authorized transitions: 2
+Auditor disclosure: sequence 2 only (range [2,2])
+Audit witnessSetRoot: 0x8ef3a2f2247a6049dc26fe48472e7373607e85b3d76aa4d50e156b80c3062f9d
+Verified: payload/provenance/locator openings, transition, state root, grant root
+Not proved: tool execution truth, undisclosed sequence 1, availability, or deletion
+Validated 2 external reproduction suites from evidence/external-reproductions/v1.json
+TAP version 13
+# Subtest: accepts the canonical external reproduction manifest
+ok 1 - accepts the canonical external reproduction manifest
+  ---
+  duration_ms: 23.152416
+  type: 'test'
+  ...
+# Subtest: rejects a path-traversing suite id
+ok 2 - rejects a path-traversing suite id
+  ---
+  duration_ms: 24.19275
+  type: 'test'
+  ...
+# Subtest: rejects weakened independence criteria
+ok 3 - rejects weakened independence criteria
+  ---
+  duration_ms: 24.001667
+  type: 'test'
+  ...
+# Subtest: rejects repository URLs with embedded credentials
+ok 4 - rejects repository URLs with embedded credentials
+  ---
+  duration_ms: 22.66625
+  type: 'test'
+  ...
+# Subtest: rejects source files that escape the checkout
+ok 5 - rejects source files that escape the checkout
+  ---
+  duration_ms: 23.749875
+  type: 'test'
+  ...
+# Subtest: rejects dependencies without artifact hashes
+ok 6 - rejects dependencies without artifact hashes
+  ---
+  duration_ms: 22.744667
+  type: 'test'
+  ...
+# Subtest: rejects unsupported external suite kinds
+ok 7 - rejects unsupported external suite kinds
+  ---
+  duration_ms: 21.789666
+  type: 'test'
+  ...
+# Subtest: rejects default RPC endpoints on the same host
+ok 8 - rejects default RPC endpoints on the same host
+  ---
+  duration_ms: 21.994916
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 211.981459
+G4 scope: PASS (10 pinned files)
+G4 source: af5a75fb2db532fd5603554083d8895a825c2de2 (refs/tags/audit/g4-rc1-source)
+G4 scope SHA-256: c9db7d27957c86386d8842687a2d009c0ca03bc864307e88cfed0ee25f3ae9bf
+G4 post-freeze drift: 3 pinned path(s) differ from the frozen commit (informational — the review targets the frozen commit, not this branch):
+  - contracts/src/interfaces/IAgentMemoryState.sol
+  - contracts/foundry.toml
+  - test-vectors/v1.json
+Residual risks: PASS (11 accepted, 1 mitigated)
+Risk-register SHA-256: 307a52eb0bf512aea25565bf604d92fc6b1b2d64eb910595568a5f0c04aa6019
+G4 external review: PENDING (scope-only validation requested)
+G4 audit handoff: PASS (17 pinned evidence files)
+Frozen source: af5a75fb2db532fd5603554083d8895a825c2de2
+Scope SHA-256: c9db7d27957c86386d8842687a2d009c0ca03bc864307e88cfed0ee25f3ae9bf
+Risk-register SHA-256: 307a52eb0bf512aea25565bf604d92fc6b1b2d64eb910595568a5f0c04aa6019
+Evidence revision: 31f4fbb3732652884dac8f66fcc7a3655113c969
+Handoff manifest SHA-256: 5830d92ddd394d78c6fe78b435b5d998e30c3389c4b48adc049893fa66171354
+Corrected G4 deployment: NONE (legacy AuditGrant remains deprecated)
+TAP version 13
+# Subtest: accepts the canonical external-audit handoff
+ok 1 - accepts the canonical external-audit handoff
+  ---
+  duration_ms: 347.383625
+  type: 'test'
+  ...
+# Subtest: rejects a changed frozen source commit
+ok 2 - rejects a changed frozen source commit
+  ---
+  duration_ms: 25.384
+  type: 'test'
+  ...
+# Subtest: rejects a missing evidence file
+ok 3 - rejects a missing evidence file
+  ---
+  duration_ms: 270.5635
+  type: 'test'
+  ...
+# Subtest: rejects treating the legacy AuditGrant as active
+ok 4 - rejects treating the legacy AuditGrant as active
+  ---
+  duration_ms: 312.090583
+  type: 'test'
+  ...
+# Subtest: accepts the canonical G4 scope and residual-risk register
+ok 5 - accepts the canonical G4 scope and residual-risk register
+  ---
+  duration_ms: 420.194833
+  type: 'test'
+  ...
+# Subtest: accepts structurally valid independent review evidence
+ok 6 - accepts structurally valid independent review evidence
+  ---
+  duration_ms: 332.638542
+  type: 'test'
+  ...
+# Subtest: rejects self-review by a project owner
+ok 7 - rejects self-review by a project owner
+  ---
+  duration_ms: 365.503583
+  type: 'test'
+  ...
+# Subtest: rejects a report whose bytes do not match its digest
+ok 8 - rejects a report whose bytes do not match its digest
+  ---
+  duration_ms: 335.524042
+  type: 'test'
+  ...
+# Subtest: rejects report path traversal
+ok 9 - rejects report path traversal
+  ---
+  duration_ms: 330.466875
+  type: 'test'
+  ...
+# Subtest: rejects an unresolved High finding
+ok 10 - rejects an unresolved High finding
+  ---
+  duration_ms: 333.694709
+  type: 'test'
+  ...
+# Subtest: rejects an accepted finding without residual-risk mapping
+ok 11 - rejects an accepted finding without residual-risk mapping
+  ---
+  duration_ms: 331.929625
+  type: 'test'
+  ...
+# Subtest: rejects an incomplete residual-risk assessment
+ok 12 - rejects an incomplete residual-risk assessment
+  ---
+  duration_ms: 331.682958
+  type: 'test'
+  ...
+# Subtest: rejects weakened scope acceptance criteria
+ok 13 - rejects weakened scope acceptance criteria
+  ---
+  duration_ms: 45.32825
+  type: 'test'
+  ...
+# Subtest: rejects a changed scoped source hash
+ok 14 - rejects a changed scoped source hash
+  ---
+  duration_ms: 54.001625
+  type: 'test'
+  ...
+# Subtest: reports post-freeze drift without failing the gate
+ok 15 - reports post-freeze drift without failing the gate
+  ---
+  duration_ms: 346.28675
+  type: 'test'
+  ...
+# Subtest: October submission preserves reviewer-owned original bytes
+ok 16 - October submission preserves reviewer-owned original bytes
+  ---
+  duration_ms: 0.408083
+  type: 'test'
+  ...
+# Subtest: October submission is not silently promoted to accepted review evidence
+ok 17 - October submission is not silently promoted to accepted review evidence
+  ---
+  duration_ms: 418.82525
+  type: 'test'
+  ...
+# Subtest: reviewer limitations and four open informational findings are retained
+ok 18 - reviewer limitations and four open informational findings are retained
+  ---
+  duration_ms: 0.085334
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3258.786333
+TAP version 13
+# Subtest: accepts the canonical workspace version without a tag
+ok 1 - accepts the canonical workspace version without a tag
+  ---
+  duration_ms: 43.568833
+  type: 'test'
+  ...
+# Subtest: accepts a tag that exactly matches the package version
+ok 2 - accepts a tag that exactly matches the package version
+  ---
+  duration_ms: 41.392625
+  type: 'test'
+  ...
+# Subtest: writes reproducible release metadata
+ok 3 - writes reproducible release metadata
+  ---
+  duration_ms: 46.710333
+  type: 'test'
+  ...
+# Subtest: rejects a tag that differs from the package version
+ok 4 - rejects a tag that differs from the package version
+  ---
+  duration_ms: 20.335583
+  type: 'test'
+  ...
+# Subtest: rejects a release run without a tag
+ok 5 - rejects a release run without a tag
+  ---
+  duration_ms: 21.081833
+  type: 'test'
+  ...
+# Subtest: rejects inconsistent workspace package versions
+ok 6 - rejects inconsistent workspace package versions
+  ---
+  duration_ms: 21.59175
+  type: 'test'
+  ...
+# Subtest: rejects a non-SemVer root version
+ok 7 - rejects a non-SemVer root version
+  ---
+  duration_ms: 20.867667
+  type: 'test'
+  ...
+# Subtest: rejects a prerelease numeric identifier with a leading zero
+ok 8 - rejects a prerelease numeric identifier with a leading zero
+  ---
+  duration_ms: 20.735542
+  type: 'test'
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 263.700541
+Compiling 47 files with Solc 0.8.24
+Solc 0.8.24 finished in 3.41s
+Compiler run successful!
+
+Ran 3 tests for test/unit/DeletionAttestation.t.sol:DeletionAttestationTest
+[PASS] test_ControllerCanAttestOnce() (gas: 63596)
+[PASS] test_RevertWhen_CommitmentIsZero() (gas: 15092)
+[PASS] test_RevertWhen_UnauthorizedOrUnknown() (gas: 44372)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 405.83µs (75.33µs CPU time)
+
+Ran 1 test for test/unit/Demo.t.sol:DemoTest
+[PASS] test_EndToEndLifecycle() (gas: 6572453)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 469.92µs (345.71µs CPU time)
+
+Ran 3 tests for test/unit/AuthorizationBoundary.t.sol:AuthorizationBoundaryTest
+[PASS] test_ERC1271StaticcallBlocksReentrantAuthorizationUpdate() (gas: 571101)
+[PASS] test_ERC1271StaticcallBlocksReentrantRegistration() (gas: 572311)
+[PASS] test_RevertWhen_ECDSASignatureVIsInvalid() (gas: 79294)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 336.50µs (205.92µs CPU time)
+
+Ran 5 tests for test/unit/MemoryMarket.t.sol:ExperimentalMemoryMarketTest
+[PASS] test_ControllerListsAndBuyerPurchases() (gas: 269571)
+[PASS] test_FreeLicenseExtendsAndExpires() (gas: 196586)
+[PASS] test_RevertWhen_ControllerChangedAfterListing() (gas: 197645)
+[PASS] test_RevertWhen_NonControllerLists() (gas: 26184)
+[PASS] test_RevertWhen_StateChangedAfterListing() (gas: 272442)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 883.25µs (378.42µs CPU time)
+
+Ran 11 tests for test/unit/AuditGrant.t.sol:AuditGrantTest
+[PASS] test_ControllerGrantsAndAuditorAcknowledges() (gas: 172851)
+[PASS] test_FoldMatchesManualComputation() (gas: 11933)
+[PASS] test_IncompleteDisclosureFailsAcknowledgement() (gas: 166347)
+[PASS] test_RevertWhen_AcknowledgedByNonAuditorOrTwice() (gas: 171553)
+[PASS] test_RevertWhen_AcknowledgementUsesAnotherSpace() (gas: 164663)
+[PASS] test_RevertWhen_DuplicateGrant() (gas: 166896)
+[PASS] test_RevertWhen_EmptyRootOrZeroAuditor() (gas: 33702)
+[PASS] test_RevertWhen_NotController() (gas: 39971)
+[PASS] test_RevertWhen_OtherSpaceControllerRevokesGrant() (gas: 169401)
+[PASS] test_RevertWhen_RangeInvalid() (gas: 52792)
+[PASS] test_RevokeBlocksAcknowledgement() (gas: 170874)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 1.66ms (388.33µs CPU time)
+
+Ran 7 tests for test/unit/SpaceDescriptor.t.sol:SpaceDescriptorTest
+[PASS] test_ControllerClears() (gas: 113313)
+[PASS] test_ControllerPublishesAndReplaces() (gas: 155943)
+[PASS] test_RevertWhen_ClearingNothing() (gas: 25573)
+[PASS] test_RevertWhen_EmptyInputs() (gas: 15682)
+[PASS] test_RevertWhen_NotController() (gas: 24069)
+[PASS] test_RevertWhen_UnknownSpace() (gas: 16949)
+[PASS] test_UnpublishedSpaceReadsEmpty() (gas: 15416)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 253.62µs (161.12µs CPU time)
+
+Ran 19 tests for test/unit/AgentMemoryStateRegistry.t.sol:AgentMemoryStateRegistryTest
+[PASS] test_ChainsUsingPreviousStateRoot() (gas: 253618)
+[PASS] test_ConfigNoncePreventsAuthorizationReplay() (gas: 68302)
+[PASS] test_ControllerCanRotateAuthorizer() (gas: 203104)
+[PASS] test_EIP7702DelegatedEOAWithPolicyUsesERC1271() (gas: 354856)
+[PASS] test_EIP7702DelegatedEOAWithoutPolicyFallsBackToECDSA() (gas: 268268)
+[PASS] test_ERC1271AuthorizerCanRegisterAndCommit() (gas: 378450)
+[PASS] test_GenesisAdvancesStateRoot() (gas: 172525)
+[PASS] test_RecordsChainObservationTime() (gas: 169966)
+[PASS] test_RelayedRegistrationRequiresControllerSignature() (gas: 82457)
+[PASS] test_RevertWhen_DuplicateTransition() (gas: 175647)
+[PASS] test_RevertWhen_ECDSASignatureHasHighS() (gas: 32809)
+[PASS] test_RevertWhen_ERC1271ValidationFails() (gas: 302518)
+[PASS] test_RevertWhen_OtherSignerAttemptsSpaceTakeover() (gas: 36268)
+[PASS] test_RevertWhen_PreviousStateRootIsWrong() (gas: 175748)
+[PASS] test_RevertWhen_RelayerMutatesLocatorCommitment() (gas: 36273)
+[PASS] test_RevertWhen_RequiredCommitmentsAreZero() (gas: 22032)
+[PASS] test_RevertWhen_SequenceSkips() (gas: 23302)
+[PASS] test_RevertWhen_SignatureIsReplayedToAnotherRegistry() (gas: 1323172)
+[PASS] test_RevertWhen_SpaceIdIsNotControllerDerived() (gas: 14021)
+Suite result: ok. 19 passed; 0 failed; 0 skipped; finished in 2.33ms (1.99ms CPU time)
+
+Ran 4 tests for test/unit/RotationForensics.t.sol:RotationForensicsTest
+[PASS] test_ControllerHandoverRevokesRotationRight() (gas: 69403)
+[PASS] test_RotatedOutAuthorizerCannotCommit() (gas: 289360)
+[PASS] test_RotationAuthorizationCannotBeReplayed() (gas: 70221)
+[PASS] test_RotationMidChain_ChainStaysGaplessAndAuthorshipIsAttributable() (gas: 460175)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 1.60ms (1.57ms CPU time)
+
+Ran 11 tests for test/unit/ExternalReviewBoundary.t.sol:ExternalReviewBoundaryTest
+[PASS] test_CanonicalEOAV27AndV28Accepted() (gas: 259167)
+[PASS] test_EOACompactSignatureRejected() (gas: 34233)
+[PASS] test_EOAHighSRejected() (gas: 34539)
+[PASS] test_EOARawVZeroAndOneRejected() (gas: 53873)
+[PASS] test_ERC1271AllowsDigestSpecificEmptyPreapproval() (gas: 374325)
+[PASS] test_ERC1271AllowsShortCustomSignature() (gas: 374419)
+[PASS] test_ERC1271RejectsEmptySignatureForUnapprovedDigest() (gas: 245814)
+[PASS] test_ERC1271RejectsWrongShortSignature() (gas: 243586)
+[PASS] test_EmptyDescriptorDoesNotEstablishSpaceExistence() (gas: 483550)
+[PASS] test_GrantReferencesIncludeChainAndDeployment() (gas: 1377645)
+[PASS] test_PermissiveWalletExposesConfiguredPolicyRisk() (gas: 293629)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 1.90ms (1.43ms CPU time)
+
+Ran 1 test for test/unit/GoldenVector.t.sol:GoldenVectorTest
+[PASS] test_V1GoldenVectorMatchesCanonicalJsonByteForByte() (gas: 1014464)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.18ms (1.56ms CPU time)
+
+Ran 1 test for test/unit/GoldenVector.t.sol:OfficialAssetGoldenVectorTest
+[PASS] test_V1GoldenVectorMatchesCanonicalJsonByteForByte() (gas: 1014464)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.09ms (1.63ms CPU time)
+
+Ran 1 test for test/integration/PrivateWitnessEvidence.t.sol:PrivateWitnessEvidenceTest
+[PASS] test_PrivateInputToAuthorizedTransitionToSelectiveAudit() (gas: 1930107)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.89ms (1.44ms CPU time)
+
+Ran 14 tests for test/unit/VectorsV2.t.sol:VectorsV2Test
+[PASS] test_ChainReplays() (gas: 12214486)
+[PASS] test_RejectedTransitionDoesNotMoveHead() (gas: 12226560)
+[PASS] test_Rejects_ForkedPriorState() (gas: 12473483)
+[PASS] test_Rejects_MalformedSignatureLength() (gas: 12225564)
+[PASS] test_Rejects_ReRegistration() (gas: 76055)
+[PASS] test_Rejects_SequenceReplay() (gas: 12223001)
+[PASS] test_Rejects_SequenceSkipsAhead() (gas: 12223046)
+[PASS] test_Rejects_UnauthorizedCaller() (gas: 12225520)
+[PASS] test_Rejects_UnderivedSpaceId() (gas: 19046)
+[PASS] test_Rejects_UnknownSpace() (gas: 12223495)
+[PASS] test_Rejects_ZeroAddress() (gas: 17991)
+[PASS] test_Rejects_ZeroDeltaCommitment() (gas: 12221460)
+[PASS] test_Rejects_ZeroProfileId() (gas: 12221485)
+[PASS] test_Rejects_ZeroSpaceId() (gas: 15920)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 17.26ms (117.40ms CPU time)
+
+Ran 1 test for test/invariant/StateMachineInvariant.t.sol:StateMachineInvariantTest
+[PASS] invariant_RegistryHeadMatchesModel() (runs: 256, calls: 128000, reverts: 106)
+
+╭---------------------+----------+--------+---------+----------╮
+| Contract            | Selector | Calls  | Reverts | Discards |
++==============================================================+
+| StateMachineHandler | step     | 128000 | 106     | 0        |
+╰---------------------+----------+--------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 4.93s (4.93s CPU time)
+
+Ran 14 test suites in 4.93s (4.97s CPU time): 82 tests passed, 0 failed, 0 skipped (82 total tests)
+$ pnpm clean && pnpm build && pnpm -r --if-present typecheck && pnpm -r --if-present test && pnpm check:erc-assets && pnpm check:vectors && pnpm check:reproducible && pnpm check:private-witness && pnpm evidence:validate && pnpm evidence:test && pnpm security:scope && pnpm security:test && pnpm release:test && pnpm format:check && pnpm test:contracts
+$ node scripts/clean.mjs
+$ pnpm --filter @erc-awar/core build && pnpm --filter @erc-awar/reference-engine build && pnpm --filter @erc-awar/awareness-adapter build && pnpm --filter @erc-awar/minimal-independent build && pnpm --filter @erc-awar/examples build
+$ tsc -p tsconfig.json
+$ tsc -p tsconfig.json
+$ tsc -p tsconfig.json
+$ tsc -p tsconfig.json
+$ tsc -p tsconfig.json
+$ node scripts/check-erc-assets.mjs
+$ node scripts/check-vectors.mjs
+$ node scripts/build-test-vectors-v2.mjs --check && node scripts/fixture/build-fixture-witness.mjs --check
+$ node scripts/private-witness-demo.mjs
+$ node scripts/external-reproduction-gate.mjs --validate-only
+$ node --test scripts/external-reproduction-gate.test.mjs
+$ node scripts/security-rc-gate.mjs --scope-only && pnpm security:handoff
+$ node scripts/security-audit-handoff.mjs
+$ node --test scripts/security-rc-gate.test.mjs scripts/security-audit-handoff.test.mjs scripts/security-review-intake.test.mjs
+$ node --test scripts/release-metadata-gate.test.mjs
+$ cd contracts && forge fmt --check
+$ cd contracts && forge test
