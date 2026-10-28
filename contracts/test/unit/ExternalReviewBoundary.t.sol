@@ -56,7 +56,7 @@ contract ExternalReviewBoundaryTest is Test {
     }
 
     function _delta(bytes32 id) private view returns (IAgentMemoryState.ExperienceDelta memory) {
-        (bytes32 root,, uint64 sequence) = registry.head(id);
+        (, bytes32 root, uint64 sequence) = registry.head(id);
         return IAgentMemoryState.ExperienceDelta({
             spaceId: id,
             sequence: sequence + 1,
