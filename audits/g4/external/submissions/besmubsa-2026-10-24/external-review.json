@@ -1,0 +1,90 @@
+{
+  "schema": "erc-8350/external-solidity-review/v1",
+  "candidate": "G4-rc1",
+  "reviewer": {
+    "name": "Besmubsa",
+    "organization": "independent",
+    "githubOwner": "Besmubsa",
+    "evidenceRepository": "https://github.com/Besmubsa/erc8350-g4-security-review",
+    "independentFromProject": true,
+    "conflictDisclosure": "No compensation was requested, offered, or received. No prior work for AwareLiquid and no affiliation with AwareLiquid/ERC-8350 or AwareLiquid/AgentMemoryState. No conflicts of interest. The reviewer operates pseudonymously through the public GitHub account Besmubsa; the commit history in the evidence repository is the work record."
+  },
+  "scope": {
+    "repository": "https://github.com/AwareLiquid/ERC-8350",
+    "commit": "af5a75fb2db532fd5603554083d8895a825c2de2",
+    "tree": "f8d66277123391ea54de3f53842256e17e2a497e",
+    "manifestPath": "audits/g4/scope.json",
+    "manifestSha256": "c9db7d27957c86386d8842687a2d009c0ca03bc864307e88cfed0ee25f3ae9bf",
+    "riskRegisterPath": "audits/g4/residual-risks.json",
+    "riskRegisterSha256": "307a52eb0bf512aea25565bf604d92fc6b1b2d64eb910595568a5f0c04aa6019",
+    "allTenPinnedFilesReviewed": true,
+    "fileDigestVerification": "10/10 SHA-256 digests recomputed and matching scope.json"
+  },
+  "report": {
+    "path": "reports/erc8350-g4-external-review.md",
+    "url": "https://github.com/Besmubsa/erc8350-g4-security-review/blob/main/reports/erc8350-g4-external-review.md",
+    "sha256": "822d2a3642fe9006945ba8bf074455da6b47b91352c1992606c026ca4be74f6b",
+    "publishedAt": "2026-10-24T06:30:00Z"
+  },
+  "methodology": {
+    "manualReview": true,
+    "tools": [
+      "solc 0.8.24+commit.e11b9ed9 (official static build; optimizer 200 runs; evmVersion cancun)",
+      "slither 0.11.6 (102 detectors, per-target runs; outputs in evidence/slither/)",
+      "py-evm + eth-tester (compiled Registry bytecode deployed and executed; domain separator and typehash getters compared to golden vectors)",
+      "Python 3.12 + pycryptodome keccak-256 (from-scratch golden-vector recomputation; no project code imported)",
+      "forge-std v1.9.7 pinned tarball (build harness for Deploy.s.sol import-path rewrite only)"
+    ],
+    "testCommands": [
+      "solc --bin --optimize --optimize-runs 200 --evm-version cancun <each runtime contract>  # rc=0",
+      "solc --bin --evm-version cancun --optimize --optimize-runs 200 --base-path <harness-root> --allow-paths <harness-root> script/DeployHarness.s.sol  # rc=0",
+      "slither src/reference/AgentMemoryStateRegistry.sol --compile-force-framework solc --solc solc-0.8.24 --json out.json  # per-target",
+      "python3 evidence/vector_recompute.py  # 10/10 PASS",
+      "python3 evidence/evm_domain_check.py  # MATCH vs vector: True"
+    ],
+    "limitations": [
+      "The project's Foundry test suite was not executed (no Foundry toolchain in the review environment); test sources were read and assessed only",
+      "No symbolic execution or coverage-guided fuzzing performed by the reviewer",
+      "packages/ and implementations/ (TypeScript) out of scope per manifest; packages/core/src/eip712.ts cross-checked and found equivalent",
+      "contracts/src/experimental/MemoryMarket.sol excluded per manifest, not reviewed"
+    ]
+  },
+  "conclusion": {
+    "status": "pass",
+    "noUnresolvedCriticalOrHigh": true,
+    "unresolved": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "informational": 4
+    },
+    "findingIds": [
+      "ERG4-I-01",
+      "ERG4-I-02",
+      "ERG4-I-03",
+      "ERG4-I-04"
+    ],
+    "verificationNotes": [
+      "ERG4-N-01: reentrancy posture of commitTransition re-derived; concurs with maintainer LOW-2 disposition",
+      "ERG4-N-02: relayer front-running analysis; no griefing beyond executing signed intent",
+      "V-01: G4-R-012 mitigation (cross-Space grant binding) verified complete at af5a75f"
+    ],
+    "intakeDispositionConcurrence": "LOW-1, LOW-2, INFO-1, INFO-2 all concurred with, independently re-derived"
+  },
+  "reviewedResidualRiskIds": [
+    "G4-R-001",
+    "G4-R-002",
+    "G4-R-003",
+    "G4-R-004",
+    "G4-R-005",
+    "G4-R-006",
+    "G4-R-007",
+    "G4-R-008",
+    "G4-R-009",
+    "G4-R-010",
+    "G4-R-011",
+    "G4-R-012"
+  ],
+  "residualMappingSummary": "All twelve register entries reviewed and agreed with; G4-R-012 mitigation verified at the frozen commit (the fix commit itself); G4-R-008 supplemented by ERG4-I-02 (empty-signature ERC-1271 probe path)."
+}

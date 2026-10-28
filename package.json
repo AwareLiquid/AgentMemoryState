@@ -30,7 +30,7 @@
                     "evidence:external":  "node scripts/external-reproduction-gate.mjs",
                     "security:handoff":  "node scripts/security-audit-handoff.mjs",
                     "security:scope":  "node scripts/security-rc-gate.mjs --scope-only \u0026\u0026 pnpm security:handoff",
-                    "security:test":  "node --test scripts/security-rc-gate.test.mjs scripts/security-audit-handoff.test.mjs",
+                    "security:test":  "node --test scripts/security-rc-gate.test.mjs scripts/security-audit-handoff.test.mjs scripts/security-review-intake.test.mjs",
                     "security:rc":  "pnpm security:handoff \u0026\u0026 node scripts/security-rc-gate.mjs",
                     "release:metadata":  "node scripts/release-metadata-gate.mjs",
                     "release:test":  "node --test scripts/release-metadata-gate.test.mjs",

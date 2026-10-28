@@ -13,6 +13,7 @@ on:
       - "scripts/security-audit-handoff.test.mjs"
       - "scripts/security-rc-gate.mjs"
       - "scripts/security-rc-gate.test.mjs"
+      - "scripts/security-review-intake.test.mjs"
       - "package.json"
   workflow_dispatch:
 
