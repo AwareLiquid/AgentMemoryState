@@ -116,6 +116,10 @@ loads.
 
 ## Error semantics
 
+For EOA versus ERC-1271 signature formats and optional extension lookup semantics,
+see [external-review integration boundaries](security/external-review-boundaries.md).
+In particular, do not impose the 65-byte EOA encoding on ERC-1271 wallets.
+
 The 12 rejection cases each publish an error signature, its selector, and — for the
 inputs that are invalid in more than one way — **which checks run before it**. That
 ordering is part of the vectors on purpose: without it, two correct-looking
