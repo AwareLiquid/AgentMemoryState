@@ -25,6 +25,10 @@ way and is preferable if one is available.
 
 ## Prerequisites
 
+Review the [external-review integration boundaries](security/external-review-boundaries.md)
+before choosing wallet policies, indexing grant IDs or interpreting descriptors.
+These notes do not change the pending G4 acceptance or deprecated deployment status.
+
 - Foundry 1.7.1
 - Sepolia ETH on the deployer address (a faucet is sufficient; deployment costs roughly
   2.6M gas for all four contracts)
