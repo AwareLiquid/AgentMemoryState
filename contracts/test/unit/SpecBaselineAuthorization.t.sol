@@ -59,6 +59,26 @@ contract BaselineDirtyPaddingWallet {
     }
 }
 
+contract BaselineRawReturnWallet {
+    bytes32 private immutable _word;
+    uint256 private immutable _size;
+
+    constructor(bytes32 word, uint256 size) {
+        _word = word;
+        _size = size;
+    }
+
+    fallback() external {
+        bytes32 word = _word;
+        uint256 size = _size;
+        assembly {
+            mstore(0, word)
+            mstore(32, not(0))
+            return(0, size)
+        }
+    }
+}
+
 contract BaselineGasWallet {
     // Kept separate from the preapproval wallet so the expensive path is explicit.
     function burnAndValidate(bytes32 digest) external pure returns (bytes4) {
@@ -324,9 +344,7 @@ abstract contract SpecBaselineAuthorizationCases is Test {
         _fallbackWithCode(address(new BaselineShortReturnWallet()).code);
     }
 
-    // AQ-03 characterization, NOT a desired portable conformance rule. A runtime
-    // fix must change this test and reassess source/audit coverage explicitly.
-    function test_CurrentLimitationDirtyPaddingAbortsBeforeValidECDSAFallback() public {
+    function test_DirtyPaddingDoesNotVetoValidECDSAFallback() public {
         address signer = vm.addr(SIGNER_PK);
         vm.etch(signer, address(new BaselineDirtyPaddingWallet()).code);
         for (uint8 op; op < 3; op++) {
@@ -337,8 +355,49 @@ abstract contract SpecBaselineAuthorizationCases is Test {
             );
             assertTrue(ok);
             assertEq(data.length, 32);
-            _reject(c, RELAYER, signature, 2_000_000);
+            _reject(c, RELAYER, "", 2_000_000);
+            _reject(c, RELAYER, _sign(c, OTHER_PK), 2_000_000);
+            _accept(c, RELAYER, signature);
         }
+    }
+
+    function _returnShape(bytes32 word, uint256 size, bool walletAccepts) internal {
+        registry = _deploy();
+        address signer = vm.addr(SIGNER_PK);
+        vm.etch(signer, address(new BaselineRawReturnWallet(word, size)).code);
+        for (uint8 op; op < 3; op++) {
+            Scenario memory c = _prepare(Operation(op), signer);
+            if (walletAccepts) {
+                _accept(c, RELAYER, "");
+            } else {
+                _reject(c, RELAYER, "", 2_000_000);
+                _reject(c, RELAYER, _sign(c, OTHER_PK), 2_000_000);
+                _accept(c, RELAYER, _sign(c, SIGNER_PK));
+            }
+        }
+    }
+
+    function test_CanonicalWordAcceptsAndIgnoresTrailingData() public {
+        uint256[3] memory sizes = [uint256(32), 33, 64];
+        for (uint256 i; i < sizes.length; i++) {
+            _returnShape(bytes32(bytes4(0x1626ba7e)), sizes[i], true);
+        }
+    }
+
+    function test_TruncatedMagicFallsBackWithoutStateMutationOnRejection() public {
+        uint256[3] memory sizes = [uint256(0), 4, 31];
+        for (uint256 i; i < sizes.length; i++) {
+            _returnShape(bytes32(bytes4(0x1626ba7e)), sizes[i], false);
+        }
+    }
+
+    function test_WrongWordWithTrailingBytesDoesNotAuthorize() public {
+        _returnShape(bytes32(bytes4(0xffffffff)), 64, false);
+    }
+
+    function testFuzz_DirtyPaddingFallsBack(uint224 padding) public {
+        vm.assume(padding != 0);
+        _returnShape(bytes32(uint256(uint32(0x1626ba7e)) << 224 | uint256(padding)), 32, false);
     }
 
     function test_GasStarvationRejectsWalletApprovalWithoutPartialState() public {
