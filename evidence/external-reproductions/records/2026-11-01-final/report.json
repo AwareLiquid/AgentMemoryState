@@ -1,0 +1,248 @@
+{
+  "schema": "erc8350.external-reproduction-report.v1",
+  "riskId": "R-002",
+  "result": "pass",
+  "generatedAt": "2026-11-01T10:27:48.574Z",
+  "manifest": {
+    "path": "evidence/external-reproductions/v1.json",
+    "sha256": "9bc4a53fd6cc50bd4b362892301ef89072ef465fdbefd76836732b2fdf63af83"
+  },
+  "runner": {
+    "path": "scripts/external-reproduction-gate.mjs",
+    "sha256": "fe697781184593b38442195804b596c7366dff891df18ad18b424ca36e6334f9"
+  },
+  "environment": {
+    "platform": "darwin",
+    "arch": "arm64",
+    "node": "v22.23.2",
+    "python": "Python 3.12.14",
+    "git": "git version 2.50.1 (Apple Git-155)",
+    "externalProcessEnvironment": "allowlisted",
+    "pythonIsolatedMode": true,
+    "dependencyArtifactsHashPinned": true
+  },
+  "criteria": {
+    "minimumExecutableSuites": 2,
+    "externalRepositoryRequired": true,
+    "fullCommitShaRequired": true,
+    "sourceDigestRequired": true,
+    "dependencyHashesRequired": true,
+    "machineCheckableExitRequired": true,
+    "importsFromErc8350RepositoryAllowed": false,
+    "minimumIndependentRepositoryOwners": 2
+  },
+  "suites": [
+    {
+      "id": "erc8312-sepolia-state-replay",
+      "kind": "live-chain-replay",
+      "status": "pass",
+      "repository": "https://github.com/ERC8312/bounded-agent-actions.git",
+      "sourceUrl": "https://github.com/ERC8312/bounded-agent-actions/tree/a7e68b7b7c75a2274c089a97cd493be200fb151a/recompute",
+      "discussionUrl": "https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098/6",
+      "maintainer": {
+        "ethereumMagicians": "blockbird",
+        "github": "0x2kNJ",
+        "repositoryOwner": "ERC8312"
+      },
+      "license": "CC0-1.0",
+      "commit": "a7e68b7b7c75a2274c089a97cd493be200fb151a",
+      "sourceFiles": [
+        {
+          "path": "recompute/erc8350_sepolia.py",
+          "sha256": "ea5a484309c21649a632df61b6910e87897df07f991dceada86673dffb25a521",
+          "observedSha256": "ea5a484309c21649a632df61b6910e87897df07f991dceada86673dffb25a521",
+          "matched": true
+        }
+      ],
+      "dependencies": [
+        {
+          "requirement": "pycryptodome==3.23.0",
+          "sha256": [
+            "187058ab80b3281b1de11c2e6842a357a1f71b42cb1e15bce373f3d238135c27",
+            "cfb5cd445280c5b0a4e6187a7ce8de5a07b5f3f897f235caa11f1f435f182843",
+            "67bd81fcbe34f43ad9422ee8fd4843c8e7198dd88dd3d40e6de42ee65fbe1490",
+            "c8987bd3307a39bc03df5c8e0e3d8be0c4c3518b7f044b0f4c15d1aa78f52575",
+            "aa0698f65e5b570426fc31b8162ed4603b0c2841cbb9088e2b01641e3065915b",
+            "53ecbafc2b55353edcebd64bf5da94a2a2cdf5090a6915bcca6eca6cc452585a",
+            "156df9667ad9f2ad26255926524e1c136d6664b741547deb0a86a9acf5ea631f",
+            "dea827b4d55ee390dc89b2afe5927d4308a8b538ae91d9c6f7a5090f397af1aa",
+            "507dbead45474b62b2bbe318eb1c4c8ee641077532067fec9c1aa82c31f84886",
+            "c75b52aacc6c0c260f204cbdd834f76edc9fb0d8e0da9fbf8352ef58202564e2",
+            "11eeeb6917903876f134b56ba11abe95c0b0fd5e3330def218083c7d98bbcb3c",
+            "447700a657182d60338bab09fdb27518f8856aecd80ae4c6bdddb67ff5da44ef"
+          ]
+        }
+      ],
+      "exitCode": 0,
+      "assertions": [
+        {
+          "id": "non-empty-chain",
+          "matched": true
+        },
+        {
+          "id": "second-rpc-agrees",
+          "matched": true
+        },
+        {
+          "id": "all-spaces-verified",
+          "matched": true
+        }
+      ],
+      "observations": {
+        "transitionLogs": 8,
+        "memorySpaces": 3,
+        "observationBlock": 12040386,
+        "fromBlock": 11353452,
+        "blockHash": "0x4ad6ab0587fcde96a3805cf8628fbba20d151c252782d82d7cc5f2099b49fd4f",
+        "stateRoot": "0xf6d3b2e1282487ab4ea1b10652b464b62cccf0f43cbfd3ab1a75a3c8ce21db80",
+        "verifiedGoodSpaces": 3
+      },
+      "endpointHosts": {
+        "primary": "sepolia.gateway.tenderly.co",
+        "crossCheck": "ethereum-sepolia-rpc.publicnode.com"
+      },
+      "durationMs": 40591,
+      "log": {
+        "path": "logs/erc8312-sepolia-state-replay.txt",
+        "sha256": "19f4128607c39bf3e03fc349ee11698a592cd620597f6340eb3ea04ff6b26dcb"
+      },
+      "scope": [
+        "Recomputes every emitted transitionId from the ERC-8350 type string",
+        "Recomputes every nextStateRoot and checks gapless sequence/root linkage",
+        "Walks account and storage proofs to compare the materialized head",
+        "Rebuilds the observation block header and cross-checks a second RPC"
+      ],
+      "nonClaims": [
+        "Does not prove that one RPC did not omit an entire Memory Space",
+        "Assumes the published reference contract storage layout",
+        "Is not a Solidity security audit or a full independent ERC-8350 client"
+      ]
+    },
+    {
+      "id": "invinoveritas-composition-recompute",
+      "kind": "saved-artifact-recompute",
+      "status": "pass",
+      "repository": "https://github.com/babyblueviper1/invinoveritas.git",
+      "sourceUrl": "https://github.com/babyblueviper1/invinoveritas/tree/81a2e0f7898e429d2d15ec421379f3446ae6869c/examples/erc8274-erc8350-composition",
+      "discussionUrl": "https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098/13",
+      "maintainer": {
+        "ethereumMagicians": "babyblueviper1",
+        "github": "babyblueviper1",
+        "repositoryOwner": "babyblueviper1"
+      },
+      "license": "Apache-2.0",
+      "commit": "81a2e0f7898e429d2d15ec421379f3446ae6869c",
+      "sourceFiles": [
+        {
+          "path": "examples/erc8274-erc8350-composition/README.md",
+          "sha256": "65ca8696fd073aa4227616ebb32518b7897336d455c76c48dbcdf75823f6da87",
+          "observedSha256": "65ca8696fd073aa4227616ebb32518b7897336d455c76c48dbcdf75823f6da87",
+          "matched": true
+        },
+        {
+          "path": "examples/erc8274-erc8350-composition/compose_and_verify.py",
+          "sha256": "3407f79c77d8ef2f5aedc31780824baa0e6f7a7cf7c8f12d6db2822f0b19bb6b",
+          "observedSha256": "3407f79c77d8ef2f5aedc31780824baa0e6f7a7cf7c8f12d6db2822f0b19bb6b",
+          "matched": true
+        },
+        {
+          "path": "examples/erc8274-erc8350-composition/output.json",
+          "sha256": "e820e0d9d349bf7ccb0e377a8968feb32a08801fcecbf011f156e3ad75a8fac2",
+          "observedSha256": "e820e0d9d349bf7ccb0e377a8968feb32a08801fcecbf011f156e3ad75a8fac2",
+          "matched": true
+        }
+      ],
+      "dependencies": [
+        {
+          "requirement": "eth-hash==0.8.0",
+          "sha256": [
+            "523718a51b369ab89866b929a5c93c52978cd866ea309192ad980dd8271f9fac",
+            "b009752b620da2e9c7668014849d1f5fadbe4f138603f1871cc5d4ca706896b1"
+          ]
+        },
+        {
+          "requirement": "pycryptodome==3.23.0",
+          "sha256": [
+            "187058ab80b3281b1de11c2e6842a357a1f71b42cb1e15bce373f3d238135c27",
+            "cfb5cd445280c5b0a4e6187a7ce8de5a07b5f3f897f235caa11f1f435f182843",
+            "67bd81fcbe34f43ad9422ee8fd4843c8e7198dd88dd3d40e6de42ee65fbe1490",
+            "c8987bd3307a39bc03df5c8e0e3d8be0c4c3518b7f044b0f4c15d1aa78f52575",
+            "aa0698f65e5b570426fc31b8162ed4603b0c2841cbb9088e2b01641e3065915b",
+            "53ecbafc2b55353edcebd64bf5da94a2a2cdf5090a6915bcca6eca6cc452585a",
+            "156df9667ad9f2ad26255926524e1c136d6664b741547deb0a86a9acf5ea631f",
+            "dea827b4d55ee390dc89b2afe5927d4308a8b538ae91d9c6f7a5090f397af1aa",
+            "507dbead45474b62b2bbe318eb1c4c8ee641077532067fec9c1aa82c31f84886",
+            "c75b52aacc6c0c260f204cbdd834f76edc9fb0d8e0da9fbf8352ef58202564e2",
+            "11eeeb6917903876f134b56ba11abe95c0b0fd5e3330def218083c7d98bbcb3c",
+            "447700a657182d60338bab09fdb27518f8856aecd80ae4c6bdddb67ff5da44ef"
+          ]
+        }
+      ],
+      "exitCode": 0,
+      "assertions": [
+        {
+          "id": "transition-id",
+          "matched": true
+        },
+        {
+          "id": "next-state-root",
+          "matched": true
+        },
+        {
+          "id": "provenance-commitment",
+          "matched": true
+        },
+        {
+          "id": "provenance-bytes",
+          "matched": true
+        },
+        {
+          "id": "cross-standard-transition-id",
+          "matched": true
+        },
+        {
+          "id": "all-checks",
+          "matched": true
+        }
+      ],
+      "observations": {
+        "checks": [
+          "transitionId_matches",
+          "nextStateRoot_matches",
+          "provenanceCommitment_matches",
+          "provenanceBytes_sha256_matches",
+          "erc8274_side_agrees_with_erc8350_transitionId"
+        ]
+      },
+      "endpointHosts": {},
+      "durationMs": 14419,
+      "log": {
+        "path": "logs/invinoveritas-composition-recompute.txt",
+        "sha256": "d134f3cceab6db9624b7e94f0940fe51334ff50d28122cbadfa3d712d917990f"
+      },
+      "scope": [
+        "Recomputes provenanceCommitment from a saved signed-verdict artifact",
+        "Recomputes transitionId and nextStateRoot without importing ERC-8350 code",
+        "Checks ERC-8274 event data against the independently derived transitionId"
+      ],
+      "nonClaims": [
+        "Does not implement controller, authorizer, sequence, or signature enforcement",
+        "Uses a saved public example rather than private production memory",
+        "Is not a full implementation of the ERC-8350 registry interface"
+      ]
+    }
+  ],
+  "attestations": [
+    {
+      "id": "magicians-spec-vector-recompute",
+      "maintainer": "babyblueviper1",
+      "discussionUrl": "https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098/2",
+      "discussionPostId": 72132,
+      "discussionVersion": 1,
+      "discussionUpdatedAt": "2026-07-26T08:41:37.509Z",
+      "scope": "ExperienceDelta, MemoryState, and MemorySpace typehashes plus the EIP-712 domain separator were recomputed from the published specification and matched byte-for-byte.",
+      "machineExecutable": false
+    }
+  ],
+  "conclusion": "Both pinned reproduction suites passed for this recorded observation. This is not a full independent client or security acceptance."
+}
