@@ -406,7 +406,7 @@ function redact(text, values) {
   );
 }
 
-function parseObservations(suite, stdout) {
+export function parseObservations(suite, stdout) {
   if (suite.kind === "live-chain-replay") {
     const counts = stdout.match(
       /^TransitionCommitted (\d+) logs across (\d+) Memory Spaces$/m,
@@ -414,10 +414,12 @@ function parseObservations(suite, stdout) {
     const block = stdout.match(/^observation block\s+(\d+)$/m);
     const blockHash = stdout.match(/^block hash\s+(0x[0-9a-f]{64})/m);
     const stateRoot = stdout.match(/^stateRoot\s+(0x[0-9a-f]{64})/m);
+    const fromIndex = suite.arguments?.indexOf("--from-block") ?? -1;
     return {
       transitionLogs: counts ? Number(counts[1]) : null,
       memorySpaces: counts ? Number(counts[2]) : null,
       observationBlock: block ? Number(block[1]) : null,
+      fromBlock: fromIndex < 0 ? 0 : Number(suite.arguments[fromIndex + 1]),
       blockHash: blockHash?.[1] ?? null,
       stateRoot: stateRoot?.[1] ?? null,
       verifiedGoodSpaces: (stdout.match(/==> VERIFIED-GOOD:/g) ?? []).length,
@@ -428,6 +430,12 @@ function parseObservations(suite, stdout) {
     (match) => match[1],
   );
   return { checks };
+}
+
+export function reproductionConclusion(passed) {
+  return passed
+    ? "Both pinned reproduction suites passed for this recorded observation. This is not a full independent client or security acceptance."
+    : "Reproduction failed. R-002 is not resolved by this run; inspect the suite logs. Historical successful records are unchanged.";
 }
 
 function reportMarkdown(report, manifest) {
@@ -469,9 +477,7 @@ ${sources}
 
 ## Scope
 
-This report establishes public, executable, independently maintained reproduction
-evidence for R-002. It does **not** claim a complete separately maintained ERC-8350
-client, broad ecosystem adoption, or an external security audit.
+${report.conclusion}
 `;
 }
 
@@ -768,8 +774,7 @@ async function main() {
     criteria: manifest.criteria,
     suites,
     attestations: manifest.attestations,
-    conclusion:
-      "R-002 is resolved for independent reproduction evidence. A complete separately maintained ERC-8350 client and an external security audit remain open.",
+    conclusion: reproductionConclusion(suites.every((suite) => suite.status === "pass")),
   };
   const markdown = reportMarkdown(report, manifest);
   const jsonPath = path.join(args.output, "report.json");
@@ -786,7 +791,9 @@ async function main() {
   process.exitCode = report.result === "pass" ? 0 : 1;
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
