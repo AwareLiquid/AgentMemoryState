@@ -17,8 +17,8 @@ categories, both currently coordinated by `@XiaoHai67890`.
 | AQ-03 | Baseline 2 fixes dirty-padding abort using a strict full-word comparison; regression tests cover both copies and all three operations | External audit and official upstream asset coverage remain pending | Technical | Review the runtime delta, obtain audit addendum and upstream review; do not inherit the old frozen report |
 | AQ-04 | Gas exhaustion, large returndata/resource limits and relayer underfunding | Non-blocking for implementation start; no liveness or production-readiness claim | Technical | Adequate/insufficient gas tests, rejection atomicity, RPC/client guidance; do not mandate an arbitrary universal gas allowance |
 | AQ-05 | Portable rejection semantics versus v2 reference error selectors/order | Reference-exact certification, not valid hash interoperability | Technical | Label each case by normative rule or reference choice; do not require unstandardized error selectors of other languages |
-| AQ-06 | Real 7702 delegation and full portable authorization suite | Completion of P1b authorization evidence | Technical | Static signatures plus executable scenarios; Prague-or-later harness, sign and attach delegation, registration/rotation/transition and nonce tests; preserve frozen build configuration |
-| AQ-07 | Safe preapproval is version/handler/message-encoding specific | Claims of tested Safe integration | Technical | Pin Safe source/handler and execute actual approved/unapproved message cases; a permissive mock is insufficient |
+| AQ-06 | Real Prague delegation harness and actual local type-4 transactions now implemented; portable static signature data remains separate | Completion of portable P1b authorization evidence | Technical | Run `pnpm test:accounts`; publish CI artifacts, then add language-neutral signature vectors/adapters without changing v1/v2 |
+| AQ-07 | Safe 1.4.1 source/handler/message encoding pinned and executable 2-of-2 / signed-message cases added | No claim about every Safe version or production deployment | Technical | Run `pnpm test:accounts`; inspect approved/unapproved/wrong-message and approveHash negative controls |
 | AQ-08 | Immutable enforcing logic and deployed-code identity | New release/deployment evidence, not a prerequisite to start an offline implementation | Technical | Reproduce bytecode; record Sourcify Exact Match, actual libraries/immutables and deployment transaction; inspect reachable upgrade paths and chain-specific SELFDESTRUCT semantics |
 
 AQ-01/AQ-02 have a project proposal in the [decision table](AUTHORIZATION.md).
@@ -43,12 +43,11 @@ can be inserted directly into a Solidity test contract.
 
 ## P0 regression closure is separate
 
-The current baseline includes the replay fork fix. Historical failures and prior
-successful runs describe their pinned versions and block ranges; neither should
-be erased. [Issue #29](https://github.com/AwareLiquid/AgentMemoryState/issues/29)
-still contains stale status wording, while
-[#31](https://github.com/AwareLiquid/AgentMemoryState/issues/31) tracks repinning
-after [upstream PR #2](https://github.com/ERC8312/bounded-agent-actions/pull/2).
+Historical failures and prior successful runs describe their pinned versions and
+block ranges; neither should be erased. Upstream PR #2 merged on 2026-10-29.
+[Project PR #33](https://github.com/AwareLiquid/AgentMemoryState/pull/33) repins that
+reviewed revision, records a fresh two-suite PASS and adds trusted regression
+notifications. Issues #29/#31 track merge closure, not waiting for upstream now.
 
 - Technical: preserve header, MPT, second-RPC and nonzero-failure checks; document
   the root cause against execution specifications and publish fresh run identities.
@@ -63,7 +62,10 @@ after [upstream PR #2](https://github.com/ERC8312/bounded-agent-actions/pull/2).
   notifications in trusted scheduled/manual runs, with write permissions isolated
   from untrusted PR code. Default GitHub email routing is not a team alert policy.
 
-These are queued actions, not notifications sent or issues closed by this package.
+The P0 actions above are implemented separately in PR #33. Its recorded result
+and issue comments distinguish implementation/testing from merge/issue closure.
+The notification job has not been tested by deliberately failing production CI;
+deduplication/recovery logic is locally checked with a mocked GitHub client.
 
 ## Deployment evidence boundaries
 

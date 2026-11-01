@@ -13,6 +13,10 @@ broadcast/
 release-artifacts/
 artifacts/conformance/
 artifacts/external-reproductions/
+artifacts/account-conformance/
+account-conformance/out/
+account-conformance/cache/
+account-conformance/lib/
 
 # logs / env
 *.log
