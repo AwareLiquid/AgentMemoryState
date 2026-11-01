@@ -1,9 +1,17 @@
-# Agent Memory State v1
+# Agent Memory State v1 implementation overview
 
-Status: pre-ERC community draft
+Status: informative overview accompanying the published ERC-8350 Draft.
 
-This document is the repository-level specification for the implementation. The
-submission-shaped ERC text is in `erc/erc-xxxx-agent-memory-state.md`.
+The [official Draft](https://github.com/ethereum/ERCs/blob/b9651bc84714e87e6361f4f6c0c8ff39cc265d0a/ERCS/erc-8350.md)
+is the normative authority. [`erc/erc-8350.md`](erc/erc-8350.md) is its byte-identical
+local mirror. This overview is not a second specification and does not override
+either the official rules or their unresolved ambiguities.
+
+Start with [spec-baseline-1](docs/spec-baseline/README.md) for source pins,
+[differences](docs/spec-baseline/DIFFERENCES.md), the
+[authorization decision table](docs/spec-baseline/AUTHORIZATION.md) and
+[open questions](docs/spec-baseline/OPEN_QUESTIONS.md). Proposed clarifications
+are not upstream-approved changes. Historical pre-ERC wording remains in Git.
 
 ## Scope
 
@@ -19,7 +27,7 @@ private memory operation
   -> nextStateRoot
 ```
 
-## Normative Delta
+## Delta summary
 
 ```solidity
 struct ExperienceDelta {
@@ -124,9 +132,30 @@ chainId = current chain
 verifyingContract = Registry
 ```
 
-EOAs use non-malleable ECDSA. Contract wallets, multisigs, and smart accounts use
-EIP-1271. A direct call from the exact required account may use an empty signature.
-Relayers have no protocol authority.
+The reference checks, in order: an enabled direct-call exemption for the exact
+required account with empty bytes; ERC-1271 when the account has code; then
+canonical 65-byte non-malleable ECDSA using the same bytes. All three operations
+enable the optional direct-empty capability. Non-empty bytes are validated even
+when the caller is the required account. Registration/rotation require the
+controller; a transition requires the authorizer. Relayers gain no authority.
+
+ERC-1271 can approve custom-length or empty bytes; the 65-byte restriction is
+recovery-only. The official empty/length wording still needs the clarification
+tracked as AQ-01. A 7702 delegate rejecting a signature does not veto the
+retained ECDSA key path. Gas starvation can deny either path; it does not create
+authorization. See the decision table for malformed returns and other boundaries.
+
+## Enforcing logic and references
+
+The official Draft requires that the deployed logic enforcing sequence, root
+and signature rules cannot be replaced by an upgrade authority. Source
+verification and empty proxy slots alone do not establish that property.
+Extensions and a configured wallet's own policy have separate trust boundaries.
+
+A transition reference identifies chain and Registry as well as Space and
+Transition ID. The content identifiers omit chain and Registry, while signatures
+bind both through the EIP-712 domain. Cross-chain identity does not establish a
+single cross-chain history.
 
 ## Privacy commitments
 
@@ -146,19 +175,23 @@ embedding, policy, latent, or other memory categories.
 | Experimental | Market, REC, cognition-asset mechanisms |
 | Adapters | Awareness and other memory-engine mappings |
 
-## Conformance
+## Conformance evidence
 
-An implementation is v1-conformant only if it:
+Report evidence in layers rather than equating a passing file with full
+conformance to the Draft:
 
-1. uses the exact type strings and ABI encoding above;
-2. passes `test-vectors/v1.json`;
-3. enforces Space, sequence, prior-root, and authorization checks;
-4. signs every Delta field, including `locatorCommitment`;
-5. supports EIP-1271 authorizers or clearly declares a non-conforming subset; and
-6. does not require raw cognition in public calldata.
+1. v1: byte-level identifiers, commitments, type hashes and signing digests across
+   Solidity, core TypeScript and dependency-isolated TypeScript.
+2. v2: five linked transitions and twelve reference rejection cases. The TS
+   runner recomputes values and error selectors; Solidity executes the rejections.
+3. Authorization: executable registration/rotation/transition tests, ECDSA,
+   ERC-1271, direct-call capability and real 7702 behavior with stated coverage.
+4. Deployment: code identity and immutable enforcing logic, separately evidenced.
 
-The repository checks the vector in Solidity, the core TypeScript SDK, and a
-dependency-isolated TypeScript implementation.
+Exact custom errors and multi-invalid-input precedence in the reference are not
+automatically normative ERC requirements. Tests do not supersede the official
+text; discrepancies belong in the baseline register. The project maintains all
+three in-repository implementations, so they are not external independence.
 
 ## Non-goals
 

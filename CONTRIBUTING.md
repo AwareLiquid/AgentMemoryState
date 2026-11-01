@@ -1,7 +1,9 @@
 # Contributing
 
-This repository is developing a pre-ERC community draft. Protocol changes need
-interoperability evidence, not only a passing implementation.
+This repository implements the published ERC-8350 Draft. Protocol changes need
+interoperability evidence, not only a passing implementation. Begin with the
+[specification baseline](docs/spec-baseline/README.md): the pinned official text
+is authoritative, the local ERC is its mirror, and `SPEC.md` is informative.
 
 ## Development setup
 
@@ -23,18 +25,26 @@ forge install foundry-rs/forge-std@v1.16.2 --no-git
 
 ## Change rules
 
-Core changes MUST update `SPEC.md`, the ERC draft, Solidity, the TypeScript core,
-the dependency-isolated implementation, and `test-vectors/v1.json` in the same
-pull request. A normative hash change requires a new protocol version; published
-v1 encodings MUST NOT be silently reinterpreted. The pull request MUST include a
-passing clean-checkout conformance record for the changed commit.
+Assess core changes against the pinned official text and record discrepancies
+before editing implementations. Proposed normative wording belongs in a separate
+proposal or upstream PR, not silently in the official mirror. After upstream
+acceptance, update the mirror and create a new baseline with an impact assessment
+for Solidity, TypeScript, independent implementations and tests. Notify external
+implementers through their collaboration issues with exact commit links.
+
+A normative hash change requires a new protocol version; published v1 encodings
+and vectors must not be silently reinterpreted. Add versioned vectors when needed;
+a new test-set version alone does not change the wire or signing-domain version.
+Implementation PRs include a clean-checkout conformance record for the tested
+commit. Run `pnpm spec:check` and `pnpm spec:test` to detect baseline drift.
 
 Extension, Experimental, and Adapter code MUST NOT add fields to the core Delta
 or change the canonical Transition ID. Product vocabulary belongs in adapters.
 Markets and deletion evidence belong outside Core.
 
-Do not assign a speculative ERC number. Keep `ERC-XXXX` until an EIP Editor
-assigns the number after the proposal is submitted to `ethereum/ERCs`.
+ERC-8350 already has an assigned number and published Draft. Do not change its
+official status, author list or license as a side effect of implementation work.
+Review readiness and G4 release acceptance are separate decisions.
 
 ## Pull requests
 

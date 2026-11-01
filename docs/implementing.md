@@ -8,6 +8,16 @@ state machine, and no page said what "done" meant. This is that page.
 It is written for someone who has not read the rest of this repository and does not
 intend to.
 
+## Choose the baseline first
+
+Use [spec-baseline-1](spec-baseline/README.md), which pins the official Draft,
+implementation and vector files separately. The official text is authoritative;
+`SPEC.md` is an informative overview. The [decision table](spec-baseline/AUTHORIZATION.md)
+distinguishes required behavior, optional capabilities and observed choices.
+The [open questions](spec-baseline/OPEN_QUESTIONS.md) identify proposed clarifications,
+especially the empty/custom-length ERC-1271 wording. Cite the exact rule set in
+your results rather than assuming those proposals are already official.
+
 ## What conformance means here
 
 Narrowly: **your implementation derives the same values from the same inputs, and
@@ -17,11 +27,11 @@ claims and this page does not help you make them.
 
 Two things follow from that narrowness, and both are load-bearing:
 
-- Conformance is **decidable**. You run a file; it exits zero or it does not.
-- Conformance is **not** agreement with our code. If your implementation disagrees with
-  `packages/core` but matches the published vectors, the vectors are what count. If it
-  matches our code and not the vectors, one of the two is wrong and we would like to
-  know which.
+- A test run produces a reproducible pass/fail result for its stated coverage;
+  that result alone does not establish every requirement of the Draft.
+- Conformance is **not** agreement with our code or a vector generator. If the
+  implementation, vectors and official text disagree, report the discrepancy and
+  resolve it against the pinned specification. Do not silently prefer the vectors.
 
 ## The bar
 
@@ -30,12 +40,14 @@ Two things follow from that narrowness, and both are load-bearing:
 1. Recomputing each of the 5 chain entries' `transitionId` and `nextStateRoot`, in
    order, feeding each `nextStateRoot` into the next entry's `prevStateRoot`.
 2. Rebuilding each entry's three commitments from the disclosed witnesses.
-3. Refusing each of the 12 rejection inputs with the stated error.
+3. Refusing each of the 12 rejection inputs in a stateful implementation. Matching
+   the exact custom error and check order is a separately labelled
+   reference-compatibility check, not an extra normative ERC requirement.
 
-The chain is arranged so that it **fails closed**: each delta is only computable from
-the previous entry's `nextStateRoot`, so an implementation with broken linkage cannot
-produce entry N+1 even when entry N is perfect. You cannot pass by getting the
-arithmetic right and the state machine wrong.
+The valid chain checks linkage, but a pure calculator can reproduce it without
+enforcing an acceptance policy. Execute the invalid operations against actual
+state and verify that rejection leaves state unchanged. Hash recomputation alone
+does not establish state-machine rejection behavior.
 
 Two reference runners exist, and either can be read as a template rather than a
 dependency:
@@ -44,6 +56,11 @@ dependency:
 |---|---|---|
 | [`scripts/check-vectors.mjs`](../scripts/check-vectors.mjs) | the TypeScript reference | the order of operations, in ~100 lines |
 | [`contracts/test/unit/VectorsV2.t.sol`](../contracts/test/unit/VectorsV2.t.sol) | the Solidity registry | how the rejections are exercised against real state |
+
+The TS script checks rejection **selectors**, not rejected operations. v2 does
+not publish a complete signature suite. Report computation, state-machine,
+authorization and deployed-code evidence separately; see the P1b work packages
+in the open-question register.
 
 Both read the published file rather than regenerated constants, deliberately: a suite
 built from its own generator's output proves only that the generator agrees with itself.
@@ -64,10 +81,11 @@ format to get wrong beyond that.
   to who created it, not a name anyone may claim; a registry MUST reject a `spaceId`
   that does not re-derive.
 - `transitionId` — the EIP-712 `hashStruct` of the seven-field `ExperienceDelta`.
-- `nextStateRoot` — a hash of `(prevStateRoot, transitionId)`. This is the whole state
-  machine; there is no accumulator.
+- `nextStateRoot` — the specified type-tagged hash of `(prevStateRoot, transitionId)`.
+  This is a linear accumulator, not a Merkle tree; the acceptance rules are also
+  part of the state machine.
 
-`transitionId` and `nextStateRoot` are **domain-free**. They contain no chain id and no
+`transitionId` and `nextStateRoot` contain no chain id and no
 registry address, which is why the same vectors replay against any registry on any
 chain, and why replay protection has to live at the signature layer instead — see
 below. If your implementation folds a chain id into either value, it will diverge from
@@ -85,11 +103,14 @@ and `profileId` are mandatory and MUST be rejected when zero.
 
 **Authorization** — three paths, and the reason there are three is EIP-7702:
 
-1. direct call (`msg.sender` is the authorizer, empty signature);
+1. optionally, direct call (`msg.sender` is the required account, empty signature);
 2. ERC-1271, tried first for any account with code;
 3. 65-byte ECDSA, as the fallback.
 
-The ordering matters and is normative. A 7702-delegated EOA carries `0xef0100 || delegate`
+The ERC-1271-before-ECDSA ordering is normative; the direct-empty exemption is MAY,
+enabled by this reference for registration, rotation and transition. Controller
+authorizes the first two operations; authorizer approves transitions. A self-call
+with non-empty bytes still undergoes signature validation. A 7702-delegated EOA carries `0xef0100 || delegate`
 code, so branching on "has code ⇒ must be ERC-1271" locks those accounts out entirely.
 Try ERC-1271, fall back to ECDSA.
 
@@ -120,10 +141,12 @@ For EOA versus ERC-1271 signature formats and optional extension lookup semantic
 see [external-review integration boundaries](security/external-review-boundaries.md).
 In particular, do not impose the 65-byte EOA encoding on ERC-1271 wallets.
 
-The 12 rejection cases each publish an error signature, its selector, and — for the
-inputs that are invalid in more than one way — **which checks run before it**. That
-ordering is part of the vectors on purpose: without it, two correct-looking
-implementations return different errors for the same input and neither is wrong.
+The 12 rejection cases publish reference error signatures/selectors and, for
+multi-invalid inputs, reference check order. Use those for exact reference tests;
+otherwise verify the applicable normative rejection and unchanged state. Two
+implementations can reject the same invalid input with different diagnostics
+without violating a rule that never standardized those diagnostics. Cases such
+as the explicit zero-Space-ID guard also need their reference-only classification.
 
 One case is documented as having no vector: `TransitionAlreadyExists` is unreachable
 through `commitTransition`, because `sequence` and `prevStateRoot` are validated first

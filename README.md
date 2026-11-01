@@ -46,11 +46,15 @@ prevStateRoot + ExperienceDelta v1
 
 仓库内第二实现证明了算法不依赖 Awareness 或核心 SDK，但它仍由同一仓库维护。
 在对外宣称生态采用前，还需要一个由其他团队独立维护的实现。
-外部研究者已经从规范和 Sepolia 链上状态独立重算核心哈希与状态链；这解决了
-`R-002` 的“无外部复现证据”问题，但不等同于完整的外部第二客户端。
+外部研究者已发布核心哈希与状态链的重算证据，但这不等同于完整的外部第二客户端。
+2026-10-28 的 replay 回归已由固定 fork 修复并运行通过；上游确认与重新固定来源
+仍由 [#29](https://github.com/AwareLiquid/AgentMemoryState/issues/29) 和
+[#31](https://github.com/AwareLiquid/AgentMemoryState/issues/31) 跟踪，不能仅凭 CI 绿色
+宣布独立验证全部完成。
 
 ## 关键文档
 
+- **[规范基线 spec-baseline-1](docs/spec-baseline/README.md)：官方文本来源、三份文本差异、授权决策表、未决问题与外部团队交接。提议中的澄清尚未获官方批准。**
 - **`docs/implementing.md`: 写一个独立实现（外部实现者入口 — 什么算通过、要实现哪些面、`test-vectors/v2.json` 怎么跑）**
 - `docs/interop/fixture-space.md`: Sepolia 公开 fixture Space（5 条自验证转换 + 全公开见证，供外部 conformance checker 使用）
 - `docs/interop/attestation-refs.md`: 与 WYRIWE（ERC-8299）联合的 attestation_refs 互操作说明（informative，双向零依赖）
@@ -61,8 +65,8 @@ prevStateRoot + ExperienceDelta v1
 - `docs/whitepaper.zh.md`: 白皮书中文版
 - `docs/whitepaper.pdf`: 白皮书 PDF（英文，可下载 / 打印）
 - `docs/whitepaper.html`: 白皮书网页版（离线单文件，双主题）
-- `SPEC.md`: v1 仓库规范与 conformance 条件
-- `erc/erc-8350.md`: 按 ERC 模板重写的英文草案
+- `SPEC.md`: 非规范性的实现概览，不覆盖官方文本
+- `erc/erc-8350.md`: 固定版本官方 Draft 的逐字节副本
 - `docs/architecture.md`: 架构、边界与迁移方案
 - `docs/threat-model.md`: 威胁模型与上线安全门槛
 - `docs/conformance.md`: 三套 Golden Vector 与 clean-checkout conformance gate
