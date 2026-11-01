@@ -47,14 +47,17 @@ prevStateRoot + ExperienceDelta v1
 仓库内第二实现证明了算法不依赖 Awareness 或核心 SDK，但它仍由同一仓库维护。
 在对外宣称生态采用前，还需要一个由其他团队独立维护的实现。
 外部研究者已发布核心哈希与状态链的重算证据，但这不等同于完整的外部第二客户端。
-2026-10-28 的 replay 回归已由固定 fork 修复并运行通过；上游确认与重新固定来源
-仍由 [#29](https://github.com/AwareLiquid/AgentMemoryState/issues/29) 和
-[#31](https://github.com/AwareLiquid/AgentMemoryState/issues/31) 跟踪，不能仅凭 CI 绿色
-宣布独立验证全部完成。
+2026-10-28 的 replay 回归已获上游修复与审核；重新固定来源及 2026-11-01 两套复现
+通过的记录在 [PR #33](https://github.com/AwareLiquid/AgentMemoryState/pull/33)。
+[#29](https://github.com/AwareLiquid/AgentMemoryState/issues/29) 和
+[#31](https://github.com/AwareLiquid/AgentMemoryState/issues/31) 跟踪合并收尾，
+不代替完整外部实现或 G4 安全验收。
 
 ## 关键文档
 
-- **[规范基线 spec-baseline-1](docs/spec-baseline/README.md)：官方文本来源、三份文本差异、授权决策表、未决问题与外部团队交接。提议中的澄清尚未获官方批准。**
+- **[规范与实现基线](docs/spec-baseline/README.md)：当前实现为 spec-baseline-2，历史 spec-baseline-1 原样保留。官方文本与提议中的澄清严格区分。**
+- [真实账户验证](docs/interop/account-conformance.md)：Safe 1.4.1 双签、7702 委托和本地 type-4 交易证据。
+- [独立实现交接](docs/interop/independent-client-handoff.md)与 [Draft → Review 材料](docs/review/draft-to-review.md)。
 - **`docs/implementing.md`: 写一个独立实现（外部实现者入口 — 什么算通过、要实现哪些面、`test-vectors/v2.json` 怎么跑）**
 - `docs/interop/fixture-space.md`: Sepolia 公开 fixture Space（5 条自验证转换 + 全公开见证，供外部 conformance checker 使用）
 - `docs/interop/attestation-refs.md`: 与 WYRIWE（ERC-8299）联合的 attestation_refs 互操作说明（informative，双向零依赖）

@@ -43,12 +43,11 @@ can be inserted directly into a Solidity test contract.
 
 ## P0 regression closure is separate
 
-The current baseline includes the replay fork fix. Historical failures and prior
-successful runs describe their pinned versions and block ranges; neither should
-be erased. [Issue #29](https://github.com/AwareLiquid/AgentMemoryState/issues/29)
-still contains stale status wording, while
-[#31](https://github.com/AwareLiquid/AgentMemoryState/issues/31) tracks repinning
-after [upstream PR #2](https://github.com/ERC8312/bounded-agent-actions/pull/2).
+Historical failures and prior successful runs describe their pinned versions and
+block ranges; neither should be erased. Upstream PR #2 merged on 2026-10-29.
+[Project PR #33](https://github.com/AwareLiquid/AgentMemoryState/pull/33) repins that
+reviewed revision, records a fresh two-suite PASS and adds trusted regression
+notifications. Issues #29/#31 track merge closure, not waiting for upstream now.
 
 - Technical: preserve header, MPT, second-RPC and nonzero-failure checks; document
   the root cause against execution specifications and publish fresh run identities.
@@ -63,7 +62,10 @@ after [upstream PR #2](https://github.com/ERC8312/bounded-agent-actions/pull/2).
   notifications in trusted scheduled/manual runs, with write permissions isolated
   from untrusted PR code. Default GitHub email routing is not a team alert policy.
 
-These are queued actions, not notifications sent or issues closed by this package.
+The P0 actions above are implemented separately in PR #33. Its recorded result
+and issue comments distinguish implementation/testing from merge/issue closure.
+The notification job has not been tested by deliberately failing production CI;
+deduplication/recovery logic is locally checked with a mocked GitHub client.
 
 ## Deployment evidence boundaries
 
