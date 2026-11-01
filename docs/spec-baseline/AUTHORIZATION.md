@@ -1,5 +1,9 @@
 # Authorization decisions for spec-baseline-1
 
+Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
+The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
+See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
+
 This table distinguishes the official Draft, optional capabilities, observed
 reference choices and proposed clarifications. The source pins are in the
 [baseline manifest](spec-baseline-1.json); open items are not upstream-approved
@@ -37,7 +41,7 @@ ERC-1271 attempt and the ECDSA fallback.
 | A-08 | Reached ECDSA with 65 bytes, canonical low-s, v 27/28, recovered account equals required account | Authorize | Official canonical ECDSA rule; exact helper errors are implementation details |
 | A-09 | Reached ECDSA with high-s, invalid v/r/s or wrong recovered account | Reject | Official non-malleable/matching-account requirement |
 | A-10 | Code-present keyed account; delegate returns wrong magic but the same signature meets A-08 | Authorize through ECDSA | Intentional retained-key behavior; delegate policy is not exclusive |
-| A-11 | Call succeeds but returns a 32-byte word with magic prefix and nonzero padding | Both reference copies revert decoding before otherwise-valid ECDSA fallback; state unchanged | Confirmed AQ-03 limitation; not a portable acceptance rule |
+| A-11 | Call succeeds but returns a 32-byte word with magic prefix and nonzero padding | Baseline 2 treats the word as invalid wallet approval, then tries the same-byte ECDSA fallback | AQ-03 implementation fix; upstream normative review and audit addendum pending |
 | A-12 | ERC-1271 runs out of forwarded gas | Fallback only if the caller retains enough gas; the whole call may fail | AQ-04; no guaranteed liveness for EOA or contract-policy signatures |
 
 **Design intent:** a 7702 delegation does not revoke the underlying key. A

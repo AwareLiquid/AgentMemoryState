@@ -6,6 +6,9 @@ All notable implementation and protocol changes are recorded here.
 
 ### Added
 
+- `spec-baseline-2` pins the AQ-03 runtime revision while preserving the original
+  `spec-baseline-1.json` bytes and official Draft text. Audit delta is explicit.
+
 - Specification baseline `spec-baseline-1`: pinned official Draft, implementation,
   build settings and v1/v2 vectors; source-difference register, three-operation
   authorization table, proposed clarifications and scoped open questions.
@@ -55,9 +58,11 @@ All notable implementation and protocol changes are recorded here.
 - Explicitly register the official empty-signature/length ambiguity against the
   existing ERC-1271 behavior. Clarification is proposed, not merged upstream;
   runtime source, wire format, vectors and frozen audit artifacts are unchanged.
-- Record AQ-03: both Registry copies abort on non-canonical ERC-1271 bytes4
-  padding before an otherwise-valid ECDSA fallback. Characterization tests
-  reproduce the limitation and unchanged state; this is not a runtime fix.
+- Fix AQ-03 in both local Registry copies: compare the complete ABI return word
+  instead of decoding `bytes4`, so malformed padding cannot abort ECDSA fallback.
+  Empty/wrong-key signatures still reject atomically. The historical reproducer
+  remains at `71b50f9`; new tests include truncated/trailing data and fuzzed padding.
+  This runtime change is not covered by the frozen G4 report or deployed address.
 - The EIP-7702 residual ECDSA path is now called out prominently in the security
   policy. The preliminary external-review email does not satisfy the G4 gate
   until its scope/API discrepancies and reviewer-owned evidence are corrected.

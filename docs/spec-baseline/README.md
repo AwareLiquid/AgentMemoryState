@@ -1,5 +1,9 @@
 # ERC-8350 specification baseline
 
+Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
+The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
+See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
+
 `spec-baseline-1` records the published Draft and the implementation examined on
 2026-10-28. The official text is authoritative; proposed clarifications in this
 directory are not merged ERC requirements. This package supplies the inputs for
