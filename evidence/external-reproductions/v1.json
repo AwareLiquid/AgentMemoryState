@@ -23,11 +23,11 @@
       "maintainer": {
         "ethereumMagicians": "blockbird",
         "github": "0x2kNJ",
-        "repositoryOwner": "everest-an"
+        "repositoryOwner": "ERC8312"
       },
-      "repository": "https://github.com/everest-an/bounded-agent-actions.git",
-      "sourceUrl": "https://github.com/everest-an/bounded-agent-actions/tree/8f28bf1b1611f0b918e7e8466ec8c0edeec4b385/recompute",
-      "commit": "8f28bf1b1611f0b918e7e8466ec8c0edeec4b385",
+      "repository": "https://github.com/ERC8312/bounded-agent-actions.git",
+      "sourceUrl": "https://github.com/ERC8312/bounded-agent-actions/tree/a7e68b7b7c75a2274c089a97cd493be200fb151a/recompute",
+      "commit": "a7e68b7b7c75a2274c089a97cd493be200fb151a",
       "discussionUrl": "https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098/6",
       "discussionPostId": 72318,
       "discussionVersion": 2,
@@ -38,7 +38,7 @@
       "files": [
         {
           "path": "recompute/erc8350_sepolia.py",
-          "sha256": "838a4c3482ede4a1d5b8174e61797584517f4a9b07fef2c72fbfea5e830520b5"
+          "sha256": "ea5a484309c21649a632df61b6910e87897df07f991dceada86673dffb25a521"
         }
       ],
       "pythonPackages": [
