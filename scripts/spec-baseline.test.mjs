@@ -29,6 +29,14 @@ test("rejects a missing artifact rather than silently skipping it", () => {
   assert.throws(() => validateBaseline(baseline, () => { throw new Error("ENOENT"); }), /ENOENT/u);
 });
 
+test("preserves the historical baseline bytes", () => {
+  assert.throws(() => validateBaseline(baseline, (path) => path === baseline.predecessor.path
+    ? Buffer.from("rewritten") : read(path)), /Historical baseline bytes changed/);
+  const changed = structuredClone(baseline);
+  changed.predecessor.sha256 = "0".repeat(64);
+  assert.throws(() => validateBaseline(changed, read), /Historical baseline identity/);
+});
+
 for (const [name, mutate, message] of [
   ["moving upstream ref", (m) => { m.upstream.commit = "master"; }, /full upstream commit/u],
   ["moving normative URL", (m) => { m.upstream.url = m.upstream.url.replace(m.upstream.commit, "master"); }, /pinned file/u],

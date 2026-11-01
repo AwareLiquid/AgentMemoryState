@@ -1,5 +1,9 @@
 # Baseline differences and dispositions
 
+Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
+The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
+See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
+
 Baseline: `spec-baseline-1`. Official authority and full source pins are in the
 [manifest](spec-baseline-1.json). Comparisons use the official Draft at
 `b9651bc84714e87e6361f4f6c0c8ff39cc265d0a` and the project before these documentation
@@ -24,7 +28,7 @@ changes at `891b47c70c8b45df1daaa78065b16ff73e67f8a4`.
 | D-08 | The same section rejects other lengths before recovery | Reference accepts short/custom bytes through ERC-1271 before checking the ECDSA length | Clarify that the 65-byte guard is recovery-only, AQ-01 |
 | D-09 | Direct empty-signature authorization is MAY; registration/rotation use controller, transitions use authorizer | All three reference entry points enable that optional capability; non-empty bytes always undergo validation | Optional capability plus observed choice; AQ-02 clarifies generic required-signer wording |
 | D-10 | ERC-1271 failure is followed by ECDSA and delegated-key risk is documented | The same 65-byte key signature can succeed despite a delegate policy rejection | Intentional normative fallback; not a wallet veto and not a new vulnerability claim |
-| D-11 | Failed/short/wrong ERC-1271 returns trigger fallback | Confirmed on both copies: a 32-byte result with correct magic prefix and nonzero padding causes `abi.decode(bytes4)` to revert before otherwise-valid ECDSA fallback | AQ-03: reproducer present, runtime/wording resolution pending; not covered by the short-return tests |
+| D-11 | Failed/short/wrong ERC-1271 returns trigger fallback | Baseline 1 reproduced a dirty-padding decoder abort; baseline 2 compares the full ABI word and falls back on mismatch | AQ-03 runtime fixed locally; external audit and official asset synchronization remain pending |
 | D-12 | No universal gas allowance is specified | `staticcall` has no explicit gas cap; EIP-150 and transaction budget constrain execution | AQ-04: availability/resource risk, not a gas-induced authorization bypass |
 | D-13 | Core acceptance rules are specified, but most custom error selectors and their order are not | v2 includes reference selectors, multi-invalid-input precedence and a zero-Space-ID check | Separate portable rejection outcomes from reference-exact diagnostics; do not promote vector-only details to ERC requirements |
 
@@ -33,18 +37,17 @@ D-07 and D-08 mean the current implementation's behavior should be reported as
 unqualified resolution of the current official wording. This work does not
 silently make the implementation more restrictive or rewrite the official mirror.
 
-AQ-03 reproduction:
+AQ-03 current regression tests (the original reproducer remains at commit `71b50f9`):
 
 ```bash
 cd contracts
 forge test --match-path test/unit/SpecBaselineAuthorization.t.sol \
-  --match-test test_CurrentLimitationDirtyPaddingAbortsBeforeValidECDSAFallback -vvvv
+  --match-test 'test.*(DirtyPadding|CanonicalWord|TruncatedMagic|WrongWord).*' -vvvv
 ```
 
-The two passing characterization tests mean **the limitation was reproduced**,
-not fixed. Each exercises registration, rotation and transition with a valid key
-signature, a successful 32-byte wallet return, and dirty padding. Registry state
-is unchanged after rejection. The observed effect is availability/compatibility,
+Both Registry copies now reject dirty magic-prefix data as wallet approval but
+accept an otherwise-valid ECDSA fallback. Wrong-key and empty-byte rejections
+preserve state. The observed original effect was availability/compatibility,
 not an unauthorized state write; this is not a completed external severity review.
 
 ## Evidence scope corrections
@@ -63,8 +66,10 @@ not an unauthorized state write; this is not a completed external severity revie
 
 ## What remains unchanged
 
-No Solidity runtime source, official ERC text/assets, v1/v2 vector, EIP-712 domain,
-type string, frozen audit manifest, residual-risk register or audit tag changes.
+Baseline 2 changes both local Registry source copies. The official ERC text,
+v1/v2 vectors, EIP-712 domain, type strings, frozen audit manifest,
+residual-risk register and audit tag remain unchanged. The local CC0 asset now
+contains a proposed upstream fix, not bytes already merged into ethereum/ERCs.
 The new source of truth is not a new protocol: it is an explicit pointer to the
 already published official Draft, accompanied by proposed clarifications.
 

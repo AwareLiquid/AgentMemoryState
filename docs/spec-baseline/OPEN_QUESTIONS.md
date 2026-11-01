@@ -1,5 +1,9 @@
 # Baseline open questions and handoff
 
+Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
+The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
+See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
+
 Baseline: `spec-baseline-1`. Status: P1a inputs recorded; semantic clarifications
 are proposed, not approved upstream. Technical and operations are responsibility
 categories, both currently coordinated by `@XiaoHai67890`.
@@ -10,7 +14,7 @@ categories, both currently coordinated by `@XiaoHai67890`.
 | --- | --- | --- | --- | --- |
 | AQ-01 | Empty/custom ERC-1271 signatures versus broad empty/length prohibitions. Preserve direct exemption, ERC-1271, then ECDSA; narrow the prohibitions | Unqualified authorization-conformance claims; not hash/encoding work | Technical | Proposed text reviewed, submitted and merged upstream; mirror and baseline updated; success/failure cases pass |
 | AQ-02 | Required-account terminology, self-call with non-empty bytes, direct-empty MAY | Authorization capability reporting; direction fixed to current implementation | Technical | Table covers all three operations; portable runner reports optional capability; upstream wording clarified without changing signer roles |
-| AQ-03 | Confirmed dirty-padding decoder abort. Proposed direction: treat non-canonical ABI data as failed ERC-1271 validation and continue to the same-byte ECDSA fallback, without accepting dirty magic-prefix data | Full malformed-return compatibility claim; a runtime change requires audit delta assessment | Technical | Review the proposed rule, fix and test valid/invalid fallback and atomicity; obtain required upstream/runtime review rather than treating the characterization test as a fix |
+| AQ-03 | Baseline 2 fixes dirty-padding abort using a strict full-word comparison; regression tests cover both copies and all three operations | External audit and official upstream asset coverage remain pending | Technical | Review the runtime delta, obtain audit addendum and upstream review; do not inherit the old frozen report |
 | AQ-04 | Gas exhaustion, large returndata/resource limits and relayer underfunding | Non-blocking for implementation start; no liveness or production-readiness claim | Technical | Adequate/insufficient gas tests, rejection atomicity, RPC/client guidance; do not mandate an arbitrary universal gas allowance |
 | AQ-05 | Portable rejection semantics versus v2 reference error selectors/order | Reference-exact certification, not valid hash interoperability | Technical | Label each case by normative rule or reference choice; do not require unstandardized error selectors of other languages |
 | AQ-06 | Real 7702 delegation and full portable authorization suite | Completion of P1b authorization evidence | Technical | Static signatures plus executable scenarios; Prague-or-later harness, sign and attach delegation, registration/rotation/transition and nonce tests; preserve frozen build configuration |

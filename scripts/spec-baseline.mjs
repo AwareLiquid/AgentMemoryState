@@ -7,7 +7,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-export const manifestPath = "docs/spec-baseline/spec-baseline-1.json";
+export const manifestPath = "docs/spec-baseline/spec-baseline-2.json";
 const documents = ["README.md", "DIFFERENCES.md", "AUTHORIZATION.md", "OPEN_QUESTIONS.md"]
   .map((name) => `docs/spec-baseline/${name}`);
 const protectedPaths = [
@@ -32,7 +32,12 @@ export function gitBlob(bytes) {
 
 function validateMetadata(manifest) {
   assert.equal(manifest.schema, "erc-8350/spec-baseline/v1", "Unsupported baseline schema");
-  assert.equal(manifest.id, "spec-baseline-1", "Unexpected baseline ID");
+  assert.equal(manifest.id, "spec-baseline-2", "Unexpected baseline ID");
+  assert.deepEqual(manifest.predecessor, {
+    id: "spec-baseline-1",
+    path: "docs/spec-baseline/spec-baseline-1.json",
+    sha256: "0713af8cbbc7ba4a4697d74689cc526c1a3ae86f9041d48b84da5fe6710b6cf5",
+  }, "Historical baseline identity must not change");
   assert.equal(manifest.status, "recorded", "This baseline is a record, not an approval");
   assert.equal(manifest.clarifications, "proposed-not-upstream-approved",
     "Do not promote proposed clarification to upstream approval");
@@ -67,6 +72,8 @@ function validateMetadata(manifest) {
 
 export function validateBaseline(manifest, readArtifact = (path) => readFileSync(join(root, path))) {
   validateMetadata(manifest);
+  assert.equal(sha256(readArtifact(manifest.predecessor.path)), manifest.predecessor.sha256,
+    "Historical baseline bytes changed");
   for (const entry of manifest.protectedArtifacts) {
     assert.equal(sha256(readArtifact(entry.path)), entry.sha256,
       `Pinned artifact changed: ${entry.path}; assess the change and record a new baseline`);
