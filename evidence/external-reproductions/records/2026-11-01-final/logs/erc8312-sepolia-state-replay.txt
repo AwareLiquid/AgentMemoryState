@@ -1,0 +1,53 @@
+SOURCE https://github.com/ERC8312/bounded-agent-actions.git@a7e68b7b7c75a2274c089a97cd493be200fb151a
+COMMAND /var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-mykinP/erc8312-sepolia-state-replay/venv/bin/python -I /var/folders/mt/nvrf2d3j25l70gkg9hyp1_m80000gn/T/erc8350-external-reproduction-mykinP/erc8312-sepolia-state-replay/checkout/recompute/erc8350_sepolia.py --from-block 11353452 --rpc-url <rpc:sepolia.gateway.tenderly.co> --cross-check-rpc <rpc:ethereum-sepolia-rpc.publicnode.com>
+STDOUT
+registry            0xDdf21937ba80b5fF973610877A0955b320C91241
+TransitionCommitted 8 logs across 3 Memory Spaces
+observation block   12040386
+block hash          0x4ad6ab0587fcde96a3805cf8628fbba20d151c252782d82d7cc5f2099b49fd4f   <- check this against any explorer
+stateRoot           0xf6d3b2e1282487ab4ea1b10652b464b62cccf0f43cbfd3ab1a75a3c8ce21db80   (proven inside that header)
+cross-check         <rpc:ethereum-sepolia-rpc.publicnode.com> agrees
+
+==============================================================================
+Memory Space 0xd9ca70f79ff795f78c1dfd3a9ca6e10e3b44cc69d17d4b1672e1e54e98364656
+  [OK  ] seq   1  id=ok root=ok link=ok seq=ok  authorizer=0xb37937573a6f770cc1f38adae8217a7e4e99cb2e  block=11381838
+  [OK  ] seq   2  id=ok root=ok link=ok seq=ok  authorizer=0x9975b11685b3a1f3477be2d83ea0bee846015f18  block=11381838
+  storage proof: account proof 9 nodes, walked storageRoot 0x6d5a24c62ec96ca8...
+    stored transitionId 0x174edae03d92db1582da0c701b051eb82090b188fdc365b511b2937585a30c32
+    replayed            0x174edae03d92db1582da0c701b051eb82090b188fdc365b511b2937585a30c32  MATCH
+    stored stateRoot    0x2804c53b5f6f99a71acd5e230f8cc28b8f460be9b7bea3bd74496c9cbec93c26
+    replayed            0x2804c53b5f6f99a71acd5e230f8cc28b8f460be9b7bea3bd74496c9cbec93c26  MATCH
+    stored sequence     2   replayed 2  MATCH
+    controller 0xde3882770130045f8ec733b46441b15bbae48f6f  authorizer 0x9975b11685b3a1f3477be2d83ea0bee846015f18  configNonce 1
+  ==> VERIFIED-GOOD: every advance recomputes, the chain is gapless, and the stored head equals the replayed path
+==============================================================================
+Memory Space 0xfbe20b841e2cb8d5e8094da6a9be9ebe19bb4d52c6155f465b40aa7bf1c13564
+  [OK  ] seq   1  id=ok root=ok link=ok seq=ok  authorizer=0x3d0ab53241a2913d7939ae02f7083169fe7b823b  block=11362262
+  [OK  ] seq   2  id=ok root=ok link=ok seq=ok  authorizer=0x3d0ab53241a2913d7939ae02f7083169fe7b823b  block=11362262
+  [OK  ] seq   3  id=ok root=ok link=ok seq=ok  authorizer=0x3d0ab53241a2913d7939ae02f7083169fe7b823b  block=11362262
+  [OK  ] seq   4  id=ok root=ok link=ok seq=ok  authorizer=0x3d0ab53241a2913d7939ae02f7083169fe7b823b  block=11362262
+  [OK  ] seq   5  id=ok root=ok link=ok seq=ok  authorizer=0x3d0ab53241a2913d7939ae02f7083169fe7b823b  block=11391536
+  storage proof: account proof 9 nodes, walked storageRoot 0x6d5a24c62ec96ca8...
+    stored transitionId 0xbabfa1db25980fe00dfa1c3fc08665ecb81df997f6fd7c439f1c4cc56241ac7d
+    replayed            0xbabfa1db25980fe00dfa1c3fc08665ecb81df997f6fd7c439f1c4cc56241ac7d  MATCH
+    stored stateRoot    0x55b383709c4dbe8ee08d3e229d4f14d0c65659eac4198a44f1810f517dce6699
+    replayed            0x55b383709c4dbe8ee08d3e229d4f14d0c65659eac4198a44f1810f517dce6699  MATCH
+    stored sequence     5   replayed 5  MATCH
+    controller 0x3d0ab53241a2913d7939ae02f7083169fe7b823b  authorizer 0x3d0ab53241a2913d7939ae02f7083169fe7b823b  configNonce 0
+  ==> VERIFIED-GOOD: every advance recomputes, the chain is gapless, and the stored head equals the replayed path
+==============================================================================
+Memory Space 0xfdd18b375f4c92fb622f8e7ea96ec5f8189b362ef654f47c046c42162dcd5d5b
+  [OK  ] seq   1  id=ok root=ok link=ok seq=ok  authorizer=0x3d0ab53241a2913d7939ae02f7083169fe7b823b  block=11367238
+  storage proof: account proof 9 nodes, walked storageRoot 0x6d5a24c62ec96ca8...
+    stored transitionId 0xcacd5fb1e62a2282bbba49e11fc589b1457d73a9126fa28abfe094216d62e16e
+    replayed            0xcacd5fb1e62a2282bbba49e11fc589b1457d73a9126fa28abfe094216d62e16e  MATCH
+    stored stateRoot    0xea79abdda178443fa386f416604e4fb76f12f5ce305db54f570688b10d7306af
+    replayed            0xea79abdda178443fa386f416604e4fb76f12f5ce305db54f570688b10d7306af  MATCH
+    stored sequence     1   replayed 1  MATCH
+    controller 0x3d0ab53241a2913d7939ae02f7083169fe7b823b  authorizer 0x3d0ab53241a2913d7939ae02f7083169fe7b823b  configNonce 0
+  ==> VERIFIED-GOOD: every advance recomputes, the chain is gapless, and the stored head equals the replayed path
+
+==============================================================================
+RESULT: ALL SPACES VERIFIED-GOOD
+
+STDERR

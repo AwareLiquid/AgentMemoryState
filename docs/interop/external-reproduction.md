@@ -1,6 +1,8 @@
 # R-002: Independent Reproduction Evidence
 
-Status: **resolved for independent reproduction evidence** as of 2026-07-31.
+Status: upstream replay correction pinned on **2026-11-01**. See the dated
+two-suite record below for the observed result; this is not a permanent guarantee
+that future RPC/fork changes cannot break replay.
 
 This status is intentionally narrower than "independent implementation" or
 "security audit." Two externally maintained repositories now contain executable,
@@ -29,7 +31,7 @@ The canonical source list is
 
 | Evidence | External maintainer | What is independently recomputed | Pinned source |
 |---|---|---|---|
-| Sepolia state replay | `blockbird` / `0x2kNJ`, hosted by `ERC8312` | Every emitted `transitionId`, every `nextStateRoot`, gapless sequence/root linkage, storage-proven heads, block header, and a second-RPC cross-check | [`cd6100da171e`](https://github.com/ERC8312/bounded-agent-actions/tree/cd6100da171e682b1abd6757c12a7df1356f80fa/recompute) |
+| Sepolia state replay | `blockbird` / `0x2kNJ`, hosted by `ERC8312` | Every emitted `transitionId`, every `nextStateRoot`, gapless sequence/root linkage, storage-proven heads, block header, and a second-RPC cross-check | [`a7e68b7b7c75`](https://github.com/ERC8312/bounded-agent-actions/tree/a7e68b7b7c75a2274c089a97cd493be200fb151a/recompute) |
 | ERC-8274 composition | `babyblueviper1`, hosted by `babyblueviper1` | `provenanceCommitment`, `transitionId`, `nextStateRoot`, provenance bytes digest, and cross-standard event agreement | [`81a2e0f7898e`](https://github.com/babyblueviper1/invinoveritas/tree/81a2e0f7898e429d2d15ec421379f3446ae6869c/examples/erc8274-erc8350-composition) |
 | Specification recompute | `babyblueviper1` on Ethereum Magicians | Three typehashes and the EIP-712 domain separator from specification text | [Public review](https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098/2) |
 
@@ -75,8 +77,40 @@ URL are necessarily visible to the external verifier.
 The pull-request, scheduled, and manual
 [`external-reproduction.yml`](../../.github/workflows/external-reproduction.yml)
 workflow publishes the same files as a GitHub Actions artifact.
+Scheduled/manual runs on the default branch also open or update one regression
+issue on failure and close it on recovery. Only the notification job has
+`issues: write`; it checks out and executes no project/PR code. PR runs do not
+receive this permission or publish notifications. Cancelled/skipped runs do not
+claim recovery.
 
 ## Recorded result
+
+The current upstream-pin run is
+[`2026-11-01-final/report.md`](../../evidence/external-reproductions/records/2026-11-01-final/report.md).
+Its JSON records the scan start, observation block/hash/root, source and dependency
+digests, RPC hostnames and per-suite log hashes. The log scan starts at deployment
+block `11353452` and ends at the live observation block selected by the verifier;
+no historical pre-fork observation block is forced to bypass the regression.
+
+### October regression and resolution
+
+The old replay omitted `blockAccessListHash` and `slotNumber` after `requestsHash`.
+These fields are described by [EIP-7928](https://eips.ethereum.org/EIPS/eip-7928)
+and [EIP-7843](https://eips.ethereum.org/EIPS/eip-7843); their order matches the
+[Geth header definition](https://github.com/ethereum/go-ethereum/blob/master/core/types/block.go).
+The upstream maintainer independently reconstructed Sepolia block `12018659`
+and confirmed the order in the
+[PR #2 review timeline](https://github.com/ERC8312/bounded-agent-actions/pull/2).
+The merged upstream also paginates logs, rejects invalid scan bounds, and fixes
+the observation ceiling before collecting events. This is a source change, not
+merely a repository-owner change from the temporary maintainer fork.
+
+Header hashing, MPT verification, second-RPC agreement and nonzero failure exits
+remain enabled. Upstream source digest:
+`ea5a484309c21649a632df61b6910e87897df07f991dceada86673dffb25a521`.
+The historical October failure reports are deliberately retained unchanged.
+Their old unconditional `conclusion` text is superseded by their actual FAIL
+status and exit codes; the current runner derives the conclusion from the result.
 
 The committed 2026-07-31 run is
 [`evidence/external-reproductions/records/2026-07-31/report.md`](../../evidence/external-reproductions/records/2026-07-31/report.md).
@@ -86,8 +120,8 @@ and all five saved-artifact composition checks passed.
 
 ## Residual work
 
-R-002 no longer accurately describes the public evidence state. The following
-are separate, still-open gates:
+The narrow replay regression (#29) and upstream-repin task (#31) can close when
+this change merges with successful evidence. The following remain separate gates:
 
 - a complete implementation maintained by another organization that consumes
   `test-vectors/v1.json` directly;

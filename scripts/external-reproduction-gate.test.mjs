@@ -5,6 +5,19 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { parseObservations, reproductionConclusion } from "./external-reproduction-gate.mjs";
+
+test("failure reports cannot claim R-002 is resolved", () => {
+  assert.match(reproductionConclusion(false), /not resolved/);
+  assert.match(reproductionConclusion(true), /not a full independent client/);
+});
+
+test("records the scan start and observation ceiling", () => {
+  const observed = parseObservations({ kind: "live-chain-replay", arguments: ["--from-block", "11353452"] },
+    "observation block 12000000\nTransitionCommitted 8 logs across 3 Memory Spaces\n");
+  assert.equal(observed.fromBlock, 11353452);
+  assert.equal(observed.observationBlock, 12000000);
+});
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const repositoryRoot = path.resolve(scriptDirectory, "..");
