@@ -6,6 +6,13 @@ All notable implementation and protocol changes are recorded here.
 
 ### Added
 
+- Separate Prague real-account conformance harness with pinned Safe 1.4.1,
+  2-of-2 signatures and real SignMessageLib approval; actual local Anvil type-4
+  transactions verify delegation nonce/stale-authority behavior. Registry bytecode
+  remains the independently built 0.8.24/Cancun artifact. CI publishes receipts/logs.
+- Independent-client handoff and Draft-to-Review preparation with explicit open
+  questions; neither constitutes an external implementation or audit acceptance.
+
 - `spec-baseline-2` pins the AQ-03 runtime revision while preserving the original
   `spec-baseline-1.json` bytes and official Draft text. Audit delta is explicit.
 

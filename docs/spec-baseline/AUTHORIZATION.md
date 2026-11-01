@@ -106,9 +106,11 @@ selector:
 versus relayed empty/non-empty input, digest-specific wallet approval, fallback
 and rejection atomicity. Existing `ExternalReviewBoundary.t.sol`,
 `AuthorizationBoundary.t.sol` and `AgentMemoryStateRegistry.t.sol` supply further
-encoding, callback, replay and state-linkage evidence. Real Safe integration,
-real Prague delegation execution and a portable authorization-data format remain
-P1b tasks, not capabilities established by a mock's name.
+encoding, callback, replay and state-linkage evidence. The separate
+[account conformance suite](../interop/account-conformance.md) adds pinned Safe
+1.4.1 and real Prague delegation, including local mined type-4 receipts. Portable
+signature data and external language adapters remain follow-ups; a mock's name
+does not establish those capabilities.
 
 ## Gas and policy boundary
 
