@@ -7,7 +7,19 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-export const manifestPath = "docs/spec-baseline/spec-baseline-2.json";
+export const manifestPath = "docs/spec-baseline/spec-baseline-3.json";
+export const historicalBaselines = [
+  {
+    id: "spec-baseline-1",
+    path: "docs/spec-baseline/spec-baseline-1.json",
+    sha256: "0713af8cbbc7ba4a4697d74689cc526c1a3ae86f9041d48b84da5fe6710b6cf5",
+  },
+  {
+    id: "spec-baseline-2",
+    path: "docs/spec-baseline/spec-baseline-2.json",
+    sha256: "c4fe28f81708a6aa4f9e91dcef54b2d0d7a13067fd24f6286d6d25d210cc3255",
+  },
+];
 const documents = ["README.md", "DIFFERENCES.md", "AUTHORIZATION.md", "OPEN_QUESTIONS.md"]
   .map((name) => `docs/spec-baseline/${name}`);
 const protectedPaths = [
@@ -32,20 +44,20 @@ export function gitBlob(bytes) {
 
 function validateMetadata(manifest) {
   assert.equal(manifest.schema, "erc-8350/spec-baseline/v1", "Unsupported baseline schema");
-  assert.equal(manifest.id, "spec-baseline-2", "Unexpected baseline ID");
-  assert.deepEqual(manifest.predecessor, {
-    id: "spec-baseline-1",
-    path: "docs/spec-baseline/spec-baseline-1.json",
-    sha256: "0713af8cbbc7ba4a4697d74689cc526c1a3ae86f9041d48b84da5fe6710b6cf5",
-  }, "Historical baseline identity must not change");
+  assert.equal(manifest.id, "spec-baseline-3", "Unexpected baseline ID");
+  assert.deepEqual(manifest.predecessor, historicalBaselines[1],
+    "Historical baseline identity must not change");
   assert.equal(manifest.status, "recorded", "This baseline is a record, not an approval");
-  assert.equal(manifest.clarifications, "proposed-not-upstream-approved",
-    "Do not promote proposed clarification to upstream approval");
+  assert.equal(manifest.clarifications, "merged-upstream-draft",
+    "Do not promote merged Draft wording to Review, Final or release approval");
   assert.match(manifest.recordedAt ?? "", /^\d{4}-\d{2}-\d{2}$/u);
   assert.equal(manifest.maintainer, "XiaoHai67890");
   const upstream = manifest.upstream;
   assert.equal(upstream?.repository, "ethereum/ERCs", "Wrong normative repository");
   assert.match(upstream.commit ?? "", commitPattern, "Pin a full upstream commit");
+  assert.equal(upstream.commit, "8b11215cf267f710b49ea003384e678bcf953eae",
+    "Baseline 3 identifies the observed official merge");
+  assert.equal(upstream.pullRequest, "https://github.com/ethereum/ERCs/pull/2147");
   assert.equal(upstream.path, "ERCS/erc-8350.md");
   assert.equal(upstream.mirror, "erc/erc-8350.md");
   assert.equal(upstream.status, "Draft");
@@ -72,8 +84,10 @@ function validateMetadata(manifest) {
 
 export function validateBaseline(manifest, readArtifact = (path) => readFileSync(join(root, path))) {
   validateMetadata(manifest);
-  assert.equal(sha256(readArtifact(manifest.predecessor.path)), manifest.predecessor.sha256,
-    "Historical baseline bytes changed");
+  for (const historical of historicalBaselines) {
+    assert.equal(sha256(readArtifact(historical.path)), historical.sha256,
+      `Historical baseline bytes changed: ${historical.id}`);
+  }
   for (const entry of manifest.protectedArtifacts) {
     assert.equal(sha256(readArtifact(entry.path)), entry.sha256,
       `Pinned artifact changed: ${entry.path}; assess the change and record a new baseline`);
@@ -118,7 +132,7 @@ async function main() {
   else {
     console.log(`Specification baseline ${result.baseline}: PASS (${result.protectedArtifacts} pinned artifacts)`);
     console.log(`Upstream: ${result.upstreamVerification}`);
-    console.log("Clarifications remain proposed; this is not G4 or release acceptance.");
+    console.log("Clarifications are merged into Draft; this is not Review, G4 or release acceptance.");
   }
 }
 

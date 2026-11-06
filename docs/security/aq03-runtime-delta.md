@@ -1,14 +1,16 @@
 # AQ-03 runtime change and audit delta
 
-Date: 2026-11-01. Status: implementation fix; external acceptance pending.
+Date: 2026-11-01; updated 2026-11-06. Status: implementation and official asset
+fix merged; current-runtime external security acceptance pending.
 
 ## Identity and scope
 
 - Historical baseline: `spec-baseline-1`, P1a commit `71b50f98919bb4e8858a96493293b6188e8df2ab`.
-- Current implementation: [spec-baseline-2](../spec-baseline/spec-baseline-2.json),
-  whose implementation commit pins the runtime patch and regression tests.
+- Runtime-fix baseline: [spec-baseline-2](../spec-baseline/spec-baseline-2.json).
+  Current [spec-baseline-3](../spec-baseline/spec-baseline-3.json) synchronizes the
+  official merged text/assets without another runtime change.
 - Changed runtime files: `contracts/src/reference/AgentMemoryStateRegistry.sol`
-  and the proposed CC0 upstream copy `erc/assets/erc-8350/AgentMemoryStateRegistry.sol`.
+  and the CC0 upstream copy `erc/assets/erc-8350/AgentMemoryStateRegistry.sol`.
 - Frozen external review target remains `af5a75fb2db532fd5603554083d8895a825c2de2`.
   No old scope, report, tag, risk register or deployment record is rewritten.
 
@@ -45,13 +47,11 @@ before release acceptance. Canonical G4 acceptance remains absent. A new deploym
 needs a new reviewed candidate, address and verification evidence, not an in-place
 upgrade or reuse of the old audit claim.
 
-The official Draft text remains pinned; empty/custom-signature clarifications are
-still proposals. The local CC0 asset fix must receive a separate upstream review
-before claiming ethereum/ERCs contains it. No production readiness is asserted.
-
 Update 2026-11-06: [official PR #2147](https://github.com/ethereum/ERCs/pull/2147)
-proposes the exact local CC0 bytes at `397426c046049e1a0c3436e543f9731408708fd3`.
-The [candidate gate](../review/upstream-authorization.md) verifies fetched source
-digests, runs all 38 authorization/signature tests and requires two expected
-dirty-padding failures against the old official source. Upstream acceptance and
-the reviewer-owned current-source supplement remain pending.
+merged at `8b11215cf267f710b49ea003384e678bcf953eae`. It contains the same CC0
+bytes as historical candidate `397426c046049e1a0c3436e543f9731408708fd3`.
+The [source gate](../review/upstream-authorization.md) separately verifies both
+revisions, runs 38 authorization/signature tests for each and requires two
+expected dirty-padding failures against the old official source.
+The reviewer-owned current-source supplement remains pending. No production
+readiness or deployment change is asserted.

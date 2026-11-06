@@ -1,92 +1,107 @@
 # Official authorization revision evidence
 
-Date: 2026-11-06. Technical proposal, not upstream acceptance or a release.
+Updated 2026-11-06: [ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147)
+merged at `8b11215cf267f710b49ea003384e678bcf953eae`.
+The official status remains Draft. Source acceptance is not G4, a release,
+deployment verification or independent security approval.
 
 ## Exact inputs
 
-- Official PR: [ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147).
-- Candidate: `397426c046049e1a0c3436e543f9731408708fd3` in `XiaoHai67890/ERCs`.
-- Wording commit: `6420c36e`; runtime commit: `397426c0`.
-- Accepted official text remains `b9651bc84714e87e6361f4f6c0c8ff39cc265d0a`.
-- [Candidate manifest](upstream-candidate.json) pins the proposal text, all three
-  CC0 source files, and the old-source negative control by commit and SHA-256.
-- Harness originates from merged project main `5770a9090700cc6df925b7a399e53014eac16667`;
-  each generated record identifies the actual runner commit and dirty status.
-
-The candidate's three assets match the current local CC0 assets byte-for-byte.
-Neither `erc/erc-8350.md` nor either historical baseline manifest is replaced.
-The normative wording is a proposal resolving conflicting readings, not an
-editorial-only change or already accepted rule.
+- [Baseline 3](../spec-baseline/spec-baseline-3.json) pins the actual official merge
+  and the byte-identical local mirror.
+- [Official manifest](upstream-official.json) pins the merged text and all three
+  CC0 assets, and binds them to baseline 3 and the historical candidate digest.
+- [Historical candidate](upstream-candidate.json) remains unchanged:
+  `397426c046049e1a0c3436e543f9731408708fd3` in `XiaoHai67890/ERCs`.
+  Its proposed status describes that historical record, not today's official state.
+- Candidate and merged text SHA-256:
+  `295ab952357cefe141f3f1df5ceaaed2fe40826939fd22c683519c747a0fc072`.
+- Candidate and merged Registry SHA-256:
+  `94c7f39920205ae581e6537828a80a3dcfeb0a283c833ed2b50bc10927a292c3`.
+- Negative control remains official
+  `b9651bc84714e87e6361f4f6c0c8ff39cc265d0a`, Registry SHA-256
+  `6d99fc690abd776c53f607be9da1e25c2a48a80037088a3f3fb029f54943685b`.
+- Examined project main after PR #38:
+  `086e493d70bb07fc2e8b4bfac12282312c2cdc9e`. Each new run records its actual
+  harness commit and dirty-checkout status rather than inheriting a previous PASS.
 
 ## Reproduce
 
 Requirements: Node 22, Foundry 1.7.1, solc 0.8.24, GitHub/solc download access.
-From a clean checkout of this PR's head:
+From a clean checkout of the baseline PR commit:
 
 ```bash
 cd contracts
 forge install foundry-rs/forge-std@v1.16.2 --no-git
 cd ..
-node --test scripts/review-candidate.test.mjs
+node --test scripts/spec-baseline.test.mjs scripts/review-candidate.test.mjs
+node scripts/spec-baseline.mjs --verify-upstream
 node scripts/review-candidate.mjs
+node scripts/review-candidate.mjs --official
 ```
 
-The runner downloads pinned source bytes, verifies their digests, checks the
-candidate against local CC0 assets, and explicitly remaps the test import to
-the fetched directory. Candidate/control compiler outputs are isolated. It does
-not execute scripts from the external repository. Its JSON/logs are saved under
-`artifacts/review-candidate/` and uploaded by `Official revision evidence` CI.
-The initial local run passed; the PR's clean-checkout CI is the durable run record.
+The default mode preserves historical-candidate evidence. The explicit
+`--official` mode fetches from ethereum/ERCs at the actual merge commit and
+checks baseline identity, immutable candidate history, spec/assets and the local
+mirror. Neither mode executes scripts from the downloaded repository.
 
-Expected results:
+Both modes explicitly remap test imports to fetched source and isolate compiler
+outputs/failure persistence. Outputs go respectively to
+`artifacts/review-candidate/` and `artifacts/review-official/`.
+The read-only `Official revision evidence` CI uploads raw source, outputs and
+reports; each report includes the manifest, commands, source/harness commits,
+Foundry version, dirty status and output digests.
+
+Required outcomes:
 
 | Layer | Required result | Scope |
 | --- | --- | --- |
-| Runner adversarial tests | 9 pass, zero skips | Hash/HTTP failure, missing suites, false approval, missing assets, reduced fuzz counts |
-| Candidate authorization | 36 pass | 18 tests per Registry copy, three operations, atomic rejection; 256 padding fuzz runs per copy |
-| Candidate signature vectors | 2 pass | Each test executes all 46 externally exported ECDSA cases |
-| Old official negative control | Exactly 2 specified tests fail | Dirty-padding valid-key fallback, deterministic and fuzz case, using old official source |
+| Baseline/gate unit tests | 47 pass, zero skips | Historical integrity, source/status bindings, failure handling and result validation |
+| Each source mode: authorization | 36 pass | 18 per Registry copy; three operations; atomic rejection; 256 padding fuzz runs per copy |
+| Each source mode: signature vectors | 2 pass | Each executes all 46 independently exported ECDSA cases |
+| Each source mode: historical control | Exactly 2 named tests fail | Old official dirty-padding valid-key fallback, deterministic and fuzz regression |
+| Full workspace | Separate clean-checkout gate | All three Golden Vector implementations, TS, Solidity, invariants and preparation guards |
+| Real accounts | Separate account gate | Pinned Safe 1.4.1 and Prague/real local type-4 execution |
 
-An empty suite, skip, fetch failure, malformed JSON or compiler failure cannot
-satisfy the expected negative control. The expected failures are not unresolved
-failures of the candidate. This gate proves the documented test outcomes, not
-the completeness of the specification or an independent security assessment.
+Expected old-source failures are not failures of the current implementation.
+Empty suites, skips, fetch errors, malformed JSON and compiler failures cannot
+satisfy the negative control. These results do not establish complete protocol
+correctness or independent security acceptance.
 
 ## Evidence already merged
 
-[PR #36](https://github.com/AwareLiquid/AgentMemoryState/pull/36) and
-[PR #37](https://github.com/AwareLiquid/AgentMemoryState/pull/37) are merged.
-The [main acceptance record](https://github.com/AwareLiquid/AgentMemoryState/pull/37#issuecomment-6679669756)
-binds clean commit `5770a909` to full workspace/Golden Vector checks, 155 TypeScript
-and 120 Solidity tests, 58 real-account tests with local type-4 receipts, scoped
-Python reproduction and both live replay suites. The new runner supplements,
-not replaces, those gates. Static vectors cannot demonstrate wallet execution.
+Project PRs [#36](https://github.com/AwareLiquid/AgentMemoryState/pull/36),
+[#37](https://github.com/AwareLiquid/AgentMemoryState/pull/37) and
+[#38](https://github.com/AwareLiquid/AgentMemoryState/pull/38) are merged.
+The [PR #37 main acceptance](https://github.com/AwareLiquid/AgentMemoryState/pull/37#issuecomment-6679669756)
+records clean main `5770a909`: 155 TS, 120 Solidity, 58 real-account tests,
+local type-4 receipts, scoped Python reproduction and both live replay suites.
+Those are versioned historical results, not automatically a run of baseline 3.
+Fresh local/CI results are linked from the baseline PR.
 
-## Concrete handoff and acceptance
+## Handoff and remaining boundaries
 
-| Task | Responsibility | Output | Acceptance |
-| --- | --- | --- | --- |
-| Official technical review | Technical | PR #2147; answers to AQ-01/AQ-02/AQ-03 feedback | Review comments addressed; upstream merge observed, not inferred from CI |
-| Community discussion | Operations | Targeted questions in the existing Magicians thread | Published URL and substantive responses/dissent recorded; draft prose is not a posted comment |
-| Post-merge baseline | Technical | New numbered manifest and byte-identical official mirror | Actual merged SHA/digests verified; baselines 1/2 retained; notify implementers |
-| Independent wallet coverage | Operations | Optional scope agreement in issue #21 | Contributor explicitly accepts a bounded task; no assumed maintenance commitment |
-| Account conformance handoff | Technical | Existing 58-case harness, 46 vectors and rule table | External account results bind wallet/version/state, commands, outcomes and rejection snapshots; unsupported rows declared |
-| Audit addendum | Operations | Reviewer-owned supplement via issues #11/#22 | Exact new candidate and runtime delta, methodology, findings, risk mapping and attestation; genuine acceptance before canonical record |
-| Draft-to-Review submission | Technical | Separate status-only official PR after technical revision acceptance | Author requests peer review; no false claim that audit/independent tests guarantee editor merge |
+| Task | Responsibility | Output / acceptance |
+| --- | --- | --- |
+| Official synchronization | Technical | Observed merge, baseline 3, byte-identical mirror; old baselines retained |
+| Community discussion | Operations | Existing Magicians thread; actual post URL and substantive responses/dissent |
+| Independent-client follow-up | Operations | Issue #21; contributor reports new pins, layer outcomes and unsupported wallet paths |
+| Wallet conformance | Technical | Existing 58-case harness and 46 vectors; external results identify wallet/state/commands and rejection snapshots |
+| Audit addendum | Operations | Issues #11/#22; reviewer-owned exact-runtime supplement, findings, risk mapping and attestation |
+| Draft-to-Review request | Technical | Separate official status request after baseline evidence is public; no new semantics or claim of production readiness |
 
-Full independent implementation and G4 are project quality/release gates, not
-universal EIP-1 requirements to request Review. ZK profiles, markets, new SDK
-features and deployments are not prerequisites for this focused revision.
+No contributor has accepted new scope merely because this document names it.
+A full independent implementation and G4 are project quality/release objectives,
+not universal EIP-1 prerequisites for requesting Review.
 
 ## Audit and deployment boundary
 
-The October reviewer-controlled report is archived as a provisional submission;
-it is not absent, but canonical acceptance is still pending. The frozen target
-`af5a75fb2db532fd5603554083d8895a825c2de2` is unchanged and does not cover AQ-03.
-The [runtime delta](../security/aq03-runtime-delta.md) is the supplement input.
-`pnpm security:rc` remains a failing release gate until actual current-scope
-evidence and acceptance exist. CI scope checks do not mean security-ready.
+The October reviewer-controlled report remains a provisional submission. The
+frozen target `af5a75fb2db532fd5603554083d8895a825c2de2` is unchanged and does not
+cover AQ-03. The [runtime delta](../security/aq03-runtime-delta.md) is the supplement
+input. `pnpm security:rc` remains a failing release gate until genuine scope and
+acceptance evidence exist; scope-only CI does not mean security-ready.
 
-No deployment is changed by this work. An immutable existing address cannot be
-patched by merging source. A future deployment needs separate bytecode/build,
-Sourcify Exact Match and reachable-upgrade-path evidence for the actual network.
+No deployment is changed. An immutable existing address cannot be patched by a
+source merge. A future deployment needs its own build/bytecode identity, Sourcify
+Exact Match and reachable-upgrade-path evidence for the actual chain.

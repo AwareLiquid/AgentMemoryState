@@ -16,6 +16,7 @@ artifacts/external-reproductions/
 artifacts/independent-client*/
 artifacts/account-conformance/
 artifacts/review-candidate/
+artifacts/review-official/
 account-conformance/out/
 account-conformance/cache/
 account-conformance/lib/

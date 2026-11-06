@@ -1,10 +1,46 @@
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
-import { checkResults, fetchPinned, sha256, validateManifest } from "./review-candidate.mjs";
+import { checkResults, fetchPinned, sha256, validateManifest, validateOfficialBaseline } from "./review-candidate.mjs";
 
 const manifest = JSON.parse(readFileSync(new URL("../docs/review/upstream-candidate.json", import.meta.url)));
+const historicalBytes = readFileSync(new URL("../docs/review/upstream-candidate.json", import.meta.url));
+const official = JSON.parse(readFileSync(new URL("../docs/review/upstream-official.json", import.meta.url)));
+const baseline = JSON.parse(readFileSync(new URL("../docs/spec-baseline/spec-baseline-3.json", import.meta.url)));
 test("candidate is pinned, separate from official acceptance", () => validateManifest(manifest));
+test("merged official evidence is bound to baseline 3 and the immutable candidate", () => {
+  validateOfficialBaseline(official, baseline, historicalBytes);
+});
+for (const [name, mutate] of [
+  ["unknown schema", (m) => { m.schema = "unknown"; }],
+  ["premature status", (m) => { m.status = "Review"; }],
+  ["fork as authority", (m) => { m.repository = "XiaoHai67890/ERCs"; }],
+  ["wrong merge", (m) => { m.commit = "0".repeat(40); }],
+  ["changed historical identity", (m) => { m.historicalCandidate.sha256 = "0".repeat(64); }],
+  ["changed spec", (m) => { m.specSha256 = "0".repeat(64); }],
+  ["changed asset", (m) => { m.assets["ECDSA.sol"] = "0".repeat(64); }],
+]) {
+  test(`official evidence rejects ${name}`, () => {
+    const changed = structuredClone(official);
+    mutate(changed);
+    assert.throws(() => validateOfficialBaseline(changed, baseline, historicalBytes));
+  });
+}
+test("official evidence rejects rewritten history and mismatched baseline pins", () => {
+  assert.throws(() => validateOfficialBaseline(official, baseline, Buffer.from("{}")), /Historical candidate/);
+  for (const mutate of [
+    (m) => { m.id = "spec-baseline-2"; },
+    (m) => { m.upstream.commit = manifest.commit; },
+    (m) => { m.upstream.sha256 = "0".repeat(64); },
+    (m) => { m.upstream.status = "Review"; },
+    (m) => { m.clarifications = "approved"; },
+    (m) => { m.protectedArtifacts = []; },
+  ]) {
+    const changed = structuredClone(baseline);
+    mutate(changed);
+    assert.throws(() => validateOfficialBaseline(official, changed, historicalBytes));
+  }
+});
 for (const [name, mutate] of [
   ["moving commit", (m) => { m.commit = "main"; }],
   ["false approval", (m) => { m.status = "approved"; }],

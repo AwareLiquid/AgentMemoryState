@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
-import { manifestPath, validateBaseline, verifyUpstream } from "./spec-baseline.mjs";
+import { historicalBaselines, manifestPath, validateBaseline, verifyUpstream } from "./spec-baseline.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const baseline = JSON.parse(readFileSync(join(root, manifestPath), "utf8"));
@@ -15,7 +15,7 @@ test("current baseline validates without network or git history", () => {
   assert.equal(result.status, "PASS");
   assert.equal(result.protectedArtifacts, 10);
   assert.equal(result.upstreamVerification, "not-requested");
-  assert.equal(result.clarifications, "proposed-not-upstream-approved");
+  assert.equal(result.clarifications, "merged-upstream-draft");
 });
 
 for (const path of baseline.protectedArtifacts.map((entry) => entry.path)) {
@@ -30,8 +30,10 @@ test("rejects a missing artifact rather than silently skipping it", () => {
 });
 
 test("preserves the historical baseline bytes", () => {
-  assert.throws(() => validateBaseline(baseline, (path) => path === baseline.predecessor.path
-    ? Buffer.from("rewritten") : read(path)), /Historical baseline bytes changed/);
+  for (const historical of historicalBaselines) {
+    assert.throws(() => validateBaseline(baseline, (path) => path === historical.path
+      ? Buffer.from("rewritten") : read(path)), /Historical baseline bytes changed/);
+  }
   const changed = structuredClone(baseline);
   changed.predecessor.sha256 = "0".repeat(64);
   assert.throws(() => validateBaseline(changed, read), /Historical baseline identity/);
@@ -39,6 +41,8 @@ test("preserves the historical baseline bytes", () => {
 
 for (const [name, mutate, message] of [
   ["moving upstream ref", (m) => { m.upstream.commit = "master"; }, /full upstream commit/u],
+  ["substituted official commit", (m) => { m.upstream.commit = "0".repeat(40); }, /observed official merge/u],
+  ["premature Review status", (m) => { m.upstream.status = "Review"; }, /Expected values/u],
   ["moving normative URL", (m) => { m.upstream.url = m.upstream.url.replace(m.upstream.commit, "master"); }, /pinned file/u],
   ["missing runtime pin", (m) => { m.protectedArtifacts.pop(); }, /inventory/u],
   ["duplicate pin", (m) => { m.protectedArtifacts.push(m.protectedArtifacts[0]); }, /inventory/u],
