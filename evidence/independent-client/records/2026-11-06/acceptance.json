@@ -1,0 +1,144 @@
+{
+  "schema": "erc8350.independent-client-acceptance.v1",
+  "status": "pass",
+  "recordedAt": "2026-11-06T06:14:26.634Z",
+  "manifestSha256": "d1f359546d079fbc595458c6f6a725490608f72e7a58697aa6be7a996e5a23be",
+  "runnerSha256": "0554550c5417522fcad6df6fc073993cc985e72268be0b7a32f250ac1ebbf239",
+  "externalCommit": "95ca613bac0d7ef9192f32264f1f315d869d5ce2",
+  "commands": [
+    {
+      "name": "consumer-commit",
+      "command": "git rev-parse HEAD",
+      "exitCode": 0
+    },
+    {
+      "name": "consumer-status",
+      "command": "git status --porcelain",
+      "exitCode": 0
+    },
+    {
+      "name": "python-version",
+      "command": "/Users/xiaohai/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 --version",
+      "exitCode": 0
+    },
+    {
+      "name": "cast-version",
+      "command": "cast --version",
+      "exitCode": 0
+    },
+    {
+      "name": "git-init",
+      "command": "git init -q <temporary-root>/checkout",
+      "exitCode": 0
+    },
+    {
+      "name": "git-fetch",
+      "command": "git fetch -q --depth=1 https://github.com/ERC8312/bounded-agent-actions.git 95ca613bac0d7ef9192f32264f1f315d869d5ce2",
+      "exitCode": 0
+    },
+    {
+      "name": "git-checkout",
+      "command": "git checkout -q --detach FETCH_HEAD",
+      "exitCode": 0
+    },
+    {
+      "name": "git-head",
+      "command": "git rev-parse HEAD",
+      "exitCode": 0
+    },
+    {
+      "name": "venv",
+      "command": "/Users/xiaohai/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m venv <temporary-root>/venv",
+      "exitCode": 0
+    },
+    {
+      "name": "install",
+      "command": "<temporary-root>/venv/bin/python -I -m pip install --require-hashes --only-binary=:all: -r <temporary-root>/requirements.txt",
+      "exitCode": 0
+    },
+    {
+      "name": "client",
+      "command": "<temporary-root>/venv/bin/python -I recompute/erc8350_client.py --json /Users/xiaohai/Documents/Codex/2026-06-27/xue/work/AgentMemoryState-evidence-20261106/artifacts/independent-client-final-20261106/result.json --emit-signature-vectors /Users/xiaohai/Documents/Codex/2026-06-27/xue/work/AgentMemoryState-evidence-20261106/artifacts/independent-client-final-20261106/signature-vectors.json",
+      "exitCode": 0
+    },
+    {
+      "name": "unit-tests",
+      "command": "<temporary-root>/venv/bin/python -I -B -c \nimport json, sys, unittest\nsuite = unittest.defaultTestLoader.discover(\"recompute\", pattern=\"test_*.py\")\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nsummary = dict(tests=result.testsRun, skipped=len(result.skipped), failures=len(result.failures), errors=len(result.errors), successful=result.wasSuccessful())\nwith open(sys.argv[1], \"w\") as f: json.dump(summary, f, indent=2)\nsys.exit(0 if result.wasSuccessful() and result.testsRun > 0 and not result.skipped else 1)\n /Users/xiaohai/Documents/Codex/2026-06-27/xue/work/AgentMemoryState-evidence-20261106/artifacts/independent-client-final-20261106/unit-results.json",
+      "exitCode": 0
+    },
+    {
+      "name": "source-status",
+      "command": "git status --porcelain",
+      "exitCode": 0
+    }
+  ],
+  "artifacts": {
+    "cast-version.log": "faa217e341912d2701db164f58de1d09ef24a4512f382fcd3ab952689bd8a829",
+    "client.log": "ea3cc1cb2c3082ece79fa779b91fc830e110980a56ccce5a8d5406c2ac636d82",
+    "consumer-commit.log": "0a546da34ceed5c91d551fd22971383dbe7591274cb556792dadce403739cfba",
+    "consumer-status.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "git-checkout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "git-fetch.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "git-head.log": "781f87ca2d6df4f03e3030ee61a6a924c546d252f529c581d48c2d6d10b2c707",
+    "git-init.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "install.log": "19907d7f716cbacef713d1524c02cee656a9801c50473b4477eaa7679a3331e2",
+    "python-version.log": "4c3569f5da09975434dd9fd9a91fadbc4367a91d8f3c3fab59e9241ab9ee4bd8",
+    "result.json": "fc70c39afe0af2ca7b5c3195c88dc35792c6db07817ffe8a37469ee65e6c6d6c",
+    "signature-vectors.json": "d37f00d51acc66d64599dac9fae44283d93f673b20c1f7b3d7532a505e153798",
+    "source-status.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unit-results.json": "1a75fd1ec7c52725ceb6af49f6c801a6d8f846b15de69c613a0e8d69d4d8d16c",
+    "unit-tests.log": "4ac6b70a716b27153981c0080fef07459515bfe67b7864ded98e16c75cfcf68e",
+    "venv.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "limitations": [
+    "External authorship is the contributor's declared provenance; this run is maintainer reproduction.",
+    "ERC-1271, Safe and EIP-7702 authorization are not implemented by this client.",
+    "The spec layer checks selected declarations, not complete formal specification conformance.",
+    "Offline fixture verification is not a fresh live Sepolia replay.",
+    "Reference error compatibility is reported separately from normative outcomes.",
+    "No security audit, deployment acceptance, production readiness or completion of issue #21."
+  ],
+  "consumer": {
+    "commit": "947af24020355c1e7bc6fac1c1b27809a4798cff",
+    "clean": true
+  },
+  "toolchain": {
+    "node": "v22.23.2",
+    "python": "Python 3.12.14",
+    "cast": "cast Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T07:54:31.470926000Z (1778226871)\nBuild Profile: dist"
+  },
+  "requirementsSha256": "d596bf05a2eee5a9c1eb4a0d3827ffb317e654bc83c3222e32a8fd5940c7a31f",
+  "layers": {
+    "spec": {
+      "result": "PASS",
+      "checks": 21
+    },
+    "hash": {
+      "result": "PASS",
+      "checks": 59
+    },
+    "fixture": {
+      "result": "PASS",
+      "checks": 58
+    },
+    "state": {
+      "result": "PASS",
+      "checks": 34
+    },
+    "ecdsa": {
+      "result": "PASS",
+      "checks": 55
+    },
+    "compat": {
+      "result": "PASS",
+      "checks": 28
+    }
+  },
+  "unitTests": {
+    "tests": 41,
+    "skipped": 0,
+    "failures": 0,
+    "errors": 0,
+    "successful": true
+  }
+}
