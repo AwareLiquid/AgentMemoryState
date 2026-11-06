@@ -82,7 +82,7 @@ async function main() {
     report.foundry = run("forge", ["--version"]).stdout.trim();
     const manifest = JSON.parse(readFileSync(resolve(root, "docs/review/upstream-candidate.json")));
     validateManifest(manifest);
-    report.candidate = manifest;
+    report.inputs = manifest;
     const raw = (repo, commit, path) => `https://raw.githubusercontent.com/${repo}/${commit}/${path}`;
     const spec = await fetchPinned(raw(manifest.repository, manifest.commit, "ERCS/erc-8350.md"), manifest.specSha256);
     assert.match(spec.toString(), /^status: Draft$/mu);
