@@ -29,6 +29,17 @@ Recorded runs live in `evidence/independent-client/records/`. CI publishes fresh
 artifacts, with a scheduled default-branch check and a separate trusted failure
 notification job. PR code never receives issue-write permission.
 
+### Recorded maintainer reproduction: 2026-11-06
+
+The [acceptance record](../../evidence/independent-client/records/2026-11-06/acceptance.json)
+reports PASS from clean consumer commit `947af24020355c1e7bc6fac1c1b27809a4798cff`.
+All six layers below passed, and all 41 upstream unit tests ran with zero skips,
+including the cast cross-check. Node 22.23.2, Python 3.12.14, PyCryptodome 3.23.0
+and Foundry 1.7.1 were used. The source, native JSON reports, exact signature export,
+commands and log digests are bound by the record. The record's manifest is archived
+alongside it; automated tests verify every archived artifact digest.
+This offline fixture run has no new live RPC observation or block range claim.
+
 | Layer | Expected checks | Accepted scope |
 | --- | ---: | --- |
 | spec | 21 | Selected Draft declarations; not a full formal specification check |

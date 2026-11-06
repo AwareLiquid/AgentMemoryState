@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import test from "node:test";
-import { childEnvironment, validateResults } from "./independent-client-gate.mjs";
+import { childEnvironment, sha256, validateResults } from "./independent-client-gate.mjs";
 
 const manifest = JSON.parse(readFileSync(new URL("../evidence/independent-client/v1.json", import.meta.url)));
 function fixture() {
@@ -33,4 +35,24 @@ for (const [name, mutate] of [
 test("external processes do not inherit credentials or offline bypasses", () => {
   const env = childEnvironment("/tmp/example");
   for (const key of ["GITHUB_TOKEN", "GH_TOKEN", "ERC8350_OFFLINE", "ERC8350_INPUTS", "PYTHONPATH", "NODE_OPTIONS"]) assert.equal(env[key], undefined);
+});
+
+test("archived clean-checkout results retain every recorded artifact digest", () => {
+  const records = fileURLToPath(new URL("../evidence/independent-client/records/", import.meta.url));
+  const dates = readdirSync(records);
+  assert.ok(dates.length > 0);
+  for (const date of dates) {
+    const read = (name) => readFileSync(join(records, date, name));
+    const parse = (name) => JSON.parse(read(name));
+    const record = parse("acceptance.json");
+    assert.equal(record.status, "pass");
+    assert.equal(record.consumer.clean, true);
+    assert.match(record.consumer.commit, /^[0-9a-f]{40}$/);
+    assert.ok(record.commands.every((command) => command.exitCode === 0));
+    assert.equal(record.manifestSha256, sha256(read("manifest.json")));
+    for (const [name, digest] of Object.entries(record.artifacts)) {
+      assert.equal(sha256(read(name)), digest, `${date}/${name}`);
+    }
+    validateResults(parse("manifest.json"), parse("result.json"), parse("signature-vectors.json"), parse("unit-results.json"));
+  }
 });

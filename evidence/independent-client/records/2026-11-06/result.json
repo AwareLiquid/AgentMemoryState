@@ -1,0 +1,1357 @@
+{
+  "schema": "erc8350-client/result/v1",
+  "source": {
+    "file": "erc8350_client.py",
+    "sha256": "33dd89de0158e0a3fdc57d9974c4a2b4e8b49a6d5d91255eda04f530ed02c7ca",
+    "commit": "95ca613bac0d7ef9192f32264f1f315d869d5ce2",
+    "fileState": "clean"
+  },
+  "specBaseline": {
+    "draft": {
+      "repository": "ethereum/ERCs",
+      "commit": "b9651bc84714e87e6361f4f6c0c8ff39cc265d0a",
+      "path": "ERCS/erc-8350.md",
+      "sha256": "9aa44fe3854a7ae553cc77a5a59c072f36a405869a7d3c5e082addbda3d995ca"
+    },
+    "vectors": {
+      "repository": "AwareLiquid/AgentMemoryState",
+      "commit": "aa9bbe5192cb7fd34789b71d928b444605227a0f",
+      "files": {
+        "v1.json": "5e04cb9c1181222f483d3ad547e0a9aa301dfab74c7028f3cfa2e5dcd574fc20",
+        "v2.json": "4c59351ffe5317434c8ad8fda88cb95c2d2158f3dd6c147c301b7496de8dce4e",
+        "sepolia-fixture-v1.json": "3d6695d86dfceb4dac96848cd955dedfa28aedcf86a7d8b5ce0d6e3cb856bde9"
+      }
+    },
+    "proposals": "ERC-1271 is not implemented, so AQ-01 and AQ-03 do not arise. Required accounts per operation and validation of non-empty bytes from the required account follow the A-02 reading of the reference's decision table."
+  },
+  "toolchain": {
+    "python": "3.12.14",
+    "pycryptodome": "3.23.0"
+  },
+  "commands": [
+    "pip install pycryptodome==3.23.0",
+    "python3 recompute/erc8350_client.py --json result.json",
+    "python3 recompute/erc8350_client.py --inputs DIR --json result.json  # offline; the same sha256 pins are enforced"
+  ],
+  "supportedCapabilities": {
+    "directEmpty": "enabled for all three operations",
+    "ecdsa": "65-byte canonical low-s, v in {27,28}",
+    "erc1271": "not supported (accounts modelled without code)"
+  },
+  "layers": {
+    "spec": {
+      "result": "PASS",
+      "checks": [
+        {
+          "check": "Draft contains MemorySpace type",
+          "pass": true,
+          "detail": "MemorySpace(address initialController,bytes32 salt)"
+        },
+        {
+          "check": "Draft contains ExperienceDelta type",
+          "pass": true,
+          "detail": "ExperienceDelta(bytes32 spaceId,uint64 sequence,bytes32 prevStateRoot,bytes32 deltaCommitment,bytes32 provenanceCommitment,bytes32 profileId,bytes32 locatorCommitment)"
+        },
+        {
+          "check": "Draft contains MemoryState type",
+          "pass": true,
+          "detail": "MemoryState(bytes32 prevStateRoot,bytes32 transitionId)"
+        },
+        {
+          "check": "Draft contains SpaceRegistration type",
+          "pass": true,
+          "detail": "SpaceRegistration(bytes32 spaceId,address controller,address authorizer)"
+        },
+        {
+          "check": "Draft contains SpaceAuthorization type",
+          "pass": true,
+          "detail": "SpaceAuthorization(bytes32 spaceId,address newController,address newAuthorizer,uint64 nonce)"
+        },
+        {
+          "check": "Draft contains delta domain tag",
+          "pass": true,
+          "detail": "AgentMemoryState.deltaCommitment.v1"
+        },
+        {
+          "check": "Draft contains provenance domain tag",
+          "pass": true,
+          "detail": "AgentMemoryState.provenanceCommitment.v1"
+        },
+        {
+          "check": "Draft contains locator domain tag",
+          "pass": true,
+          "detail": "AgentMemoryState.locatorCommitment.v1"
+        },
+        {
+          "check": "Draft contains domain name",
+          "pass": true,
+          "detail": "\"AgentMemoryState\""
+        },
+        {
+          "check": "Draft declares event SpaceRegistered with the fields this client emits",
+          "pass": true,
+          "detail": "spaceId, controller, authorizer"
+        },
+        {
+          "check": "Draft declares event SpaceAuthorizationUpdated with the fields this client emits",
+          "pass": true,
+          "detail": "spaceId, controller, authorizer, configNonce"
+        },
+        {
+          "check": "Draft declares event TransitionCommitted with the fields this client emits",
+          "pass": true,
+          "detail": "spaceId, transitionId, sequence, prevStateRoot, nextStateRoot, deltaCommitment, provenanceCommitment, profileId, locatorCommitment, authorizer"
+        },
+        {
+          "check": "Draft domain version",
+          "pass": true,
+          "detail": "version = \"1\""
+        },
+        {
+          "check": "v2 type string memorySpace matches the Draft",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 type string experienceDelta matches the Draft",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 type string memoryState matches the Draft",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 type string spaceRegistration matches the Draft",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v1 type string spaceAuthorization matches the Draft",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "ExperienceDelta typehash as printed in the Draft's Test Cases",
+          "pass": true,
+          "detail": "0x4f020f86bc06d852f1fde17853b4d92a70214eeab8e09718028124af097d070d"
+        },
+        {
+          "check": "MemoryState typehash as printed in the Draft's Test Cases",
+          "pass": true,
+          "detail": "0xf3148762556cbf851baf4b9a205e18ff4e6b366a58a3a1ef58e8626ba41beadb"
+        },
+        {
+          "check": "MemorySpace typehash as printed in the Draft's Test Cases",
+          "pass": true,
+          "detail": "0x9ae5478f084ad3b841da58a9cb2354d153cddec59ee64d0cb741fa9d08884531"
+        }
+      ]
+    },
+    "hash": {
+      "result": "PASS",
+      "checks": [
+        {
+          "check": "v1 ExperienceDelta typehash",
+          "pass": true,
+          "detail": "0x4f020f86bc06d852f1fde17853b4d92a70214eeab8e09718028124af097d070d"
+        },
+        {
+          "check": "v1 MemoryState typehash",
+          "pass": true,
+          "detail": "0xf3148762556cbf851baf4b9a205e18ff4e6b366a58a3a1ef58e8626ba41beadb"
+        },
+        {
+          "check": "v1 MemorySpace typehash",
+          "pass": true,
+          "detail": "0x9ae5478f084ad3b841da58a9cb2354d153cddec59ee64d0cb741fa9d08884531"
+        },
+        {
+          "check": "v1 deltaCommitment from witness",
+          "pass": true,
+          "detail": "0x2cf1dc108cc32cfe1617db756a7c793f383b67165ea1bb542f456dc6100f967d"
+        },
+        {
+          "check": "v1 provenanceCommitment from witness",
+          "pass": true,
+          "detail": "0x4791ee5d37e8fc775d00f82c3d451e6d313aa5fe16dd94de5efdbbb39dc0f05c"
+        },
+        {
+          "check": "v1 locatorCommitment from witness",
+          "pass": true,
+          "detail": "0xc5ff571b8429eecd969f718fc45e45017c0d3a217dff401ad1cc752686bac812"
+        },
+        {
+          "check": "v1 delta carries the rebuilt commitments",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v1 spaceId",
+          "pass": true,
+          "detail": "0xef5037465ae0323637cb58434eb554ae4a1fe1131bcc10888900f2d4cbe349d8"
+        },
+        {
+          "check": "v1 transitionId",
+          "pass": true,
+          "detail": "0xdd00dd6eb3aec704b5455502647a0caacf23be6c724eda4a60d9645291e7f4e5"
+        },
+        {
+          "check": "v1 nextStateRoot",
+          "pass": true,
+          "detail": "0x9684a8d3571c5cd9c1e3abb1b0c0797b9fef6965e9002aeefba91e8cb1163754"
+        },
+        {
+          "check": "v1 domain name and version",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v1 domainSeparator",
+          "pass": true,
+          "detail": "0xc8e1b4a128b4de377427c24ccea92cac6d7c77f8fe55f4b2984432bbc3b3d5b9"
+        },
+        {
+          "check": "v1 signingDigest",
+          "pass": true,
+          "detail": "0xaa76377b6dc395d65e2c346a4ff3176bcbe3d27223e01b68be450f81f0f5f494"
+        },
+        {
+          "check": "v1 registrationId (SpaceRegistration struct hash)",
+          "pass": true,
+          "detail": "0x7bea30aa6018c9c8a3e66bd9573377af482dc791994af8c50698e3fc9d4e5d64"
+        },
+        {
+          "check": "v1 authorizationId (SpaceAuthorization struct hash)",
+          "pass": true,
+          "detail": "0xa1fef7a8e52a533f7839f51962fa6e3ef9f8a8081efbac1eb13651801f4d1a92"
+        },
+        {
+          "check": "v2 ExperienceDelta typehash",
+          "pass": true,
+          "detail": "0x4f020f86bc06d852f1fde17853b4d92a70214eeab8e09718028124af097d070d"
+        },
+        {
+          "check": "v2 MemoryState typehash",
+          "pass": true,
+          "detail": "0xf3148762556cbf851baf4b9a205e18ff4e6b366a58a3a1ef58e8626ba41beadb"
+        },
+        {
+          "check": "v2 MemorySpace typehash",
+          "pass": true,
+          "detail": "0x9ae5478f084ad3b841da58a9cb2354d153cddec59ee64d0cb741fa9d08884531"
+        },
+        {
+          "check": "v2 domain name and version",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 domainSeparator",
+          "pass": true,
+          "detail": "0xc8e1b4a128b4de377427c24ccea92cac6d7c77f8fe55f4b2984432bbc3b3d5b9"
+        },
+        {
+          "check": "v2 spaceId",
+          "pass": true,
+          "detail": "0xef5037465ae0323637cb58434eb554ae4a1fe1131bcc10888900f2d4cbe349d8"
+        },
+        {
+          "check": "v2 registrationId",
+          "pass": true,
+          "detail": "0x7bea30aa6018c9c8a3e66bd9573377af482dc791994af8c50698e3fc9d4e5d64"
+        },
+        {
+          "check": "v2 genesis-minimal payload encoding is utf-8",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 genesis-minimal deltaCommitment",
+          "pass": true,
+          "detail": "0x5b47b6772009b9c4ea1208e864bcf93b7e72d54f7b5d9cb10c9b28d7dd2618f3"
+        },
+        {
+          "check": "v2 genesis-minimal provenanceCommitment",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 genesis-minimal locatorCommitment",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 genesis-minimal transitionId",
+          "pass": true,
+          "detail": "0xbf09658a69f4ddee84793bfa631678be2b9558027bb23d5eb0d392da3807766f"
+        },
+        {
+          "check": "v2 genesis-minimal nextStateRoot",
+          "pass": true,
+          "detail": "0x8c7d75419fa306ebc9452e305da7dd45fb57764ed41357adbc63f1ed0b2e787c"
+        },
+        {
+          "check": "v2 genesis-minimal signingDigest",
+          "pass": true,
+          "detail": "0x74da0c09343a94c0246fe4f78799b29a69fa16ce46c524bf89d00db8d5f6bcb6"
+        },
+        {
+          "check": "v2 with-provenance payload encoding is utf-8",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 with-provenance deltaCommitment",
+          "pass": true,
+          "detail": "0xd01fb61bfccd5945554099dc863ce9c50982ad2cb96c6887d661e79499e2880b"
+        },
+        {
+          "check": "v2 with-provenance provenanceCommitment",
+          "pass": true,
+          "detail": "0x1d13ad773713076aabd27cfc01ad30420be2a49d47188897edecc60c376f566d"
+        },
+        {
+          "check": "v2 with-provenance locatorCommitment",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 with-provenance transitionId",
+          "pass": true,
+          "detail": "0xf0f3638f6e490eec5a0c68881a3a1aee2bbb97f80ea59970a7450a8a88eee135"
+        },
+        {
+          "check": "v2 with-provenance nextStateRoot",
+          "pass": true,
+          "detail": "0xc6da1121e8fa4687a007bd82706934b1f1cf66d25c7e1d5fe81a3cd21b5df0e8"
+        },
+        {
+          "check": "v2 with-provenance signingDigest",
+          "pass": true,
+          "detail": "0x5a63d87fe53357ccfb2b2b1498d21438770419f8c28ca03e887c2796e2f447fd"
+        },
+        {
+          "check": "v2 with-locator payload encoding is utf-8",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 with-locator deltaCommitment",
+          "pass": true,
+          "detail": "0x9071981d9c98d82cbde9086b51243a05b5a7526eac4219239f366775dc68e614"
+        },
+        {
+          "check": "v2 with-locator provenanceCommitment",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 with-locator locatorCommitment",
+          "pass": true,
+          "detail": "0x06a0484b91d9f80f5735618e76e5b60519ea31f43b505b975991d8d681d11257"
+        },
+        {
+          "check": "v2 with-locator transitionId",
+          "pass": true,
+          "detail": "0xd3f8c0c5f64e89220e4e5deeeba15c27a46d13093e87249752f0e2e691e87ab3"
+        },
+        {
+          "check": "v2 with-locator nextStateRoot",
+          "pass": true,
+          "detail": "0x22e40c77f32baa0f3fa278735f00513142137ba9b84894e863b73b870bc57683"
+        },
+        {
+          "check": "v2 with-locator signingDigest",
+          "pass": true,
+          "detail": "0x8c137d8fd64dc249b2c25c77395166136f2c6a1b85e11beb8577a40459b13b5f"
+        },
+        {
+          "check": "v2 with-both payload encoding is utf-8",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 with-both deltaCommitment",
+          "pass": true,
+          "detail": "0x2e6da5063d794640679c5d0dca6fe35e745ff3490ebefa8094787b1b5a976726"
+        },
+        {
+          "check": "v2 with-both provenanceCommitment",
+          "pass": true,
+          "detail": "0xc1cf0c619d97feced08c57872d153d2400c7933847076f973b824c0a308516f8"
+        },
+        {
+          "check": "v2 with-both locatorCommitment",
+          "pass": true,
+          "detail": "0x1dd20f022131eb2a4a931b763b271e7837c82019967aceb5751408b21e3fc4f7"
+        },
+        {
+          "check": "v2 with-both transitionId",
+          "pass": true,
+          "detail": "0x58391637ee612d8428950f1719fb9f748997beadda9d99ed44a4d945badd8b95"
+        },
+        {
+          "check": "v2 with-both nextStateRoot",
+          "pass": true,
+          "detail": "0x78c1d1160970583c54c471630b5ed600bea15009ace4341f935c5ffebcf41470"
+        },
+        {
+          "check": "v2 with-both signingDigest",
+          "pass": true,
+          "detail": "0xb3bc152579f83c409d6577a912f400abec29c1bf17f0ce92e3b726e9fa065a5b"
+        },
+        {
+          "check": "v2 profile-change payload encoding is utf-8",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 profile-change deltaCommitment",
+          "pass": true,
+          "detail": "0x6f796f589f4dc5434ff561bf7ddf6f55b7034d33df0a7c01b188a290966d13ce"
+        },
+        {
+          "check": "v2 profile-change provenanceCommitment",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 profile-change locatorCommitment",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 profile-change transitionId",
+          "pass": true,
+          "detail": "0x9a3c0991f44d8ca53d8d6c2c1335ee41ced0ee3d1326d05a8263e2de08d4f795"
+        },
+        {
+          "check": "v2 profile-change nextStateRoot",
+          "pass": true,
+          "detail": "0x117eef97c73e70f84c51dd4b1d2b8a54afc3c07991b15417b23bb2d9fcec1915"
+        },
+        {
+          "check": "v2 profile-change signingDigest",
+          "pass": true,
+          "detail": "0xe54a675b6a65b45c69d7843bcdbcae6d8450faad97c62c45db5012359649ed40"
+        },
+        {
+          "check": "v2 v1Reference restates v1",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 and v1 share one spaceId",
+          "pass": true,
+          "detail": ""
+        }
+      ]
+    },
+    "fixture": {
+      "result": "PASS",
+      "checks": [
+        {
+          "check": "v2 chain #1 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 chain #1 sequence is 1",
+          "pass": true,
+          "detail": "1"
+        },
+        {
+          "check": "v2 chain #1 prevStateRoot links",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "v2 chain #1 transitionId",
+          "pass": true,
+          "detail": "0xbf09658a69f4ddee84793bfa631678be2b9558027bb23d5eb0d392da3807766f"
+        },
+        {
+          "check": "v2 chain #1 nextStateRoot",
+          "pass": true,
+          "detail": "0x8c7d75419fa306ebc9452e305da7dd45fb57764ed41357adbc63f1ed0b2e787c"
+        },
+        {
+          "check": "v2 chain #2 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 chain #2 sequence is 2",
+          "pass": true,
+          "detail": "2"
+        },
+        {
+          "check": "v2 chain #2 prevStateRoot links",
+          "pass": true,
+          "detail": "0x8c7d75419fa306ebc9452e305da7dd45fb57764ed41357adbc63f1ed0b2e787c"
+        },
+        {
+          "check": "v2 chain #2 transitionId",
+          "pass": true,
+          "detail": "0xf0f3638f6e490eec5a0c68881a3a1aee2bbb97f80ea59970a7450a8a88eee135"
+        },
+        {
+          "check": "v2 chain #2 nextStateRoot",
+          "pass": true,
+          "detail": "0xc6da1121e8fa4687a007bd82706934b1f1cf66d25c7e1d5fe81a3cd21b5df0e8"
+        },
+        {
+          "check": "v2 chain #3 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 chain #3 sequence is 3",
+          "pass": true,
+          "detail": "3"
+        },
+        {
+          "check": "v2 chain #3 prevStateRoot links",
+          "pass": true,
+          "detail": "0xc6da1121e8fa4687a007bd82706934b1f1cf66d25c7e1d5fe81a3cd21b5df0e8"
+        },
+        {
+          "check": "v2 chain #3 transitionId",
+          "pass": true,
+          "detail": "0xd3f8c0c5f64e89220e4e5deeeba15c27a46d13093e87249752f0e2e691e87ab3"
+        },
+        {
+          "check": "v2 chain #3 nextStateRoot",
+          "pass": true,
+          "detail": "0x22e40c77f32baa0f3fa278735f00513142137ba9b84894e863b73b870bc57683"
+        },
+        {
+          "check": "v2 chain #4 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 chain #4 sequence is 4",
+          "pass": true,
+          "detail": "4"
+        },
+        {
+          "check": "v2 chain #4 prevStateRoot links",
+          "pass": true,
+          "detail": "0x22e40c77f32baa0f3fa278735f00513142137ba9b84894e863b73b870bc57683"
+        },
+        {
+          "check": "v2 chain #4 transitionId",
+          "pass": true,
+          "detail": "0x58391637ee612d8428950f1719fb9f748997beadda9d99ed44a4d945badd8b95"
+        },
+        {
+          "check": "v2 chain #4 nextStateRoot",
+          "pass": true,
+          "detail": "0x78c1d1160970583c54c471630b5ed600bea15009ace4341f935c5ffebcf41470"
+        },
+        {
+          "check": "v2 chain #5 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "v2 chain #5 sequence is 5",
+          "pass": true,
+          "detail": "5"
+        },
+        {
+          "check": "v2 chain #5 prevStateRoot links",
+          "pass": true,
+          "detail": "0x78c1d1160970583c54c471630b5ed600bea15009ace4341f935c5ffebcf41470"
+        },
+        {
+          "check": "v2 chain #5 transitionId",
+          "pass": true,
+          "detail": "0x9a3c0991f44d8ca53d8d6c2c1335ee41ced0ee3d1326d05a8263e2de08d4f795"
+        },
+        {
+          "check": "v2 chain #5 nextStateRoot",
+          "pass": true,
+          "detail": "0x117eef97c73e70f84c51dd4b1d2b8a54afc3c07991b15417b23bb2d9fcec1915"
+        },
+        {
+          "check": "v2 chain head",
+          "pass": true,
+          "detail": "sequence 5, root 0x117eef97c73e70f84c51dd4b1d2b8a54afc3c07991b15417b23bb2d9fcec1915"
+        },
+        {
+          "check": "Sepolia fixture spaceId from controller and salt",
+          "pass": true,
+          "detail": "0xfbe20b841e2cb8d5e8094da6a9be9ebe19bb4d52c6155f465b40aa7bf1c13564"
+        },
+        {
+          "check": "Sepolia fixture #1 commitments from witness",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #2 commitments from witness",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #3 commitments from witness",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #4 commitments from witness",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #5 commitments from witness",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #1 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #1 sequence is 1",
+          "pass": true,
+          "detail": "1"
+        },
+        {
+          "check": "Sepolia fixture #1 prevStateRoot links",
+          "pass": true,
+          "detail": "0x0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        {
+          "check": "Sepolia fixture #1 transitionId",
+          "pass": true,
+          "detail": "0x4a7cdcd9477eec11645a43afc83d7f007018af4b3648e33eaffcf951a1e156b0"
+        },
+        {
+          "check": "Sepolia fixture #1 nextStateRoot",
+          "pass": true,
+          "detail": "0x712d4e806ac862e95c89062e2d70b9231dc9f11cb0624ffb2970579c6b81832c"
+        },
+        {
+          "check": "Sepolia fixture #2 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #2 sequence is 2",
+          "pass": true,
+          "detail": "2"
+        },
+        {
+          "check": "Sepolia fixture #2 prevStateRoot links",
+          "pass": true,
+          "detail": "0x712d4e806ac862e95c89062e2d70b9231dc9f11cb0624ffb2970579c6b81832c"
+        },
+        {
+          "check": "Sepolia fixture #2 transitionId",
+          "pass": true,
+          "detail": "0x689d8185a18fb91508cb22877d973daac40e2cf9b3d1029acd2383384faaec3e"
+        },
+        {
+          "check": "Sepolia fixture #2 nextStateRoot",
+          "pass": true,
+          "detail": "0x0c1a5ae06be06e09cca58a64cced93a0bad36fb34aa09c90092910c9bd026bb5"
+        },
+        {
+          "check": "Sepolia fixture #3 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #3 sequence is 3",
+          "pass": true,
+          "detail": "3"
+        },
+        {
+          "check": "Sepolia fixture #3 prevStateRoot links",
+          "pass": true,
+          "detail": "0x0c1a5ae06be06e09cca58a64cced93a0bad36fb34aa09c90092910c9bd026bb5"
+        },
+        {
+          "check": "Sepolia fixture #3 transitionId",
+          "pass": true,
+          "detail": "0xeb0464abe6037dfe997c48b2dbe316e5bd96bfe80f6b14a08ebd57cdd3b8abe4"
+        },
+        {
+          "check": "Sepolia fixture #3 nextStateRoot",
+          "pass": true,
+          "detail": "0x8d7362e62f75ff4fbc9047b6881e42f933de9dd7af0fbad228e8f4228b50bec7"
+        },
+        {
+          "check": "Sepolia fixture #4 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #4 sequence is 4",
+          "pass": true,
+          "detail": "4"
+        },
+        {
+          "check": "Sepolia fixture #4 prevStateRoot links",
+          "pass": true,
+          "detail": "0x8d7362e62f75ff4fbc9047b6881e42f933de9dd7af0fbad228e8f4228b50bec7"
+        },
+        {
+          "check": "Sepolia fixture #4 transitionId",
+          "pass": true,
+          "detail": "0x154c1e643dfec801e4e227f52ae24147a1cca0260533d258916c07337c2bd09d"
+        },
+        {
+          "check": "Sepolia fixture #4 nextStateRoot",
+          "pass": true,
+          "detail": "0x280889644f1f2748a27bb973df0c1efde465ae2a1334e705f7cb4c7a72ad5bc0"
+        },
+        {
+          "check": "Sepolia fixture #5 spaceId",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "Sepolia fixture #5 sequence is 5",
+          "pass": true,
+          "detail": "5"
+        },
+        {
+          "check": "Sepolia fixture #5 prevStateRoot links",
+          "pass": true,
+          "detail": "0x280889644f1f2748a27bb973df0c1efde465ae2a1334e705f7cb4c7a72ad5bc0"
+        },
+        {
+          "check": "Sepolia fixture #5 transitionId",
+          "pass": true,
+          "detail": "0xbabfa1db25980fe00dfa1c3fc08665ecb81df997f6fd7c439f1c4cc56241ac7d"
+        },
+        {
+          "check": "Sepolia fixture #5 nextStateRoot",
+          "pass": true,
+          "detail": "0x55b383709c4dbe8ee08d3e229d4f14d0c65659eac4198a44f1810f517dce6699"
+        },
+        {
+          "check": "Sepolia fixture head",
+          "pass": true,
+          "detail": "chainId 11155111, registry 0xDdf21937ba80b5fF973610877A0955b320C91241, sequence 5, root 0x55b383709c4dbe8ee08d3e229d4f14d0c65659eac4198a44f1810f517dce6699, domainSeparator 0x4f36e5833f961f835ccd6ac49572ed105e4cdbf865f8904fe3d020724148b6ac (not published; signature checks need chain state)"
+        }
+      ]
+    },
+    "state": {
+      "result": "PASS",
+      "checks": [
+        {
+          "check": "registry domainSeparator",
+          "pass": true,
+          "detail": "0xc8e1b4a128b4de377427c24ccea92cac6d7c77f8fe55f4b2984432bbc3b3d5b9"
+        },
+        {
+          "check": "register v2 Space (controller, direct-empty)",
+          "pass": true,
+          "detail": "direct-empty"
+        },
+        {
+          "check": "SpaceRegistered event",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit genesis-minimal (authorizer, direct-empty)",
+          "pass": true,
+          "detail": "head sequence 1, root 0x8c7d75419fa306ebc9452e305da7dd45fb57764ed41357adbc63f1ed0b2e787c"
+        },
+        {
+          "check": "commit genesis-minimal TransitionCommitted event",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit with-provenance (authorizer, direct-empty)",
+          "pass": true,
+          "detail": "head sequence 2, root 0xc6da1121e8fa4687a007bd82706934b1f1cf66d25c7e1d5fe81a3cd21b5df0e8"
+        },
+        {
+          "check": "commit with-provenance TransitionCommitted event",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit with-locator (authorizer, direct-empty)",
+          "pass": true,
+          "detail": "head sequence 3, root 0x22e40c77f32baa0f3fa278735f00513142137ba9b84894e863b73b870bc57683"
+        },
+        {
+          "check": "commit with-locator TransitionCommitted event",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit with-both (authorizer, direct-empty)",
+          "pass": true,
+          "detail": "head sequence 4, root 0x78c1d1160970583c54c471630b5ed600bea15009ace4341f935c5ffebcf41470"
+        },
+        {
+          "check": "commit with-both TransitionCommitted event",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit profile-change (authorizer, direct-empty)",
+          "pass": true,
+          "detail": "head sequence 5, root 0x117eef97c73e70f84c51dd4b1d2b8a54afc3c07991b15417b23bb2d9fcec1915"
+        },
+        {
+          "check": "commit profile-change TransitionCommitted event",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "refuse UnknownSpace (any rule: an unregistered Space has head zero, so sequence 6 also breaks the sequence rule; which fires first is reference order)",
+          "pass": true,
+          "detail": "rejected (UnknownSpace: the Space is not registered, so it has no controller or authorizer to authorize anything); state unchanged"
+        },
+        {
+          "check": "refuse ZeroDeltaCommitment",
+          "pass": true,
+          "detail": "rejected (ZeroDeltaCommitment: deltaCommitment MUST NOT be zero); state unchanged"
+        },
+        {
+          "check": "refuse ZeroProfileId",
+          "pass": true,
+          "detail": "rejected (ZeroProfileId: profileId MUST NOT be zero); state unchanged"
+        },
+        {
+          "check": "refuse BadSequence (skips ahead)",
+          "pass": true,
+          "detail": "rejected (BadSequence: accept only if sequence == currentSequence + 1); state unchanged"
+        },
+        {
+          "check": "refuse BadSequence (replays a committed sequence)",
+          "pass": true,
+          "detail": "rejected (BadSequence: accept only if sequence == currentSequence + 1); state unchanged"
+        },
+        {
+          "check": "refuse BadPreviousState",
+          "pass": true,
+          "detail": "rejected (BadPreviousState: accept only if prevStateRoot == currentStateRoot); state unchanged"
+        },
+        {
+          "check": "InvalidAuthorization (wrong signer): signature is canonical, recovers elsewhere",
+          "pass": true,
+          "detail": "0x61b9f1298d85c8c6a537810035f0f8f8755cc1c7"
+        },
+        {
+          "check": "InvalidAuthorization (wrong signer): control, same delta accepted from the authorizer",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "refuse InvalidAuthorization (wrong signer)",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "InvalidAuthorization (malformed length): control, same delta accepted from the authorizer",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "refuse InvalidAuthorization (malformed length)",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "refuse ZeroSpaceId (any rule: a zero spaceId also fails the derivation check)",
+          "pass": true,
+          "detail": "rejected (ZeroSpaceId: reference guard; a zero spaceId can never equal deriveSpaceId(controller, salt)); state unchanged"
+        },
+        {
+          "check": "refuse ZeroAddress (any rule: its spaceId is derived from 0x2222..., so it also fails the derivation check)",
+          "pass": true,
+          "detail": "rejected (ZeroAddress: registration MUST bind the Space to non-zero controller and authorizer addresses); state unchanged"
+        },
+        {
+          "check": "refuse InvalidSpaceId",
+          "pass": true,
+          "detail": "rejected (InvalidSpaceId: the supplied spaceId MUST equal deriveSpaceId(controller, salt)); state unchanged"
+        },
+        {
+          "check": "SpaceAlreadyRegistered: precondition holds (Space registered)",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "refuse SpaceAlreadyRegistered",
+          "pass": true,
+          "detail": "rejected (SpaceAlreadyRegistered: a Memory Space MUST be registered at most once); state unchanged"
+        },
+        {
+          "check": "12 rejection cases exercised",
+          "pass": true,
+          "detail": "12"
+        },
+        {
+          "check": "refuse zero controller at registration (spaceId re-derives from it)",
+          "pass": true,
+          "detail": "rejected (ZeroAddress: registration MUST bind the Space to non-zero controller and authorizer addresses); state unchanged"
+        },
+        {
+          "check": "refuse zero authorizer at registration (spaceId re-derives)",
+          "pass": true,
+          "detail": "rejected (ZeroAddress: registration MUST bind the Space to non-zero controller and authorizer addresses); state unchanged"
+        },
+        {
+          "check": "refuse a genesis commit into an unregistered Space",
+          "pass": true,
+          "detail": "rejected (UnknownSpace: the Space is not registered, so it has no controller or authorizer to authorize anything); state unchanged"
+        },
+        {
+          "check": "head after all rejections is the chain head",
+          "pass": true,
+          "detail": ""
+        }
+      ]
+    },
+    "ecdsa": {
+      "result": "PASS",
+      "checks": [
+        {
+          "check": "known answer: address of private key 1",
+          "pass": true,
+          "detail": "0x7e5f4552091a69125d5dfcb7b8c2659029395bdf"
+        },
+        {
+          "check": "known answer: test key address equals cast's",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "known answer: signature byte-equal to cast's",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "known answer: cast's signature recovers cast's address",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "register relayed with an empty signature",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "register by direct call from the named authorizer, not the controller",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "register self-call by the controller with an outsider's bytes",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "register signed by an outsider",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "register signed by the authorizer, not the controller",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "register front-run: the controller's signature with another authorizer",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "register signed for another chain",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "register relayed with the controller's signature",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "register replayed",
+          "pass": true,
+          "detail": "rejected (SpaceAlreadyRegistered: a Memory Space MUST be registered at most once); state unchanged"
+        },
+        {
+          "check": "second deployment refuses the first deployment's registration signature",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "second deployment accepts a registration signed for it",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "commit #1 signed by the controller, not the authorizer",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "commit #1 direct call by the controller, not the authorizer",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "commit #1 relayed with the authorizer's signature",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "high-s twin keeps v in {27, 28} and recovers the same key without the low-s rule",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit #2 signed by an outsider",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "commit #2 high-s (malleated) signature",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit #2 v = 0 instead of 27",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit #2 r = 0 (x = 0 is not on the curve, so recovery refuses it either way)",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit #2 s = 0",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit #2 r = n",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit #2 s = n",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit #2 compact 64-byte (EIP-2098) encoding",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "commit #2 66-byte padded signature",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "commit #2 empty signature from a relayer",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "commit #2 self-call with an outsider's bytes",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "commit #2 signature for another chain",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "commit #2 signature for another registry",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "commit #2 relayed with the canonical signature",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "rotation 1 relayed with an empty signature",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "rotation 1 by direct call from the authorizer, not the controller",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "rotation 1 signed by the authorizer, not the controller",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "rotation 1 self-call by the controller with an outsider's bytes",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "rotation to a zero controller",
+          "pass": true,
+          "detail": "rejected (ZeroAddress: both replacement addresses MUST be non-zero); state unchanged"
+        },
+        {
+          "check": "rotation to a zero authorizer",
+          "pass": true,
+          "detail": "rejected (ZeroAddress: both replacement addresses MUST be non-zero); state unchanged"
+        },
+        {
+          "check": "rotation 1 relayed with the controller's signature",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "rotation 1 replaced the authorizer",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "rotation 1 replayed by the same controller (nonce is now 2)",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "rotation 2 by direct call from the proposed new controller",
+          "pass": true,
+          "detail": "rejected (length: a signature of any other length than 65 MUST be rejected without attempting recovery); state unchanged"
+        },
+        {
+          "check": "rotation 2 relayed with the controller's signature",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "rotation 2 replaced the controller",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "rotation 3 signed by the rotated-out controller",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "rotation 3 by direct call from the new controller",
+          "pass": true,
+          "detail": "accepted via direct-empty"
+        },
+        {
+          "check": "commit #3 by the rotated-out authorizer",
+          "pass": true,
+          "detail": "rejected (signer: the recovered signer MUST equal the configured account); state unchanged"
+        },
+        {
+          "check": "commit #3 relayed with the new authorizer's signature",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "commit #4 by direct call from the new authorizer",
+          "pass": true,
+          "detail": "accepted via direct-empty"
+        },
+        {
+          "check": "s = n/2 + 1 is the malleated twin of s = n/2 (same signer without the low-s rule)",
+          "pass": true,
+          "detail": ""
+        },
+        {
+          "check": "commit with s = n/2 + 1, one over the low-s bound",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "commit with s = n/2 exactly (the bound is inclusive)",
+          "pass": true,
+          "detail": "accepted via ecdsa"
+        },
+        {
+          "check": "commit with r = n + 2 (on the curve, at or above n)",
+          "pass": true,
+          "detail": "rejected (noncanonical: the signature MUST be canonical and non-malleable: v 27 or 28, 0 < r < n, 0 < s <= n/2); state unchanged"
+        },
+        {
+          "check": "authorizer with code is declared unsupported, state unchanged",
+          "pass": true,
+          "detail": "unsupported"
+        }
+      ]
+    },
+    "compat": {
+      "result": "PASS",
+      "checks": [
+        {
+          "check": "UnknownSpace: error name",
+          "pass": true,
+          "detail": "UnknownSpace vs UnknownSpace"
+        },
+        {
+          "check": "UnknownSpace: ABI selector",
+          "pass": true,
+          "detail": "UnknownSpace() -> 0x1b7779a8"
+        },
+        {
+          "check": "ZeroDeltaCommitment: error name",
+          "pass": true,
+          "detail": "ZeroDeltaCommitment vs ZeroDeltaCommitment"
+        },
+        {
+          "check": "ZeroDeltaCommitment: ABI selector",
+          "pass": true,
+          "detail": "ZeroDeltaCommitment() -> 0xeea004b3"
+        },
+        {
+          "check": "ZeroProfileId: error name",
+          "pass": true,
+          "detail": "ZeroProfileId vs ZeroProfileId"
+        },
+        {
+          "check": "ZeroProfileId: ABI selector",
+          "pass": true,
+          "detail": "ZeroProfileId() -> 0x4f0ebc85"
+        },
+        {
+          "check": "BadSequence (skips ahead): error name",
+          "pass": true,
+          "detail": "BadSequence vs BadSequence"
+        },
+        {
+          "check": "BadSequence (skips ahead): ABI selector",
+          "pass": true,
+          "detail": "BadSequence(uint64,uint64) -> 0x607f66d9"
+        },
+        {
+          "check": "BadSequence (skips ahead): error arguments",
+          "pass": true,
+          "detail": "('6', '7')"
+        },
+        {
+          "check": "BadSequence (replays a committed sequence): error name",
+          "pass": true,
+          "detail": "BadSequence vs BadSequence"
+        },
+        {
+          "check": "BadSequence (replays a committed sequence): ABI selector",
+          "pass": true,
+          "detail": "BadSequence(uint64,uint64) -> 0x607f66d9"
+        },
+        {
+          "check": "BadSequence (replays a committed sequence): error arguments",
+          "pass": true,
+          "detail": "('6', '5')"
+        },
+        {
+          "check": "BadPreviousState: error name",
+          "pass": true,
+          "detail": "BadPreviousState vs BadPreviousState"
+        },
+        {
+          "check": "BadPreviousState: ABI selector",
+          "pass": true,
+          "detail": "BadPreviousState(bytes32,bytes32) -> 0x559eba4d"
+        },
+        {
+          "check": "BadPreviousState: error arguments",
+          "pass": true,
+          "detail": "('0x117eef97c73e70f84c51dd4b1d2b8a54afc3c07991b15417b23bb2d9fcec1915', '0x8c7d75419fa306ebc9452e305da7dd45fb57764ed41357adbc63f1ed0b2e787c')"
+        },
+        {
+          "check": "InvalidAuthorization (wrong signer): error name",
+          "pass": true,
+          "detail": "InvalidAuthorization vs InvalidAuthorization"
+        },
+        {
+          "check": "InvalidAuthorization (wrong signer): ABI selector",
+          "pass": true,
+          "detail": "InvalidAuthorization() -> 0x2ce87eeb"
+        },
+        {
+          "check": "InvalidAuthorization (malformed length): error name",
+          "pass": true,
+          "detail": "InvalidAuthorization vs InvalidAuthorization"
+        },
+        {
+          "check": "InvalidAuthorization (malformed length): ABI selector",
+          "pass": true,
+          "detail": "InvalidAuthorization() -> 0x2ce87eeb"
+        },
+        {
+          "check": "ZeroSpaceId: error name",
+          "pass": true,
+          "detail": "ZeroSpaceId vs ZeroSpaceId"
+        },
+        {
+          "check": "ZeroSpaceId: ABI selector",
+          "pass": true,
+          "detail": "ZeroSpaceId() -> 0xf09c6069"
+        },
+        {
+          "check": "ZeroAddress: error name",
+          "pass": true,
+          "detail": "ZeroAddress vs ZeroAddress"
+        },
+        {
+          "check": "ZeroAddress: ABI selector",
+          "pass": true,
+          "detail": "ZeroAddress() -> 0xd92e233d"
+        },
+        {
+          "check": "InvalidSpaceId: error name",
+          "pass": true,
+          "detail": "InvalidSpaceId vs InvalidSpaceId"
+        },
+        {
+          "check": "InvalidSpaceId: ABI selector",
+          "pass": true,
+          "detail": "InvalidSpaceId(bytes32,bytes32) -> 0x83034ee3"
+        },
+        {
+          "check": "InvalidSpaceId: error arguments",
+          "pass": true,
+          "detail": "('0xef5037465ae0323637cb58434eb554ae4a1fe1131bcc10888900f2d4cbe349d8', '0x3f6577840453b94b451b7eadb9c46cbb5c0cd63f9c16d9fd67f154042dd7d30a')"
+        },
+        {
+          "check": "SpaceAlreadyRegistered: error name",
+          "pass": true,
+          "detail": "SpaceAlreadyRegistered vs SpaceAlreadyRegistered"
+        },
+        {
+          "check": "SpaceAlreadyRegistered: ABI selector",
+          "pass": true,
+          "detail": "SpaceAlreadyRegistered() -> 0x7102b336"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "no ERC-1271, Safe or EIP-7702 delegated-account authorization",
+    "no deployed-code identity or immutability evidence",
+    "no gas or liveness modelling",
+    "TransitionAlreadyExists guarded but unreachable, as the vectors note",
+    "the v2 authorizer has no published key, so v2's two authorization rejections use an outsider key and rely on this client's rule codes; the ecdsa layer covers the same rules with keys whose holder is known",
+    "v2's ZeroSpaceId and ZeroAddress inputs also fail spaceId derivation, so any refusal counts for them; single-defect cases cover ZeroAddress",
+    "rule codes and events are this client's in-memory model; a deployed registry's errors and logs are compared only through the compat layer and erc8350_sepolia.py"
+  ]
+}
