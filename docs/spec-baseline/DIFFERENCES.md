@@ -1,8 +1,25 @@
 # Baseline differences and dispositions
 
-Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
-The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
-See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
+Current baseline: **spec-baseline-3**, official merge `8b11215c`.
+The mirror now matches the merged Draft byte-for-byte; baseline manifests 1/2
+remain unchanged. See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
+
+## Baseline 3 resolution
+
+- AQ-01/AQ-02: official wording now distinguishes direct-empty exemption,
+  arbitrary ERC-1271 bytes and 65-byte ECDSA recovery, with explicit signer roles
+  and nonempty self-call validation.
+- AQ-03: the official Registry now uses the same strict return-word comparison as
+  the local runtime. The historical candidate and actual merge have identical
+  spec/asset digests. Current-runtime external audit acceptance is still pending.
+- `SPEC.md` now points to baseline 3; it remains informative. No wire format,
+  hash, storage, signature vector, product runtime or audit freeze changes here.
+- Maintainer Safe/real-7702 tests and portable signature adapters already exist;
+  independent wallet execution remains outside the scoped Python evidence.
+
+The tables below retain **historical baseline-1/2 observations**, not unresolved
+claims about today's official text. Current rule classifications are in
+[AUTHORIZATION.md](AUTHORIZATION.md).
 
 Baseline: `spec-baseline-1`. Official authority and full source pins are in the
 [manifest](spec-baseline-1.json). Comparisons use the official Draft at
@@ -32,10 +49,10 @@ changes at `891b47c70c8b45df1daaa78065b16ff73e67f8a4`.
 | D-12 | No universal gas allowance is specified | `staticcall` has no explicit gas cap; EIP-150 and transaction budget constrain execution | AQ-04: availability/resource risk, not a gas-induced authorization bypass |
 | D-13 | Core acceptance rules are specified, but most custom error selectors and their order are not | v2 includes reference selectors, multi-invalid-input precedence and a zero-Space-ID check | Separate portable rejection outcomes from reference-exact diagnostics; do not promote vector-only details to ERC requirements |
 
-D-07 and D-08 mean the current implementation's behavior should be reported as
+D-07 and D-08 meant baseline-1/2 implementation behavior had to be reported as
 **observed reference behavior under a proposed clarification**, not as an
-unqualified resolution of the current official wording. This work does not
-silently make the implementation more restrictive or rewrite the official mirror.
+unqualified resolution of the then-official wording. Baseline 3 resolves that
+textual conflict through the observed upstream merge, not through local inference.
 
 AQ-03 current regression tests (the original reproducer remains at commit `71b50f9`):
 
@@ -64,7 +81,7 @@ not an unauthorized state write; this is not a completed external severity revie
 - New baseline tests are maintainer characterization evidence. They do not close
   R-002's externally maintained second-implementation objective.
 
-## What remains unchanged
+## Historical baseline-2 boundary
 
 Baseline 2 changes both local Registry source copies. The official ERC text,
 v1/v2 vectors, EIP-712 domain, type strings, frozen audit manifest,
@@ -72,6 +89,9 @@ residual-risk register and audit tag remain unchanged. The local CC0 asset now
 contains a proposed upstream fix, not bytes already merged into ethereum/ERCs.
 The new source of truth is not a new protocol: it is an explicit pointer to the
 already published official Draft, accompanied by proposed clarifications.
+
+That paragraph records baseline 2's publication state; it is superseded for
+official synchronization by baseline 3, not erased from history.
 
 The [open-question register](OPEN_QUESTIONS.md) supplies the next action and exit
 criterion for each unresolved behavior. A future runtime fix must reassess

@@ -1,13 +1,14 @@
-# Authorization decisions for spec-baseline-1
+# Authorization decisions for spec-baseline-3
 
-Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
-The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
+Current baseline: **spec-baseline-3**, official merge `8b11215c` (still Draft).
+Historical spec-baseline-1 and spec-baseline-2 remain byte-identical.
 See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
 
 This table distinguishes the official Draft, optional capabilities, observed
-reference choices and proposed clarifications. The source pins are in the
-[baseline manifest](spec-baseline-1.json); open items are not upstream-approved
-rules. Decisions assume the operation's non-authorization preconditions hold
+reference choices and remaining implementation/release questions. Source pins
+are in the [baseline manifest](spec-baseline-3.json). AQ-01/AQ-02 wording and the
+AQ-03 asset fix are merged into the official Draft. Decisions assume the
+operation's non-authorization preconditions hold
 and sufficient execution gas is available, unless a row says otherwise.
 
 ## Required account and digest
@@ -32,16 +33,16 @@ ERC-1271 attempt and the ECDSA fallback.
 | ID | Condition | Result in the reference | Normative classification |
 | --- | --- | --- | --- |
 | A-01 | Caller equals required account; signature empty; direct-call capability enabled | Authorize without ERC-1271/ECDSA; still enforce every state/field precondition | Official MAY, enabled for all three reference operations |
-| A-02 | Caller equals required account; signature non-empty | No shortcut; continue to ERC-1271/ECDSA, reject if neither succeeds | Reference behavior consistent with signature validation; AQ-02 makes it explicit |
-| A-03 | Different caller; empty signature | No direct-call shortcut; continue to ERC-1271 if code exists | Direct identity restriction; wallet success is the AQ-01 textual conflict |
+| A-02 | Caller equals required account; signature non-empty | No shortcut; continue to ERC-1271/ECDSA, reject if neither succeeds | Explicit official validation rule, AQ-02 resolved |
+| A-03 | Different caller; empty signature | No direct-call shortcut; continue to ERC-1271 if code exists | Explicit direct identity restriction; wallet policy may still authorize, AQ-01 resolved |
 | A-04 | No account code | Skip ERC-1271 and try ECDSA | Official ordered validation |
-| A-05 | Code exists; successful ERC-1271 call, canonical ABI result of at least 32 bytes with magic value | Authorize, including custom short/long/empty signatures approved by the wallet | ERC-1271 success rule; empty/length wording needs AQ-01 clarification |
+| A-05 | Code exists; successful ERC-1271 call, canonical ABI result of at least 32 bytes with magic value | Authorize, including custom short/long/empty signatures approved by the wallet | Official ERC-1271 rule: first word has magic plus 28 zero padding bytes; trailing bytes ignored |
 | A-06 | ERC-1271 reverts, returns fewer than 32 bytes, or canonically returns wrong magic | Continue to ECDSA; the wallet's failure is not a final veto | Official fallback rule |
 | A-07 | Reached ECDSA with length other than 65 | Reject before recovery, including empty and EIP-2098 compact signatures | Recovery length rule; not a global rule for contract signatures |
 | A-08 | Reached ECDSA with 65 bytes, canonical low-s, v 27/28, recovered account equals required account | Authorize | Official canonical ECDSA rule; exact helper errors are implementation details |
 | A-09 | Reached ECDSA with high-s, invalid v/r/s or wrong recovered account | Reject | Official non-malleable/matching-account requirement |
 | A-10 | Code-present keyed account; delegate returns wrong magic but the same signature meets A-08 | Authorize through ECDSA | Intentional retained-key behavior; delegate policy is not exclusive |
-| A-11 | Call succeeds but returns a 32-byte word with magic prefix and nonzero padding | Baseline 2 treats the word as invalid wallet approval, then tries the same-byte ECDSA fallback | AQ-03 implementation fix; upstream normative review and audit addendum pending |
+| A-11 | Call succeeds but returns a 32-byte word with magic prefix and nonzero padding | Invalid wallet approval, then same-byte ECDSA fallback | Explicit official rule and merged asset fix; current-runtime external audit addendum pending |
 | A-12 | ERC-1271 runs out of forwarded gas | Fallback only if the caller retains enough gas; the whole call may fail | AQ-04; no guaranteed liveness for EOA or contract-policy signatures |
 
 **Design intent:** a 7702 delegation does not revoke the underlying key. A
@@ -55,37 +56,14 @@ Direct-empty capability is optional. A portable runner records whether an
 implementation enables it; reference-exact tests expect it enabled. A self-call
 with invalid non-empty bytes does not fall back to the direct-empty shortcut.
 
-## Proposed clarification text
+## Merged normative text
 
-The following records the original project direction, not a replacement for the
-pinned official file. The complete wording, including canonical return-word and
-state-validation constraints, is now submitted in
-[ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147) at `397426c0`.
-It remains a proposal until upstream review/merge, not a new official baseline.
-
-> The required account is the controller for registration, the current controller
-> for an authorization update, and the current authorizer for a transition.
-> A registry MAY authorize an operation without a signature when the caller is
-> that required account and the supplied signature is empty. A different caller
-> MUST NOT receive this direct-call exemption merely by supplying empty bytes.
-> A non-empty signature MUST be validated even when supplied by the required
-> account itself.
->
-> Otherwise, when the required account has non-empty code, the registry MUST
-> first attempt ERC-1271 validation of the operation's EIP-712 digest with the
-> original signature bytes. No signature-length filter, including an empty-byte
-> filter, is applied before this attempt. Successful validation MUST authorize
-> the operation. If ERC-1271 validation fails, or the account has no code, the
-> registry MUST attempt canonical ECDSA validation of the same digest and bytes.
-> The 65-byte, non-malleable encoding requirement applies only to this recovery
-> path; failure to recover the required account MUST reject the operation.
-
-The upstream revision should retain explicit STATICCALL, return-size and magic
-value semantics. AQ-03 proposes treating non-canonical ABI data as unsuccessful
-ERC-1271 validation, then continuing to ECDSA; it does not propose accepting
-malformed bytes solely because their first four bytes are the magic value. This proposal
-changes neither hash inputs nor the signing domain. Because it resolves conflicting
-readings, it still needs normative review rather than being labelled editorial-only.
+The authoritative wording is the [pinned official Signature validation section](https://github.com/ethereum/ERCs/blob/8b11215cf267f710b49ea003384e678bcf953eae/ERCS/erc-8350.md#signature-validation),
+merged through [ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147).
+The table is an informative implementation aid, not a second normative text.
+The merged revision specifies STATICCALL, canonical first-word handling and
+fallback without changing hash inputs or the signing domain. Baselines 1/2
+retain the historical context of the formerly conflicting readings.
 
 ## State safety and test mapping
 

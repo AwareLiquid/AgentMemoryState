@@ -20,9 +20,20 @@ const regressions = [
 export const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 
 export function validateManifest(m) {
-  assert.equal(m.schema, "erc8350/upstream-candidate/v1");
-  assert.equal(m.status, "proposed-not-upstream-approved");
-  assert.equal(m.repository, "XiaoHai67890/ERCs");
+  assert.ok(["erc8350/upstream-candidate/v1", "erc8350/upstream-official/v1"].includes(m.schema),
+    "Unknown source evidence schema");
+  const official = m.schema === "erc8350/upstream-official/v1";
+  assert.equal(m.status, official ? "merged-upstream-draft" : "proposed-not-upstream-approved");
+  assert.equal(m.repository, official ? "ethereum/ERCs" : "XiaoHai67890/ERCs");
+  if (official) {
+    assert.equal(m.commit, "8b11215cf267f710b49ea003384e678bcf953eae");
+    assert.equal(m.baseline, "spec-baseline-3");
+    assert.equal(m.pullRequest, "https://github.com/ethereum/ERCs/pull/2147");
+    assert.deepEqual(m.historicalCandidate, {
+      path: "docs/review/upstream-candidate.json",
+      sha256: "b5145480906b4e6ca9e4addfbe1754e60908d03604fae4c19662ce1e7be762e4",
+    });
+  }
   assert.match(m.commit, /^[a-f0-9]{40}$/u);
   assert.match(m.specSha256, /^[a-f0-9]{64}$/u);
   assert.deepEqual(Object.keys(m.assets).sort(), [...names].sort());
@@ -32,6 +43,29 @@ export function validateManifest(m) {
     commit: "b9651bc84714e87e6361f4f6c0c8ff39cc265d0a",
     registrySha256: "6d99fc690abd776c53f607be9da1e25c2a48a80037088a3f3fb029f54943685b",
   });
+}
+
+export function validateOfficialBaseline(m, baseline, historicalBytes) {
+  validateManifest(m);
+  assert.equal(m.schema, "erc8350/upstream-official/v1");
+  assert.equal(sha256(historicalBytes), m.historicalCandidate.sha256,
+    "Historical candidate bytes changed");
+  const historical = JSON.parse(historicalBytes);
+  validateManifest(historical);
+  assert.equal(historical.schema, "erc8350/upstream-candidate/v1");
+  assert.equal(m.specSha256, historical.specSha256, "Merged text differs from tested candidate");
+  assert.deepEqual(m.assets, historical.assets, "Merged assets differ from tested candidate");
+  assert.equal(m.baseline, baseline.id, "Official/baseline ID mismatch");
+  assert.equal(m.status, baseline.clarifications, "Official/baseline status mismatch");
+  assert.equal(m.repository, baseline.upstream.repository);
+  assert.equal(m.commit, baseline.upstream.commit, "Official/baseline commit mismatch");
+  assert.equal(m.specSha256, baseline.upstream.sha256, "Official/baseline digest mismatch");
+  assert.equal(m.pullRequest, baseline.upstream.pullRequest);
+  assert.equal(baseline.upstream.status, "Draft");
+  for (const name of names) {
+    const entry = baseline.protectedArtifacts.find((item) => item.path === `erc/assets/erc-8350/${name}`);
+    assert.equal(entry?.sha256, m.assets[name], `Official/baseline asset mismatch: ${name}`);
+  }
 }
 
 export async function fetchPinned(url, hash, fetcher = fetch) {
@@ -62,10 +96,14 @@ export function checkResults(value, negative = false) {
 }
 
 async function main() {
-  assert.equal(process.argv.length, 2, "Usage: node scripts/review-candidate.mjs");
-  const output = resolve(root, "artifacts/review-candidate");
+  const args = process.argv.slice(2);
+  assert.ok(args.length === 0 || (args.length === 1 && args[0] === "--official"),
+    "Usage: node scripts/review-candidate.mjs [--official]");
+  const official = args[0] === "--official";
+  const mode = official ? "official" : "candidate";
+  const output = resolve(root, `artifacts/review-${mode}`);
   mkdirSync(output, { recursive: true });
-  const report = { schema: "erc8350/upstream-candidate-result/v1", result: "fail", commands: [] };
+  const report = { schema: `erc8350/upstream-${mode}-result/v1`, result: "fail", commands: [] };
   function run(command, args, allowFailure = false, env = {}) {
     const result = spawnSync(command, args, {
       cwd: root, encoding: "utf8", maxBuffer: 32 * 1024 * 1024, timeout: 300000,
@@ -80,14 +118,22 @@ async function main() {
     report.harnessCommit = run("git", ["rev-parse", "HEAD"]).stdout.trim();
     report.dirtyCheckout = run("git", ["status", "--porcelain"]).stdout.trim() !== "";
     report.foundry = run("forge", ["--version"]).stdout.trim();
-    const manifest = JSON.parse(readFileSync(resolve(root, "docs/review/upstream-candidate.json")));
+    const manifest = JSON.parse(readFileSync(resolve(root, `docs/review/upstream-${mode}.json`)));
     validateManifest(manifest);
+    assert.equal(manifest.schema, `erc8350/upstream-${mode}/v1`, "Manifest does not match requested mode");
+    if (official) {
+      validateOfficialBaseline(manifest,
+        JSON.parse(readFileSync(resolve(root, "docs/spec-baseline/spec-baseline-3.json"))),
+        readFileSync(resolve(root, manifest.historicalCandidate.path)));
+    }
     report.inputs = manifest;
     const raw = (repo, commit, path) => `https://raw.githubusercontent.com/${repo}/${commit}/${path}`;
     const spec = await fetchPinned(raw(manifest.repository, manifest.commit, "ERCS/erc-8350.md"), manifest.specSha256);
     assert.match(spec.toString(), /^status: Draft$/mu);
+    if (official) assert.deepEqual(spec, readFileSync(resolve(root, "erc/erc-8350.md")),
+      "Official text differs from the local mirror");
     writeFileSync(resolve(output, "erc-8350.md"), spec);
-    for (const label of ["candidate", "negative-control"]) {
+    for (const label of [mode, "negative-control"]) {
       const negative = label === "negative-control";
       const source = negative ? manifest.negativeControl : manifest;
       const assetDir = resolve(output, label, "erc-8350");
@@ -96,7 +142,7 @@ async function main() {
         const hash = negative && name === names[0] ? source.registrySha256 : manifest.assets[name];
         const bytes = await fetchPinned(raw(source.repository, source.commit, `assets/erc-8350/${name}`), hash);
         if (!negative) assert.deepEqual(bytes, readFileSync(resolve(root, "erc/assets/erc-8350", name)),
-          `Candidate differs from tested project asset: ${name}`);
+          `Pinned source differs from tested project asset: ${name}`);
         writeFileSync(resolve(assetDir, name), bytes);
       }
       // Isolated outputs and an explicit import remapping bind tests to fetched bytes.

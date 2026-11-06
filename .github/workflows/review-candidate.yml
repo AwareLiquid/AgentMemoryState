@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   candidate:
-    name: Pinned official candidate and negative control
+    name: Pinned official and historical candidate evidence
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,6 +28,8 @@ jobs:
         run: node --test scripts/review-candidate.test.mjs
       - name: Test exact upstream candidate bytes
         run: node scripts/review-candidate.mjs
+      - name: Test exact merged official bytes
+        run: node scripts/review-candidate.mjs --official
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -37,4 +39,8 @@ jobs:
             artifacts/review-candidate/*.txt
             artifacts/review-candidate/erc-8350.md
             artifacts/review-candidate/*/erc-8350/*.sol
+            artifacts/review-official/*.json
+            artifacts/review-official/*.txt
+            artifacts/review-official/erc-8350.md
+            artifacts/review-official/*/erc-8350/*.sol
           if-no-files-found: error

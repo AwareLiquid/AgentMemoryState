@@ -2,16 +2,17 @@
 
 Status: informative overview accompanying the published ERC-8350 Draft.
 
-The [official Draft](https://github.com/ethereum/ERCs/blob/b9651bc84714e87e6361f4f6c0c8ff39cc265d0a/ERCS/erc-8350.md)
+The [official Draft](https://github.com/ethereum/ERCs/blob/8b11215cf267f710b49ea003384e678bcf953eae/ERCS/erc-8350.md)
 is the normative authority. [`erc/erc-8350.md`](erc/erc-8350.md) is its byte-identical
 local mirror. This overview is not a second specification and does not override
 either the official rules or their unresolved ambiguities.
 
-Start with [spec-baseline-1](docs/spec-baseline/README.md) for source pins,
+Start with [spec-baseline-3](docs/spec-baseline/README.md) for source pins,
 [differences](docs/spec-baseline/DIFFERENCES.md), the
 [authorization decision table](docs/spec-baseline/AUTHORIZATION.md) and
-[open questions](docs/spec-baseline/OPEN_QUESTIONS.md). Proposed clarifications
-are not upstream-approved changes. Historical pre-ERC wording remains in Git.
+[open questions](docs/spec-baseline/OPEN_QUESTIONS.md). The AQ-01/AQ-02 wording and
+AQ-03 official asset fix merged in ethereum/ERCs#2147; the status remains Draft.
+Historical baselines and pre-ERC wording remain in Git.
 
 ## Scope
 

@@ -1,35 +1,37 @@
 # Baseline open questions and handoff
 
-Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
-The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
+Current baseline: **spec-baseline-3**, official merge `8b11215c` (still Draft).
+Historical spec-baseline-1 and spec-baseline-2 remain byte-identical.
 See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
 
-Update 2026-11-06: AQ-01/AQ-02 wording and the AQ-03 CC0 asset correction are
-submitted in [ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147),
-candidate `397426c046049e1a0c3436e543f9731408708fd3`. Submission is not acceptance;
-the pinned official mirror is unchanged. See the [review evidence](../review/upstream-authorization.md).
+Update 2026-11-06: AQ-01/AQ-02 wording and the AQ-03 CC0 asset correction
+merged in [ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147),
+commit `8b11215cf267f710b49ea003384e678bcf953eae`. The local mirror is synchronized.
+This is Draft text acceptance, not G4 acceptance or independent wallet coverage.
+See the [review evidence](../review/upstream-authorization.md).
 
-Baseline: `spec-baseline-1`. Status: P1a inputs recorded; semantic clarifications
-are proposed, not approved upstream. Technical and operations are responsibility
+Baseline: `spec-baseline-3`. Status: P1a rule direction is now in the official
+Draft; remaining external/release boundaries stay open. Technical and operations are responsibility
 categories, both currently coordinated by `@XiaoHai67890`.
 
 ## Decisions and remaining acceptance
 
 | ID | Question / current direction | Blocking scope | Responsibility | Exit criterion |
 | --- | --- | --- | --- | --- |
-| AQ-01 | Empty/custom ERC-1271 signatures versus broad empty/length prohibitions. Preserve direct exemption, ERC-1271, then ECDSA; narrow the prohibitions | Unqualified authorization-conformance claims; not hash/encoding work | Technical | Proposed text reviewed, submitted and merged upstream; mirror and baseline updated; success/failure cases pass |
-| AQ-02 | Required-account terminology, self-call with non-empty bytes, direct-empty MAY | Authorization capability reporting; direction fixed to current implementation | Technical | Table covers all three operations; portable runner reports optional capability; upstream wording clarified without changing signer roles |
-| AQ-03 | Baseline 2 fixes dirty-padding abort using a strict full-word comparison; regression tests cover both copies and all three operations | External audit and official upstream asset coverage remain pending | Technical | Review the runtime delta, obtain audit addendum and upstream review; do not inherit the old frozen report |
+| AQ-01 | Resolved in Draft: arbitrary ERC-1271 bytes precede the recovery-only length guard; direct-empty exemption is caller-bound | No remaining textual blocker; report each implementation's tested scope | Technical | Official merge #2147, byte-identical baseline-3 mirror, executable success/failure cases |
+| AQ-02 | Resolved in Draft: required account for each operation, nonempty self-call validation and direct-empty MAY | Optional capability still needs declaration by each implementation | Technical | Merged wording and table cover all three roles without changing them |
+| AQ-03 | Runtime fix and official asset synchronization complete; strict full-word comparison preserves fallback | Current-runtime external audit supplement remains pending | Technical | Obtain reviewer-owned addendum and genuine acceptance; do not inherit the old frozen report |
 | AQ-04 | Gas exhaustion, large returndata/resource limits and relayer underfunding | Non-blocking for implementation start; no liveness or production-readiness claim | Technical | Adequate/insufficient gas tests, rejection atomicity, RPC/client guidance; do not mandate an arbitrary universal gas allowance |
 | AQ-05 | Portable rejection semantics versus v2 reference error selectors/order | Reference-exact certification, not valid hash interoperability | Technical | Label each case by normative rule or reference choice; do not require unstandardized error selectors of other languages |
 | AQ-06 | Real Prague/type-4 harness and 46 portable ECDSA vectors/adapters merged in PRs #35/#37 | Independent external wallet execution remains separate in #21 | Technical | Maintainer account/signature gates passed on main 5770a909; retain zero-skip runs and explicit external coverage boundaries |
 | AQ-07 | Safe 1.4.1 source/handler/message encoding pinned and executable 2-of-2 / signed-message cases added | No claim about every Safe version or production deployment | Technical | Run `pnpm test:accounts`; inspect approved/unapproved/wrong-message and approveHash negative controls |
 | AQ-08 | Immutable enforcing logic and deployed-code identity | New release/deployment evidence, not a prerequisite to start an offline implementation | Technical | Reproduce bytecode; record Sourcify Exact Match, actual libraries/immutables and deployment transaction; inspect reachable upgrade paths and chain-specific SELFDESTRUCT semantics |
 
-AQ-01/AQ-02 have a project proposal in the [decision table](AUTHORIZATION.md).
-External teams can implement against that explicitly named proposal, but their
-reports should not imply that the conflicting official sentences have already
-changed. AQ-03 is deliberately not hidden under a green hash/vector gate.
+AQ-01/AQ-02 now refer to the official merged Draft in the
+[decision table](AUTHORIZATION.md). External teams should cite baseline 3 and
+report any differences from their previous inputs. Historical Python results
+remain scoped to the original pins until independently rerun.
+AQ-03's external audit boundary is not hidden under a green hash/vector gate.
 
 ## P1b work packages
 

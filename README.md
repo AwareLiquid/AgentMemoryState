@@ -55,7 +55,7 @@ prevStateRoot + ExperienceDelta v1
 
 ## 关键文档
 
-- **[规范与实现基线](docs/spec-baseline/README.md)：当前实现为 spec-baseline-2，历史 spec-baseline-1 原样保留。官方文本与提议中的澄清严格区分。**
+- **[规范与实现基线](docs/spec-baseline/README.md)：当前为 spec-baseline-3，已同步官方 #2147 合并版本；历史基线 1/2 原样保留。官方状态仍为 Draft，不代表 G4 或生产就绪。**
 - [真实账户验证](docs/interop/account-conformance.md)：Safe 1.4.1 双签、7702 委托和本地 type-4 交易证据。
 - [独立实现交接](docs/interop/independent-client-handoff.md)与 [Draft → Review 材料](docs/review/draft-to-review.md)。
 - **`docs/implementing.md`: 写一个独立实现（外部实现者入口 — 什么算通过、要实现哪些面、`test-vectors/v2.json` 怎么跑）**

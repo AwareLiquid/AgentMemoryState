@@ -1,9 +1,10 @@
 # Real-account authorization evidence
 
 This is a maintainer-run executable test package, not an independent implementation
-or an external security audit. Its interpretation is the proposed
-[spec-baseline-2](../spec-baseline/spec-baseline-2.json), with the official Draft
-still authoritative and AQ-01/AQ-02 wording not yet approved upstream.
+or an external security audit. Its current interpretation is
+[spec-baseline-3](../spec-baseline/spec-baseline-3.json), aligned with official
+Draft merge `8b11215c`. Historical runs retain their original baseline-2 scope;
+new wording does not turn a historical run into new independent verification.
 
 ## Reproduce
 

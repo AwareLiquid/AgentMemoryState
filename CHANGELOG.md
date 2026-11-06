@@ -6,6 +6,12 @@ All notable implementation and protocol changes are recorded here.
 
 ### Added
 
+- `spec-baseline-3` synchronizes official merge `8b11215c` from ethereum/ERCs#2147
+  while preserving historical manifests 1/2 and the proposed-candidate record.
+  The explicit official-source gate checks baseline/spec/asset bindings, runs
+  the merged bytes and retains the old-source negative control. Draft status,
+  wire format, vectors, product runtime and frozen audit scope are unchanged.
+
 - Pinned official authorization-candidate gate and CI: verifies proposed upstream
   bytes, runs 38 authorization/signature tests, and requires two dirty-padding
   failures against the historical official source as a negative control. Review

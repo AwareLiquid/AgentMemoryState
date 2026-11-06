@@ -1,0 +1,87 @@
+{
+  "schema": "erc-8350/spec-baseline/v1",
+  "id": "spec-baseline-3",
+  "recordedAt": "2026-11-06",
+  "status": "recorded",
+  "maintainer": "XiaoHai67890",
+  "clarifications": "merged-upstream-draft",
+  "upstream": {
+    "repository": "ethereum/ERCs",
+    "commit": "8b11215cf267f710b49ea003384e678bcf953eae",
+    "path": "ERCS/erc-8350.md",
+    "gitBlob": "23e1fb3d369162848162e60708000bc18aa6ba80",
+    "sha256": "295ab952357cefe141f3f1df5ceaaed2fe40826939fd22c683519c747a0fc072",
+    "status": "Draft",
+    "url": "https://github.com/ethereum/ERCs/blob/8b11215cf267f710b49ea003384e678bcf953eae/ERCS/erc-8350.md",
+    "mirror": "erc/erc-8350.md",
+    "pullRequest": "https://github.com/ethereum/ERCs/pull/2147"
+  },
+  "implementation": {
+    "repository": "AwareLiquid/AgentMemoryState",
+    "commit": "086e493d70bb07fc2e8b4bfac12282312c2cdc9e",
+    "wireFormat": "ExperienceDelta v1",
+    "eip712DomainVersion": "1",
+    "testVectorVersions": [
+      "v1",
+      "v2"
+    ]
+  },
+  "historicalOverview": {
+    "path": "SPEC.md",
+    "commit": "086e493d70bb07fc2e8b4bfac12282312c2cdc9e",
+    "sha256": "9e64aec8e722845bf8e46601e96b4b4f0ede7eeaee01b9bebe1940b440c511af"
+  },
+  "documents": [
+    "docs/spec-baseline/README.md",
+    "docs/spec-baseline/DIFFERENCES.md",
+    "docs/spec-baseline/AUTHORIZATION.md",
+    "docs/spec-baseline/OPEN_QUESTIONS.md"
+  ],
+  "protectedArtifacts": [
+    {
+      "path": "erc/erc-8350.md",
+      "sha256": "295ab952357cefe141f3f1df5ceaaed2fe40826939fd22c683519c747a0fc072"
+    },
+    {
+      "path": "contracts/src/reference/AgentMemoryStateRegistry.sol",
+      "sha256": "de49d954c72882654dcc6ac01eeb9be451b10fa1720cc25db199b5dbc97a4cee"
+    },
+    {
+      "path": "contracts/src/ECDSA.sol",
+      "sha256": "fdf13dd3c50b06ec54f0260dfd10f3a8c1349380ae878d73966981994cbb632d"
+    },
+    {
+      "path": "contracts/src/interfaces/IAgentMemoryState.sol",
+      "sha256": "7307e0bd0df94d6ab6487924ec41680deaaeb7e7eecad23e9669f9babc12f963"
+    },
+    {
+      "path": "erc/assets/erc-8350/AgentMemoryStateRegistry.sol",
+      "sha256": "94c7f39920205ae581e6537828a80a3dcfeb0a283c833ed2b50bc10927a292c3"
+    },
+    {
+      "path": "erc/assets/erc-8350/ECDSA.sol",
+      "sha256": "74d0a828f70af9384457e2cf5165638dcc44a7b9749b8dc80cb7c9bd2ba2ccf0"
+    },
+    {
+      "path": "erc/assets/erc-8350/IAgentMemoryState.sol",
+      "sha256": "274bfee5de979ea164abcf30af6b9dace1fccdb42bee4cf59bdeb0a9621be93a"
+    },
+    {
+      "path": "contracts/foundry.toml",
+      "sha256": "bfbd4b78e4fcca6ed6d7bc3dab7e903b949bfde4981e0c231f79de80e12756cb"
+    },
+    {
+      "path": "test-vectors/v1.json",
+      "sha256": "5e04cb9c1181222f483d3ad547e0a9aa301dfab74c7028f3cfa2e5dcd574fc20"
+    },
+    {
+      "path": "test-vectors/v2.json",
+      "sha256": "4c59351ffe5317434c8ad8fda88cb95c2d2158f3dd6c147c301b7496de8dce4e"
+    }
+  ],
+  "predecessor": {
+    "id": "spec-baseline-2",
+    "path": "docs/spec-baseline/spec-baseline-2.json",
+    "sha256": "c4fe28f81708a6aa4f9e91dcef54b2d0d7a13067fd24f6286d6d25d210cc3255"
+  }
+}
