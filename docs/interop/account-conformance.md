@@ -73,5 +73,6 @@ EVM implementations can adapt the `_deploy` helper in the common cases. Non-EVM
 clients should reproduce the same inputs, decisions and before/after state, not
 copy reference-specific error selectors. Signature validation needs the specified
 chain/block wallet state; offline hash replay alone cannot verify historical 1271
-policy. Portable static signature-vector publication is a separate follow-up;
-this package does not change or rename v1/v2 or the v1 wire format.
+policy. Portable static data is now published as `test-vectors/signature-vectors-v1.json`
+with 46 cases and core/minimal TS plus Solidity adapters (PR #37). It does not
+replace this executable account suite or change v1/v2 or the v1 wire format.

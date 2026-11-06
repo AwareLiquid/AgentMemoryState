@@ -57,10 +57,11 @@ with invalid non-empty bytes does not fall back to the direct-empty shortcut.
 
 ## Proposed clarification text
 
-The following is proposed replacement wording for the signature-validation
-subsection, not a replacement for the pinned official file. Submit it separately
-upstream after reviewing AQ-01 through AQ-03. In particular, invalid-ABI handling
-must be settled before this text is claimed to describe all existing behavior.
+The following records the original project direction, not a replacement for the
+pinned official file. The complete wording, including canonical return-word and
+state-validation constraints, is now submitted in
+[ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147) at `397426c0`.
+It remains a proposal until upstream review/merge, not a new official baseline.
 
 > The required account is the controller for registration, the current controller
 > for an authorization update, and the current authorizer for a transition.
@@ -109,8 +110,9 @@ and rejection atomicity. Existing `ExternalReviewBoundary.t.sol`,
 encoding, callback, replay and state-linkage evidence. The separate
 [account conformance suite](../interop/account-conformance.md) adds pinned Safe
 1.4.1 and real Prague delegation, including local mined type-4 receipts. Portable
-signature data and external language adapters remain follow-ups; a mock's name
-does not establish those capabilities.
+signature data is now published as `test-vectors/signature-vectors-v1.json`, with TS and
+Solidity adapters merged in PR #37. External wallet execution remains a follow-up;
+a mock's name does not establish those capabilities.
 
 ## Gas and policy boundary
 

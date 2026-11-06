@@ -48,3 +48,10 @@ upgrade or reuse of the old audit claim.
 The official Draft text remains pinned; empty/custom-signature clarifications are
 still proposals. The local CC0 asset fix must receive a separate upstream review
 before claiming ethereum/ERCs contains it. No production readiness is asserted.
+
+Update 2026-11-06: [official PR #2147](https://github.com/ethereum/ERCs/pull/2147)
+proposes the exact local CC0 bytes at `397426c046049e1a0c3436e543f9731408708fd3`.
+The [candidate gate](../review/upstream-authorization.md) verifies fetched source
+digests, runs all 38 authorization/signature tests and requires two expected
+dirty-padding failures against the old official source. Upstream acceptance and
+the reviewer-owned current-source supplement remain pending.

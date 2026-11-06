@@ -1,0 +1,40 @@
+name: Official revision evidence
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  candidate:
+    name: Pinned official candidate and negative control
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - name: Install forge-std
+        working-directory: contracts
+        run: forge install foundry-rs/forge-std@v1.16.2 --no-git
+      - name: Check gate failure modes
+        run: node --test scripts/review-candidate.test.mjs
+      - name: Test exact upstream candidate bytes
+        run: node scripts/review-candidate.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: erc8350-upstream-candidate-${{ github.sha }}
+          path: |
+            artifacts/review-candidate/*.json
+            artifacts/review-candidate/*.txt
+            artifacts/review-candidate/erc-8350.md
+            artifacts/review-candidate/*/erc-8350/*.sol
+          if-no-files-found: error

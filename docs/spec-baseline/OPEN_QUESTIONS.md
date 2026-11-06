@@ -4,6 +4,11 @@ Current implementation baseline: **spec-baseline-2** (AQ-03 runtime fix).
 The official text is unchanged. Historical spec-baseline-1 remains byte-identical.
 See [AQ-03 change and audit delta](../security/aq03-runtime-delta.md).
 
+Update 2026-11-06: AQ-01/AQ-02 wording and the AQ-03 CC0 asset correction are
+submitted in [ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147),
+candidate `397426c046049e1a0c3436e543f9731408708fd3`. Submission is not acceptance;
+the pinned official mirror is unchanged. See the [review evidence](../review/upstream-authorization.md).
+
 Baseline: `spec-baseline-1`. Status: P1a inputs recorded; semantic clarifications
 are proposed, not approved upstream. Technical and operations are responsibility
 categories, both currently coordinated by `@XiaoHai67890`.
@@ -17,7 +22,7 @@ categories, both currently coordinated by `@XiaoHai67890`.
 | AQ-03 | Baseline 2 fixes dirty-padding abort using a strict full-word comparison; regression tests cover both copies and all three operations | External audit and official upstream asset coverage remain pending | Technical | Review the runtime delta, obtain audit addendum and upstream review; do not inherit the old frozen report |
 | AQ-04 | Gas exhaustion, large returndata/resource limits and relayer underfunding | Non-blocking for implementation start; no liveness or production-readiness claim | Technical | Adequate/insufficient gas tests, rejection atomicity, RPC/client guidance; do not mandate an arbitrary universal gas allowance |
 | AQ-05 | Portable rejection semantics versus v2 reference error selectors/order | Reference-exact certification, not valid hash interoperability | Technical | Label each case by normative rule or reference choice; do not require unstandardized error selectors of other languages |
-| AQ-06 | Real Prague delegation harness and actual local type-4 transactions now implemented; portable static signature data remains separate | Completion of portable P1b authorization evidence | Technical | Run `pnpm test:accounts`; publish CI artifacts, then add language-neutral signature vectors/adapters without changing v1/v2 |
+| AQ-06 | Real Prague/type-4 harness and 46 portable ECDSA vectors/adapters merged in PRs #35/#37 | Independent external wallet execution remains separate in #21 | Technical | Maintainer account/signature gates passed on main 5770a909; retain zero-skip runs and explicit external coverage boundaries |
 | AQ-07 | Safe 1.4.1 source/handler/message encoding pinned and executable 2-of-2 / signed-message cases added | No claim about every Safe version or production deployment | Technical | Run `pnpm test:accounts`; inspect approved/unapproved/wrong-message and approveHash negative controls |
 | AQ-08 | Immutable enforcing logic and deployed-code identity | New release/deployment evidence, not a prerequisite to start an offline implementation | Technical | Reproduce bytecode; record Sourcify Exact Match, actual libraries/immutables and deployment transaction; inspect reachable upgrade paths and chain-specific SELFDESTRUCT semantics |
 
@@ -47,23 +52,15 @@ Historical failures and prior successful runs describe their pinned versions and
 block ranges; neither should be erased. Upstream PR #2 merged on 2026-10-29.
 [Project PR #33](https://github.com/AwareLiquid/AgentMemoryState/pull/33) repins that
 reviewed revision, records a fresh two-suite PASS and adds trusted regression
-notifications. Issues #29/#31 track merge closure, not waiting for upstream now.
+notifications. The merged upstream commit/digest replaces the temporary fork pin.
+Header, MPT, second-RPC and nonzero-failure checks are retained. Notification write
+permissions are isolated from untrusted PR code; default GitHub email routing is
+not used as the team alert policy.
 
-- Technical: preserve header, MPT, second-RPC and nonzero-failure checks; document
-  the root cause against execution specifications and publish fresh run identities.
-- Operations: seek independent review. Choose a follow-up date, not a deadline
-  after which a maintainer fork becomes independent evidence automatically.
-- Technical: keep the full fork commit/digest pinned until an acceptable upstream
-  revision exists. This need not block unrelated baseline/implementation work.
-- Operations: close #29 only after its criteria are met, or explicitly transfer
-  every outstanding independent-verification criterion to a named open issue.
-  #31's repin-only description does not automatically cover those criteria.
-- Technical: scheduled CI already exists. Add deduplicated failure/recovery issue
-  notifications in trusted scheduled/manual runs, with write permissions isolated
-  from untrusted PR code. Default GitHub email routing is not a team alert policy.
-
-The P0 actions above are implemented separately in PR #33. Its recorded result
-and issue comments distinguish implementation/testing from merge/issue closure.
+These P0 actions were merged in PR #33. Issues #29/#31 were closed on
+2026-11-01 with upstream confirmation and preserved records. Fresh main acceptance
+at `5770a909` also passed both live replay suites. These are no longer pending
+merge/closure tasks; issue #21 separately tracks independent full-client coverage.
 The notification job has not been tested by deliberately failing production CI;
 deduplication/recovery logic is locally checked with a mocked GitHub client.
 
