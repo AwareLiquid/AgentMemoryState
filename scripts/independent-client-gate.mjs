@@ -76,6 +76,7 @@ export async function main(argv = process.argv.slice(2)) {
       commit: run("consumer-commit", "git", ["rev-parse", "HEAD"], root),
       clean: run("consumer-status", "git", ["status", "--porcelain"], root) === "",
     };
+    assert.ok(record.consumer.clean, "Commit tracked changes and use a clean consumer checkout");
     const python = process.env.PYTHON || "python3";
     record.toolchain = { node: process.version, python: run("python-version", python, ["--version"]), cast: run("cast-version", "cast", ["--version"]) };
     assert.match(record.toolchain.python, /^Python 3\.(1[2-9]|[2-9][0-9])\./);

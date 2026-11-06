@@ -22,6 +22,7 @@ The gate requires all six layer counts, 41 unit tests with **zero skips**, cast
 availability, and the exact 46-case export SHA-256. It preserves logs and a fail
 record when an execution fails; use a new output directory for every run.
 
+The gate requires a clean consumer checkout as well as clean external source.
 The acceptance record binds the runner, manifest, consumer commit/clean status,
 external commit, tool versions, commands, per-layer results and artifact digests.
 Recorded runs live in `evidence/independent-client/records/`. CI publishes fresh
