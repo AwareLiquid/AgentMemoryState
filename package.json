@@ -16,6 +16,7 @@
                     "test:ts":  "pnpm build \u0026\u0026 pnpm -r --if-present test",
                     "test:contracts":  "cd contracts \u0026\u0026 forge test",
                     "test:accounts":  "node scripts/account-conformance.mjs",
+                    "test:signatures":  "pnpm --filter @erc-awar/core exec vitest run test/signature-vector.test.ts --reporter=verbose \u0026\u0026 pnpm --filter @erc-awar/minimal-independent exec vitest run test/signature-vector.test.ts --reporter=verbose \u0026\u0026 cd contracts \u0026\u0026 forge test --match-path test/unit/SignatureVectors.t.sol -vv",
                     "test:golden:core":  "pnpm --filter @erc-awar/core test:golden",
                     "test:golden:minimal":  "pnpm --filter @erc-awar/minimal-independent test:golden",
                     "test:golden:solidity":  "cd contracts \u0026\u0026 forge test --match-path test/unit/GoldenVector.t.sol -vv",
