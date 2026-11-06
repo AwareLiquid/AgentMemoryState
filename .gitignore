@@ -13,6 +13,7 @@ broadcast/
 release-artifacts/
 artifacts/conformance/
 artifacts/external-reproductions/
+artifacts/independent-client*/
 artifacts/account-conformance/
 account-conformance/out/
 account-conformance/cache/

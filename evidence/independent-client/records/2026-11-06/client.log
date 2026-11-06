@@ -1,0 +1,18 @@
+ERC-8350 independent client
+  Draft   ethereum/ERCs@b9651bc84714  erc-8350.md
+  vectors AwareLiquid/AgentMemoryState@aa9bbe5192cb
+    erc-8350.md                sha256 9aa44fe3854a7ae553cc77a5a59c072f36a405869a7d3c5e082addbda3d995ca
+    v1.json                    sha256 5e04cb9c1181222f483d3ad547e0a9aa301dfab74c7028f3cfa2e5dcd574fc20
+    v2.json                    sha256 4c59351ffe5317434c8ad8fda88cb95c2d2158f3dd6c147c301b7496de8dce4e
+    sepolia-fixture-v1.json    sha256 3d6695d86dfceb4dac96848cd955dedfa28aedcf86a7d8b5ce0d6e3cb856bde9
+
+  spec     PASS  21/21
+  hash     PASS  59/59
+  fixture  PASS  58/58
+  state    PASS  34/34
+  ecdsa    PASS  55/55
+  compat   PASS  28/28  (reference compatibility, not normative)
+
+RESULT: ALL LAYERS PASS
+result record: /Users/xiaohai/Documents/Codex/2026-06-27/xue/work/AgentMemoryState-evidence-20261106/artifacts/independent-client-final-20261106/result.json
+signature vectors: /Users/xiaohai/Documents/Codex/2026-06-27/xue/work/AgentMemoryState-evidence-20261106/artifacts/independent-client-final-20261106/signature-vectors.json

@@ -1,0 +1,41 @@
+{
+  "schema": "erc8350.independent-client.v1",
+  "repository": "https://github.com/ERC8312/bounded-agent-actions.git",
+  "commit": "95ca613bac0d7ef9192f32264f1f315d869d5ce2",
+  "reportUrl": "https://github.com/AwareLiquid/AgentMemoryState/issues/21#issuecomment-6562858801",
+  "files": {
+    "recompute/erc8350_client.py": "33dd89de0158e0a3fdc57d9974c4a2b4e8b49a6d5d91255eda04f530ed02c7ca",
+    "recompute/test_erc8350_client.py": "b84204fd82b06260b628b9f9ec5c7d2db8253129cbdb0af99b109994ae923601",
+    "recompute/erc8350_sepolia.py": "ea5a484309c21649a632df61b6910e87897df07f991dceada86673dffb25a521",
+    "recompute/test_erc8350_sepolia.py": "1e853f94a4978b3481262259edd69fcdd1ae82f5486e00d1625eb3ee3b20d139"
+  },
+  "draft": {
+    "repository": "ethereum/ERCs",
+    "commit": "b9651bc84714e87e6361f4f6c0c8ff39cc265d0a",
+    "path": "ERCS/erc-8350.md",
+    "sha256": "9aa44fe3854a7ae553cc77a5a59c072f36a405869a7d3c5e082addbda3d995ca"
+  },
+  "vectors": {
+    "repository": "AwareLiquid/AgentMemoryState",
+    "commit": "aa9bbe5192cb7fd34789b71d928b444605227a0f",
+    "files": {
+      "v1.json": "5e04cb9c1181222f483d3ad547e0a9aa301dfab74c7028f3cfa2e5dcd574fc20",
+      "v2.json": "4c59351ffe5317434c8ad8fda88cb95c2d2158f3dd6c147c301b7496de8dce4e",
+      "sepolia-fixture-v1.json": "3d6695d86dfceb4dac96848cd955dedfa28aedcf86a7d8b5ce0d6e3cb856bde9"
+    }
+  },
+  "layers": {"spec": 21, "hash": 59, "fixture": 58, "state": 34, "ecdsa": 55, "compat": 28},
+  "unitTests": 41,
+  "signatureCases": 46,
+  "signatureVectorsSha256": "d37f00d51acc66d64599dac9fae44283d93f673b20c1f7b3d7532a505e153798",
+  "foundry": "1.7.1",
+  "pycryptodome": "3.23.0",
+  "limitations": [
+    "External authorship is the contributor's declared provenance; this run is maintainer reproduction.",
+    "ERC-1271, Safe and EIP-7702 authorization are not implemented by this client.",
+    "The spec layer checks selected declarations, not complete formal specification conformance.",
+    "Offline fixture verification is not a fresh live Sepolia replay.",
+    "Reference error compatibility is reported separately from normative outcomes.",
+    "No security audit, deployment acceptance, production readiness or completion of issue #21."
+  ]
+}
