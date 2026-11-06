@@ -2,8 +2,9 @@
 
 Owner categories: technical and operations. Current contact: `@XiaoHai67890`.
 Tracking: [#21](https://github.com/AwareLiquid/AgentMemoryState/issues/21).
-Status: invitation and acceptance package; no external implementer commitment
-or completed client is asserted.
+Status: a scoped external Python client has been delivered at `95ca613`.
+See [scoped acceptance and remaining work](independent-client-results.md).
+Full account coverage and completion of #21 are not asserted.
 
 ## Inputs to agree before implementation
 

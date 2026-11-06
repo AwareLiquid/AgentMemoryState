@@ -1,0 +1,81 @@
+name: Scoped independent Python client
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/independent-client.yml"
+      - "scripts/independent-client*"
+      - "evidence/independent-client/**"
+      - "evidence/external-reproductions/v1.json"
+      - "docs/interop/independent-client*"
+      - "package.json"
+  workflow_dispatch:
+  schedule:
+    - cron: "47 3 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: independent-client-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  reproduce:
+    name: Scoped Python client (zero skips)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - run: node --test scripts/independent-client-gate.test.mjs
+      - run: node scripts/independent-client-gate.mjs --output artifacts/independent-client
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: scoped-python-client-${{ github.run_id }}
+          path: artifacts/independent-client/
+          if-no-files-found: error
+          retention-days: 90
+
+  notify:
+    needs: reproduce
+    if: >-
+      always() &&
+      (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch') &&
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch) &&
+      (needs.reproduce.result == 'failure' || needs.reproduce.result == 'success')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        env:
+          RESULT: ${{ needs.reproduce.result }}
+        with:
+          script: |
+            const title = '[CI] Scoped Python client regression';
+            const marker = '<!-- erc8350-scoped-python-monitor -->';
+            const repo = context.repo;
+            const items = await github.paginate(github.rest.issues.listForRepo, {...repo, state: 'open', per_page: 100});
+            const item = items.find(i => !i.pull_request && i.title === title && i.user?.login === 'github-actions[bot]' && i.body?.includes(marker));
+            const url = `${context.serverUrl}/${repo.owner}/${repo.repo}/actions/runs/${context.runId}`;
+            if (process.env.RESULT === 'failure') {
+              const body = `${marker}\nPinned scoped-client reproduction failed: ${url}\nCommit: ${context.sha}\n\nPreserve logs. This does not invalidate historical runs or imply contract-wallet coverage.`;
+              if (item) await github.rest.issues.update({...repo, issue_number: item.number, body});
+              else await github.rest.issues.create({...repo, title, body});
+            } else if (item) {
+              await github.rest.issues.createComment({...repo, issue_number: item.number, body: `Scoped reproduction recovered: ${url}`});
+              await github.rest.issues.update({...repo, issue_number: item.number, state: 'closed', state_reason: 'completed'});
+            }
