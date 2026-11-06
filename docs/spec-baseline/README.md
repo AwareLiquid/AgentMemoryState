@@ -69,7 +69,15 @@ Full checkout validation remains `pnpm conformance:clean`.
 The characterization tests exercise the existing implementation. They are not a
 new externally maintained implementation, a complete portable authorization
 suite, a real Safe integration, or a real 7702 authorization-transaction test.
-Those P1b deliverables remain explicitly tracked.
+Separate P1b deliverables, rather than these characterization tests alone,
+provide that additional coverage.
+
+Update 2026-11-06: separate P1b work has since merged real Safe/7702 account
+scenarios, portable 46-case signature adapters, and scoped independent Python
+reproduction. Those results do not expand the baseline characterization tests'
+scope. [Official PR #2147](https://github.com/ethereum/ERCs/pull/2147) now proposes
+AQ-01/AQ-02 wording and the AQ-03 asset fix. The [review packet](../review/draft-to-review.md)
+records completed evidence and remaining upstream/external acceptance work.
 
 ## Confirmation and notification
 

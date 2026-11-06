@@ -6,6 +6,12 @@ All notable implementation and protocol changes are recorded here.
 
 ### Added
 
+- Pinned official authorization-candidate gate and CI: verifies proposed upstream
+  bytes, runs 38 authorization/signature tests, and requires two dirty-padding
+  failures against the historical official source as a negative control. Review
+  packet links merged scoped-client, signature and account evidence without
+  replacing historical official baselines or granting G4 acceptance.
+
 - Separate Prague real-account conformance harness with pinned Safe 1.4.1,
   2-of-2 signatures and real SignMessageLib approval; actual local Anvil type-4
   transactions verify delegation nonce/stale-authority behavior. Registry bytecode

@@ -1,0 +1,17 @@
+{
+  "schema": "erc8350/upstream-candidate/v1",
+  "status": "proposed-not-upstream-approved",
+  "repository": "XiaoHai67890/ERCs",
+  "commit": "397426c046049e1a0c3436e543f9731408708fd3",
+  "specSha256": "295ab952357cefe141f3f1df5ceaaed2fe40826939fd22c683519c747a0fc072",
+  "assets": {
+    "AgentMemoryStateRegistry.sol": "94c7f39920205ae581e6537828a80a3dcfeb0a283c833ed2b50bc10927a292c3",
+    "ECDSA.sol": "74d0a828f70af9384457e2cf5165638dcc44a7b9749b8dc80cb7c9bd2ba2ccf0",
+    "IAgentMemoryState.sol": "274bfee5de979ea164abcf30af6b9dace1fccdb42bee4cf59bdeb0a9621be93a"
+  },
+  "negativeControl": {
+    "repository": "ethereum/ERCs",
+    "commit": "b9651bc84714e87e6361f4f6c0c8ff39cc265d0a",
+    "registrySha256": "6d99fc690abd776c53f607be9da1e25c2a48a80037088a3f3fb029f54943685b"
+  }
+}

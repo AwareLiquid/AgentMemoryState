@@ -1,7 +1,9 @@
 # Draft-to-Review preparation
 
-Date: 2026-11-01. Status: preparation and open technical questions, not a submitted
-status transition. The official ERC remains Draft.
+Updated: 2026-11-06. Status: technical revision submitted in
+[ethereum/ERCs#2147](https://github.com/ethereum/ERCs/pull/2147), not a submitted
+status transition. The official ERC remains Draft. The proposed revision is
+`397426c046049e1a0c3436e543f9731408708fd3`; it is not a new accepted baseline.
 
 ## Review packet
 
@@ -11,9 +13,12 @@ status transition. The official ERC remains Draft.
 - [Authorization decision table and proposed wording](../spec-baseline/AUTHORIZATION.md).
 - [AQ-03 runtime/audit delta](../security/aq03-runtime-delta.md).
 - [Real-account test command and boundaries](../interop/account-conformance.md).
-- [External replay evidence](../interop/external-reproduction.md), with the latest
-  upstream correction submitted separately in project PR #33.
+- [Official-candidate reproduction and acceptance checklist](upstream-authorization.md).
+- [External replay evidence](../interop/external-reproduction.md): project PR #33
+  merged; issues #29/#31 closed on 2026-11-01 with preserved failure records.
 - [Independent-client acceptance package](../interop/independent-client-handoff.md).
+- [Scoped Python results](../interop/independent-client-results.md) and the
+  [merged PR #37 main acceptance](https://github.com/AwareLiquid/AgentMemoryState/pull/37#issuecomment-6679669756).
 - Public external report intake in `audits/g4/external/submissions/`; acceptance
   remains pending under issues #11/#22, not granted by this packet.
 
@@ -30,13 +35,13 @@ status transition. The official ERC remains Draft.
 5. Are immutable enforcing logic, scoped transition references and the separation
    between hash compatibility, state enforcement and actual memory truth clear?
 
-## Proposed upstream work, in order
+## Remaining work, in order
 
-Technical: obtain review of the above semantic clarifications, then submit a
-focused official specification/CC0-asset PR. Preserve the assigned number,
-authors, status, signing domain and wire format; link the discussion and tests.
-After upstream merge, refresh the mirror and record a new official baseline.
-Do not replace the pinned official mirror with unapproved project prose.
+Technical: address technical/editor feedback on official PR #2147. The wording
+and reference-code correction are separate commits. Number, authors, Draft
+status, signing domain and wire format are preserved. After upstream merge,
+refresh the official mirror and record a new baseline with the actual merged
+commit. Until then, spec-baseline-2 and the original official mirror stay pinned.
 
 Operations: publish concise discussion updates with exact commits/results, track
 dissent and external implementation responses, and link reviewer-owned audit
@@ -51,13 +56,17 @@ An audit does not automatically produce Review or Final.
 
 ## Suggested discussion text
 
-> We have pinned the official Draft and published an explicit authorization
-> decision table, together with a proposed malformed-return fix. We are seeking
-> feedback on empty/custom ERC-1271 signatures, nonempty self-calls, and ordered
-> ECDSA fallback for delegated accounts. Our tests and replay evidence state
-> their exact scope; full independent-client work and audit acceptance remain
-> open. Please identify any ambiguous acceptance rule before building against
-> the proposal. We will incorporate feedback in a focused upstream revision
-> before requesting a status transition.
+> The focused authorization revision is now proposed in
+> https://github.com/ethereum/ERCs/pull/2147 (candidate 397426c0; status remains
+> Draft). We seek feedback on three specific points: ERC-1271 receives original
+> empty/custom-length bytes before the ECDSA-only length guard; nonempty self-call
+> signatures are validated; malformed return words fail wallet validation and
+> continue to the same-byte ECDSA fallback. That fallback intentionally preserves
+> an EIP-7702 account's key path even when its delegate rejects. Our pinned runner
+> tests the exact candidate and reproduces the old dirty-padding failure.
+> Independently maintained Python hash/state/EOA coverage is accepted only in its
+> reported scope; independent ERC-1271/Safe/7702 coverage and current-source audit
+> acceptance remain open. Which acceptance rule, if any, is still ambiguous for
+> your implementation? This is technical feedback, not a status-change request.
 
 This text is a draft for community discussion, not a claim that it was posted.
