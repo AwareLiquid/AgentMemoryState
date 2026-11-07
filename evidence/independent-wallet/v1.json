@@ -1,0 +1,183 @@
+{
+  "schema": "erc8350.independent-wallet-manifest.v1",
+  "repository": "https://github.com/haot3x/agent-economy-contributions.git",
+  "commit": "b4ba24169e63ede14eb2f11f8115ff058845aa55",
+  "contributor": "Ted (@haot3x)",
+  "files": {
+    "erc-8350/review.mjs": "0087eecb6bfec11846716ed4b30270eadd17e9afd11fce17b1c8c41e4983bc6c",
+    "erc-8350/fixtures/WalletPolicies.sol": "d23b0f9bd11cedd459177bc1cc7fb3afd882e06210220fb49bcf179c156cd1f9",
+    "erc-8350/package.json": "1cf347bb2a0338782c86c1674a7e9fccf3e90baab33d98a7861eee239ac889bb",
+    "erc-8350/package-lock.json": "48a67bf46aa67e9ed2bc58979069dc3f2b6c07537b0c8913822dfae4db770fd4",
+    "erc-8350/sources.json": "3568f447d3eb6755ab4067e54777a37833d14485f033a65f7579b23c6748acf9",
+    "erc-8350/foundry.toml": "ab7254ed25ee8b9c3909f75b73426f8e586c60f99ef226930ab54cbf4c7001dd",
+    "erc-8350/README.md": "02ab0b4b27efde48592e96c27802b9511ba9af9171e3f1ba335a6dc1ea85d241",
+    "erc-8350/upstream/AgentMemoryStateRegistry.sol": "94c7f39920205ae581e6537828a80a3dcfeb0a283c833ed2b50bc10927a292c3",
+    "erc-8350/upstream/ECDSA.sol": "74d0a828f70af9384457e2cf5165638dcc44a7b9749b8dc80cb7c9bd2ba2ccf0",
+    "erc-8350/upstream/IAgentMemoryState.sol": "274bfee5de979ea164abcf30af6b9dace1fccdb42bee4cf59bdeb0a9621be93a",
+    "reports/2026-11-07-erc8350.json": "e6eca62980f41153a3dbfdf562a5432d11b1b43c301f2bdcf3efab33b7b53a9f"
+  },
+  "expected": {
+    "author": "Ted (@haot3x)",
+    "result": "pass",
+    "network": "ephemeral-local-anvil",
+    "registryRevision": "8b11215cf267f710b49ea003384e678bcf953eae",
+    "safeRevision": "bf943f80fec5ac647159d26161446ac5d716a294",
+    "compiler": "0.8.24",
+    "compilerEvm": "cancun",
+    "executionEvm": "prague",
+    "registryCreationCodeSha256": "e004382a7e6cbda43989fb2461c701ec860d9d0fc18dbab0e8ff1ffd29644cc5",
+    "negativeControl": "Single-line historical decoder mutation plus contract/import renaming; not a complete historical deployment reproduction.",
+    "scope": "Independent client-side signing and mined local wallet transactions against unmodified official source; not a second registry implementation, audit or production-wallet certification.",
+    "passed": 35,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "name": "7702: mined type-4 authorization installs rejecting wallet policy",
+      "result": "pass"
+    },
+    {
+      "name": "7702 register: wrong magic permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 register: revert permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 register: dirty padding permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 register: short return permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "1271 register: exact empty bytes, current policy and direct caller",
+      "result": "pass"
+    },
+    {
+      "name": "1271 register: exact short bytes, current policy and direct caller",
+      "result": "pass"
+    },
+    {
+      "name": "1271 register: canonical first word accepts trailing return bytes",
+      "result": "pass"
+    },
+    {
+      "name": "1271 register: malformed return does not authorize an ordinary contract",
+      "result": "pass"
+    },
+    {
+      "name": "Safe register: 2-of-2 threshold, single signer and wrong digest rejected",
+      "result": "pass"
+    },
+    {
+      "name": "Safe register: relayed empty signature requires signed-message approval",
+      "result": "pass"
+    },
+    {
+      "name": "7702 commit: wrong magic permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 commit: revert permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 commit: dirty padding permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 commit: short return permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "1271 commit: exact empty bytes, current policy and direct caller",
+      "result": "pass"
+    },
+    {
+      "name": "1271 commit: exact short bytes, current policy and direct caller",
+      "result": "pass"
+    },
+    {
+      "name": "1271 commit: canonical first word accepts trailing return bytes",
+      "result": "pass"
+    },
+    {
+      "name": "1271 commit: malformed return does not authorize an ordinary contract",
+      "result": "pass"
+    },
+    {
+      "name": "Safe commit: 2-of-2 threshold, single signer and wrong digest rejected",
+      "result": "pass"
+    },
+    {
+      "name": "Safe commit: relayed empty signature requires signed-message approval",
+      "result": "pass"
+    },
+    {
+      "name": "7702 rotate: wrong magic permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 rotate: revert permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 rotate: dirty padding permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "7702 rotate: short return permits retained key, refuses another key",
+      "result": "pass"
+    },
+    {
+      "name": "1271 rotate: exact empty bytes, current policy and direct caller",
+      "result": "pass"
+    },
+    {
+      "name": "1271 rotate: exact short bytes, current policy and direct caller",
+      "result": "pass"
+    },
+    {
+      "name": "1271 rotate: canonical first word accepts trailing return bytes",
+      "result": "pass"
+    },
+    {
+      "name": "1271 rotate: malformed return does not authorize an ordinary contract",
+      "result": "pass"
+    },
+    {
+      "name": "Safe rotate: 2-of-2 threshold, single signer and wrong digest rejected",
+      "result": "pass"
+    },
+    {
+      "name": "Safe rotate: relayed empty signature requires signed-message approval",
+      "result": "pass"
+    },
+    {
+      "name": "7702: wrong chain/domain and signature replay preserve state",
+      "result": "pass"
+    },
+    {
+      "name": "1271: approval revoked after successful simulation rejects the mined transaction",
+      "result": "pass"
+    },
+    {
+      "name": "roles: the transition authorizer cannot rotate the controller",
+      "result": "pass"
+    },
+    {
+      "name": "negative control: previous bytes4 decoder loses valid retained-key fallback on dirty padding",
+      "result": "pass"
+    }
+  ],
+  "limitations": [
+    "Independent client execution against the official reference, not a second Registry implementation.",
+    "Contributor provenance is self-declared; maintainer reproduction is not another independent author.",
+    "Local Anvil only; no Sepolia, mainnet, production wallet certification, audit acceptance or full conformance claim.",
+    "Selected Safe 1.4.1/ERC-1271/7702 cases only; no universal gas, historical-state or wallet-version coverage.",
+    "Negative control is one historical decoder mutation, not an entire historical deployment."
+  ]
+}
