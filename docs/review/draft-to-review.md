@@ -1,9 +1,12 @@
 # Draft-to-Review preparation
 
-Updated 2026-11-06. [Technical revision #2147](https://github.com/ethereum/ERCs/pull/2147)
+Updated 2026-11-07. [Technical revision #2147](https://github.com/ethereum/ERCs/pull/2147)
 is merged at `8b11215cf267f710b49ea003384e678bcf953eae`.
 The pinned official status is **Draft**. This packet supports a separate request
-for Review; it does not itself change the upstream status.
+for Review; it does not itself change the upstream status. The status-only
+request is [official #2148](https://github.com/ethereum/ERCs/pull/2148).
+[NatSpec correction #2151](https://github.com/ethereum/ERCs/pull/2151) subsequently
+merged as `47c7f884`; historical test/source pins below are not relabelled.
 
 ## Review packet
 
@@ -18,6 +21,8 @@ for Review; it does not itself change the upstream status.
   issues #29/#31 closed with historical failed runs preserved.
 - [Independent-client handoff](../interop/independent-client-handoff.md) and
   [scoped Python results](../interop/independent-client-results.md).
+- [Scoped independent wallet execution](../interop/independent-wallet-results.md),
+  with exact external/source pins, native logs, coverage mapping and limitations.
 - Public provisional external report in `audits/g4/external/submissions/`;
   current-runtime acceptance remains pending in issues #11/#22.
 
@@ -44,8 +49,8 @@ ambiguity and is not retroactively labelled an editorial-only revision.
   distinction between a commitment and memory truth sufficiently clear?
 - Do consumers understand wallet-state/gas dependence and the limits of offline
   audit claims? No universal gas minimum or production liveness is guaranteed.
-- Can another implementation report wallet authorization outcomes against the
-  published scenarios without depending on project SDK code?
+- Does the new externally authored wallet client cover the selected authorization
+  decisions adequately, and which rows still need independent execution?
 
 ## Separate standards and release tracks
 
@@ -59,20 +64,30 @@ fixtures, held-state rejections and EOA ECDSA under its reported pins. It does n
 implement ERC-1271, Safe or 7702. Maintainer account tests are not independent
 coverage. Historical Python results are not relabelled as runs of the new baseline.
 
+The separate @haot3x wallet client executes selected ERC-1271, real Safe 1.4.1 and
+mined EIP-7702 paths against exact official source at `8b11215`. It is independent
+client execution against the reference, not an independently written Registry.
+The linked record maps coverage and preserves the initial maintainer-wrapper
+failure separately from the contributor's passing test run. Full-scope issue #21
+acceptance is still open; unsupported rows are not silently treated as covered.
+
 The existing external report targets the old freeze. Current-runtime addendum,
 canonical G4 acceptance and new deployment evidence remain open. Do not describe
 this packet or a Review transition as production-ready.
 
 ## Publication and request checklist
 
-1. Merge project PR #38 and verify its main commit.
-2. Publish baseline 3 and fresh clean-checkout/source/account results.
-3. Notify the existing Magicians thread and issues #21/#11 with exact pins,
-   changed rules and unchanged external coverage limitations.
-4. Submit a separate official PR changing only `status: Draft` to `status: Review`.
-   Link this packet and discussion; retain the number, authors and technical text.
-5. Record the actual PR, notifications and replies in the public baseline-PR
-   conversation. Do not infer consensus, a new audit or contributor commitment.
+1. Baseline 3 and clean-checkout/source/account results were published through
+   project #39; its merge is `f654fe023909ef93e1478e79dbcee7cbd7b05835`.
+2. The [Magicians update](https://ethereum-magicians.org/t/erc-8350-agent-memory-state-registry/29098/36)
+   and pinned handoff were published; the independent Python evidence keeps its
+   earlier scope and inputs.
+3. Official #2148 requests only `status: Draft` to `status: Review`; it does not
+   change the number, authors or technical text.
+4. Publish verified wallet evidence and CI, reconcile issue #21, and attach the
+   bounded additional evidence to #2148 without implying editor acceptance.
+5. Keep current-runtime external audit acceptance separate in #11/#22. Record
+   actual reviewer decisions rather than inferring consensus from passing tests.
 
 ## Suggested community update
 
@@ -82,8 +97,10 @@ this packet or a Review transition as production-ready.
 > and the historical candidate separately. We are preparing a request for peer
 > review, particularly on wallet-policy versus retained-key fallback and the
 > boundary between memory commitments and memory truth. Independent Python
-> evidence remains scoped to hash/state/EOA behavior; independent wallet coverage
-> and current-runtime external audit acceptance are still open. Please identify
+> evidence remains scoped to hash/state/EOA behavior; a separate externally
+> authored client adds selected Safe/ERC-1271/7702 reference-execution evidence.
+> Full second-implementation acceptance and the current-runtime audit remain
+> open. Please identify
 > any remaining ambiguous acceptance rule or interoperability concern.
 
 This is reusable draft text. Actual publication and status-request URLs belong

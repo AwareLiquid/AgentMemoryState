@@ -62,13 +62,13 @@ extensions to this client cannot be counted as newly independent evidence.
 
 | Task | Owner | Output and acceptance |
 | --- | --- | --- |
-| External wallet implementation | Operations | Seek an explicit contributor scope agreement; no maintenance commitment presumed |
-| ERC-1271 adapter | Technical | Pinned wallet state, empty/short signatures, magic/wrong/short/dirty/reverting return data; explicit fallback policy |
-| Safe and EIP-7702 | Technical | Execute real approved/unapproved Safe messages and delegated policy/key fallback; report unsupported cases explicitly |
-| Independent review of account results | Operations | External repository, pinned commit, commands, logs, before/after state, provenance statement |
+| External wallet client | Operations | Separate scoped contribution delivered by @haot3x; no maintenance commitment presumed |
+| ERC-1271, Safe and EIP-7702 | Technical | Selected paths now have [external wallet execution evidence](independent-wallet-results.md); this does not add those paths to the Python client |
+| Independent account evidence | Operations | Pinned external source, native reports and maintainer reproduction; reconcile remaining rows without claiming a second Registry |
 | Full-scope acceptance | Technical | Compare normative outcomes separately from error selectors; rejects leave head, authorization and transition records unchanged |
 
 The existing [58 real-account cases](account-conformance.md) are a maintainer
-handoff, not proof that this external client implements them. AQ-01/AQ-02 wording
-remains subject to official review. Neither this result nor upstream CI green is
+handoff, not proof that this Python client implements them. AQ-01/AQ-02 wording
+merged in official #2147; the Python results above keep their historical inputs.
+Neither this result nor upstream CI green is
 G4 security acceptance, a fresh deployment audit, or production readiness.

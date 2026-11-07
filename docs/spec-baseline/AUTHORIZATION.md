@@ -89,8 +89,12 @@ encoding, callback, replay and state-linkage evidence. The separate
 [account conformance suite](../interop/account-conformance.md) adds pinned Safe
 1.4.1 and real Prague delegation, including local mined type-4 receipts. Portable
 signature data is now published as `test-vectors/signature-vectors-v1.json`, with TS and
-Solidity adapters merged in PR #37. External wallet execution remains a follow-up;
-a mock's name does not establish those capabilities.
+Solidity adapters merged in PR #37. The separate
+[scoped independent wallet execution record](../interop/independent-wallet-results.md)
+maps externally authored Safe/ERC-1271/7702 scenarios to selected rows above.
+It tests the official reference, not a second Registry; exhaustive direct-empty
+capability, gas and full-scope reconciliation remain separate. A mock's name
+alone does not establish real-wallet capabilities.
 
 ## Gas and policy boundary
 

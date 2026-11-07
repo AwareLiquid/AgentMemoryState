@@ -59,6 +59,37 @@ source/build digests and receipt invariants, not identical local transaction IDs
 Acceptance records include consumer commit, clean status, commands, local block
 range and SHA-256 of every archived artifact. Failures are retained separately.
 
+## Recorded maintainer reproduction: 2026-11-07
+
+The [successful acceptance record](../../evidence/independent-wallet/records/2026-11-07-run2/acceptance.json)
+reports PASS from clean consumer commit
+`ea0a9d828dcce3b4c66b9d5ef17c0f83654266ec`. External source was clean before and
+after execution. Node 24.11.0, npm 11.6.1 and Foundry 1.7.1 ran on darwin/arm64.
+
+| Check | Observed result |
+| --- | --- |
+| Current-source scenarios | 34 passed |
+| Historical-decoder negative control | 1 passed |
+| Failed test cases | 0 |
+| Unique mined receipts | 188 |
+| Successful / intentionally reverted receipts | 131 / 57 |
+| Persisted logs in reverted receipts | 0 |
+| Recorded local receipt block range | 4 through 196 (not a public-chain range) |
+
+The [native report](../../evidence/independent-wallet/records/2026-11-07-run2/report.json)
+and [command output](../../evidence/independent-wallet/records/2026-11-07-run2/wallets.log)
+are retained with source/build digests and detailed receipts. Archive validation
+is part of the 16 wallet-gate unit tests; the wallet, Python-client and baseline
+runner unit suites together pass 78 tests with zero skips.
+
+The [first wrapper failure](../../evidence/independent-wallet/records/2026-11-07-run1/acceptance.json)
+is preserved, not replaced by the successful record. Its unchanged upstream
+`npm test` also passed all 35 cases, but the initial maintainer validator wrongly
+expected a `type` property in serialized ethers receipts. The fix changed only
+our validator to the explicit executable-assertion boundary described above;
+external source, manifest, expected cases and receipt counts were unchanged.
+The second run starts again from a new clean external checkout.
+
 ## Coverage mapped to authorization decisions
 
 The mapping below refers to [the baseline-3 decision table](../spec-baseline/AUTHORIZATION.md).
