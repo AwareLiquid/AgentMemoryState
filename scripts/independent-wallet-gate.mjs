@@ -20,7 +20,8 @@ export function validateWalletReport(manifest, report) {
   const rejected = report.receipts.filter((r) => r.status === 0);
   assert.equal(rejected.length, 57);
   assert.ok(rejected.every((r) => r.logs.length === 0), "No persisted logs on rejection");
-  assert.ok(report.receipts.some((r) => r.type === 4 && r.status === 1), "Mined type-4 receipt");
+  // ethers Receipt.toJSON omits type; the pinned executable asserts it before serialization.
+  assert.ok(report.cases.some((c) => c.name === "7702: mined type-4 authorization installs rejecting wallet policy" && c.result === "pass"), "Executed type-4 assertion");
   assert.ok(report.receipts.every((r) => Number.isInteger(r.blockNumber) && r.blockNumber > 0));
 }
 

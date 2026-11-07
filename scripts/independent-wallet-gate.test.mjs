@@ -12,7 +12,7 @@ const manifest = json(join(root, "v1.json"));
 const valid = () => ({ ...manifest.expected, cases: structuredClone(manifest.cases),
   forge: "forge Version: 1.7.1", anvil: "anvil Version: 1.7.1",
   receipts: Array.from({ length: 188 }, (_, i) => ({ hash: `tx-${i}`, blockNumber: i + 1,
-    status: i < 131 ? 1 : 0, type: i === 0 ? 4 : 2, logs: [] })) });
+    status: i < 131 ? 1 : 0, logs: [] })) });
 
 test("accepts exact scenario results and mined receipt accounting", () => validateWalletReport(manifest, valid()));
 for (const [name, mutate] of Object.entries({
@@ -28,7 +28,7 @@ for (const [name, mutate] of Object.entries({
   "duplicate receipt": (r) => { r.receipts[1].hash = r.receipts[0].hash; },
   "wrong status": (r) => { r.receipts[0].status = 0; },
   "persisted rejection logs": (r) => r.receipts[187].logs.push({}),
-  "no type-4": (r) => { r.receipts[0].type = 2; },
+  "missing type-4 assertion": (r) => { r.cases = r.cases.filter((c) => !c.name.startsWith("7702: mined type-4")); },
   "unmined receipt": (r) => { r.receipts[0].blockNumber = null; },
 })) {
   test(`rejects ${name}`, () => { const r = valid(); mutate(r); assert.throws(() => validateWalletReport(manifest, r)); });
