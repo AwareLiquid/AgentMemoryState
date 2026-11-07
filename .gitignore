@@ -14,6 +14,7 @@ release-artifacts/
 artifacts/conformance/
 artifacts/external-reproductions/
 artifacts/independent-client*/
+artifacts/independent-wallet/
 artifacts/account-conformance/
 artifacts/review-candidate/
 artifacts/review-official/
