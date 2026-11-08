@@ -1,0 +1,38 @@
+name: Independent wallet evidence
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/independent-wallet.yml"
+      - "scripts/independent-wallet*"
+      - "scripts/independent-client-gate.mjs"
+      - "evidence/independent-wallet/**"
+      - "docs/interop/independent-wallet*"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24.11.0"
+      - uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: v1.7.1
+      - run: node --test scripts/independent-wallet-gate.test.mjs
+      - run: node scripts/independent-wallet-gate.mjs --output artifacts/independent-wallet/ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: independent-wallet-${{ github.run_id }}
+          path: artifacts/independent-wallet/
+          if-no-files-found: error
+          retention-days: 90

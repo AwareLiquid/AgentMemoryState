@@ -1,0 +1,121 @@
+{
+  "schema": "erc8350.independent-wallet-acceptance.v1",
+  "status": "fail",
+  "recordedAt": "2026-11-07T13:49:49.764Z",
+  "externalCommit": "b4ba24169e63ede14eb2f11f8115ff058845aa55",
+  "manifestSha256": "dc258b2d0879019fd30e65f6a76fe5cae07490c2e675a6e5c8bd50be31528ddb",
+  "runnerSha256": "4405a1a02f5289d90d2ec1acd567af737257ac4db5fff62d639e30f7d3947b20",
+  "commands": [
+    {
+      "name": "consumer-commit",
+      "command": "git rev-parse HEAD",
+      "exitCode": 0
+    },
+    {
+      "name": "consumer-status",
+      "command": "git status --porcelain",
+      "exitCode": 0
+    },
+    {
+      "name": "npm-version",
+      "command": "npm --version",
+      "exitCode": 0
+    },
+    {
+      "name": "forge-version",
+      "command": "forge --version",
+      "exitCode": 0
+    },
+    {
+      "name": "anvil-version",
+      "command": "anvil --version",
+      "exitCode": 0
+    },
+    {
+      "name": "git-init",
+      "command": "git init -q <temporary-root>/checkout",
+      "exitCode": 0
+    },
+    {
+      "name": "git-fetch",
+      "command": "git fetch -q --depth=1 https://github.com/haot3x/agent-economy-contributions.git b4ba24169e63ede14eb2f11f8115ff058845aa55",
+      "exitCode": 0
+    },
+    {
+      "name": "git-checkout",
+      "command": "git checkout -q --detach FETCH_HEAD",
+      "exitCode": 0
+    },
+    {
+      "name": "git-head",
+      "command": "git rev-parse HEAD",
+      "exitCode": 0
+    },
+    {
+      "name": "initial-status",
+      "command": "git status --porcelain --untracked-files=all",
+      "exitCode": 0
+    },
+    {
+      "name": "install",
+      "command": "npm ci --ignore-scripts --no-audit --no-fund",
+      "exitCode": 0
+    },
+    {
+      "name": "wallets",
+      "command": "npm test",
+      "exitCode": 0
+    }
+  ],
+  "artifacts": {
+    "anvil-version.log": "1cdf1e987567c470d9d6cc48de528829be6bf929fda0d2dc2c882cb75330f3da",
+    "consumer-commit.log": "3bbf73e3e1d53e8083287af01c8e81e19d5078c9cda65957ddf87877db471335",
+    "consumer-status.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "forge-version.log": "a27471fffea0d44c6c8e776474864be1780cb70bd714c4c8027b675a3d3360ae",
+    "git-checkout.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "git-fetch.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "git-head.log": "248f83e87f3e0d42248be1b412212144839485dc16fee0634328451621d9a981",
+    "git-init.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "initial-status.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "install.log": "4959d2dc57cdf962301d8fe14c2d89910694a092bcc10034db9dcc0095874ce7",
+    "manifest.json": "dc258b2d0879019fd30e65f6a76fe5cae07490c2e675a6e5c8bd50be31528ddb",
+    "npm-version.log": "ca98a1c911934c30b4d4578dae26c55cd8e4ea6b7f67d02cbfa7f5ac58693358",
+    "report.json": "7e7c535801f5558c4295ba09ac2cadba545c5c299827cf2f056b51f837a8f35a",
+    "tools.log": "efb2d42b1ab325ee2432e27c865b96fdfbe8f88147a236cf6dfa30ba5fb335b0",
+    "wallets.log": "d96e8cdd18be968e534c992bbdc9a02a83af319494e5a0015fc4947c3c54b2ba"
+  },
+  "limitations": [
+    "Independent client execution against the official reference, not a second Registry implementation.",
+    "Contributor provenance is self-declared; maintainer reproduction is not another independent author.",
+    "Local Anvil only; no Sepolia, mainnet, production wallet certification, audit acceptance or full conformance claim.",
+    "Selected Safe 1.4.1/ERC-1271/7702 cases only; no universal gas, historical-state or wallet-version coverage.",
+    "Negative control is one historical decoder mutation, not an entire historical deployment."
+  ],
+  "consumer": {
+    "commit": "ff4f8b0e5e83108400f0e4626712822ada9fa0bd",
+    "clean": true
+  },
+  "toolchain": {
+    "node": "v24.11.0",
+    "platform": "darwin",
+    "arch": "arm64",
+    "npm": "11.6.1",
+    "forge": "forge Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T07:54:31.470926000Z (1778226871)\nBuild Profile: dist",
+    "anvil": "anvil Version: 1.7.1\nCommit SHA: 4072e48705af9d93e3c0f6e29e93b5e9a40caed8\nBuild Timestamp: 2026-05-08T07:54:31.470926000Z (1778226871)\nBuild Profile: dist"
+  },
+  "officialSources": {
+    "AgentMemoryStateRegistry.sol": {
+      "url": "https://raw.githubusercontent.com/ethereum/ERCs/8b11215cf267f710b49ea003384e678bcf953eae/assets/erc-8350/AgentMemoryStateRegistry.sol",
+      "sha256": "94c7f39920205ae581e6537828a80a3dcfeb0a283c833ed2b50bc10927a292c3"
+    },
+    "ECDSA.sol": {
+      "url": "https://raw.githubusercontent.com/ethereum/ERCs/8b11215cf267f710b49ea003384e678bcf953eae/assets/erc-8350/ECDSA.sol",
+      "sha256": "74d0a828f70af9384457e2cf5165638dcc44a7b9749b8dc80cb7c9bd2ba2ccf0"
+    },
+    "IAgentMemoryState.sol": {
+      "url": "https://raw.githubusercontent.com/ethereum/ERCs/8b11215cf267f710b49ea003384e678bcf953eae/assets/erc-8350/IAgentMemoryState.sol",
+      "sha256": "274bfee5de979ea164abcf30af6b9dace1fccdb42bee4cf59bdeb0a9621be93a"
+    }
+  },
+  "error": "Mined type-4 receipt"
+}

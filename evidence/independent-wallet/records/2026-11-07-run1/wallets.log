@@ -1,0 +1,40 @@
+
+> test
+> node review.mjs
+
+PASS 7702: mined type-4 authorization installs rejecting wallet policy
+PASS 7702 register: wrong magic permits retained key, refuses another key
+PASS 7702 register: revert permits retained key, refuses another key
+PASS 7702 register: dirty padding permits retained key, refuses another key
+PASS 7702 register: short return permits retained key, refuses another key
+PASS 1271 register: exact empty bytes, current policy and direct caller
+PASS 1271 register: exact short bytes, current policy and direct caller
+PASS 1271 register: canonical first word accepts trailing return bytes
+PASS 1271 register: malformed return does not authorize an ordinary contract
+PASS Safe register: 2-of-2 threshold, single signer and wrong digest rejected
+PASS Safe register: relayed empty signature requires signed-message approval
+PASS 7702 commit: wrong magic permits retained key, refuses another key
+PASS 7702 commit: revert permits retained key, refuses another key
+PASS 7702 commit: dirty padding permits retained key, refuses another key
+PASS 7702 commit: short return permits retained key, refuses another key
+PASS 1271 commit: exact empty bytes, current policy and direct caller
+PASS 1271 commit: exact short bytes, current policy and direct caller
+PASS 1271 commit: canonical first word accepts trailing return bytes
+PASS 1271 commit: malformed return does not authorize an ordinary contract
+PASS Safe commit: 2-of-2 threshold, single signer and wrong digest rejected
+PASS Safe commit: relayed empty signature requires signed-message approval
+PASS 7702 rotate: wrong magic permits retained key, refuses another key
+PASS 7702 rotate: revert permits retained key, refuses another key
+PASS 7702 rotate: dirty padding permits retained key, refuses another key
+PASS 7702 rotate: short return permits retained key, refuses another key
+PASS 1271 rotate: exact empty bytes, current policy and direct caller
+PASS 1271 rotate: exact short bytes, current policy and direct caller
+PASS 1271 rotate: canonical first word accepts trailing return bytes
+PASS 1271 rotate: malformed return does not authorize an ordinary contract
+PASS Safe rotate: 2-of-2 threshold, single signer and wrong digest rejected
+PASS Safe rotate: relayed empty signature requires signed-message approval
+PASS 7702: wrong chain/domain and signature replay preserve state
+PASS 1271: approval revoked after successful simulation rejects the mined transaction
+PASS roles: the transition authorizer cannot rotate the controller
+PASS negative control: previous bytes4 decoder loses valid retained-key fallback on dirty padding
+PASS: 35 passed, 0 failed
